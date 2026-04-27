@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://b7fr5c0aw6phh"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_fkhrg"]
+radius = 0.45
+height = 0.8
+radial_segments = 16
+rings = 8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fkhrg"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_ltobi"]
+radius = 0.55
+height = 0.245
+radial_segments = 16
+rings = 8
+
+[sub_resource type="SphereMesh" id="SphereMesh_twh1a"]
+radius = 0.1
+height = 0.1
+radial_segments = 16
+rings = 8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ltobi"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_twh1a"]
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" unique_id=649914828]
+
+[node name="BodyMesh" type="CSGMesh3D" parent="." unique_id=377673209]
+mesh = SubResource("SphereMesh_fkhrg")
+material = SubResource("StandardMaterial3D_fkhrg")
+
+[node name="Base" type="CSGMesh3D" parent="." unique_id=77174434]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.14366567, 0)
+mesh = SubResource("SphereMesh_ltobi")
+material = SubResource("StandardMaterial3D_fkhrg")
+
+[node name="BaseRemover" type="CSGBox3D" parent="." unique_id=1930967108]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2996536, 0)
+operation = 2
+size = Vector3(1.5, 0.3, 1.5)
+material = SubResource("StandardMaterial3D_fkhrg")
+
+[node name="EyeContainer" type="CSGCombiner3D" parent="." unique_id=247550049]
+
+[node name="LeftEye" type="CSGMesh3D" parent="EyeContainer" unique_id=1602851111]
+transform = Transform3D(0.81915206, 0.43938506, 0.36868784, 0, 0.64278764, -0.76604444, -0.57357645, 0.62750685, 0.5265408, 0.2, 0.2, 0.28)
+mesh = SubResource("SphereMesh_twh1a")
+material = SubResource("StandardMaterial3D_ltobi")
+
+[node name="RightEye" type="CSGMesh3D" parent="EyeContainer" unique_id=1605488904]
+transform = Transform3D(0.81915206, -0.43938506, -0.36868784, 0, 0.64278764, -0.76604444, 0.57357645, 0.62750685, 0.5265408, -0.2, 0.2, 0.28)
+mesh = SubResource("SphereMesh_twh1a")
+material = SubResource("StandardMaterial3D_twh1a")

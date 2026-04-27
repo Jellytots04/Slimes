@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://c0kei33jjuogb"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_d1drf"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_p7gjo"]
+radius = 0.2
+height = 0.75
+radial_segments = 16
+rings = 4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ka3h6"]
+albedo_color = Color(0, 0, 0, 1)
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" unique_id=2136710398]
+
+[node name="Base" type="CSGMesh3D" parent="." unique_id=1826780967]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 0, 0, 0)
+mesh = SubResource("PrismMesh_d1drf")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="." unique_id=2109361898]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.057291448, 0)
+operation = 1
+radius = 0.65
+height = 0.9
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="." unique_id=1696274944]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.102, 0.55)
+operation = 2
+mesh = SubResource("CapsuleMesh_p7gjo")
+material = SubResource("StandardMaterial3D_ka3h6")

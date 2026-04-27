@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://djnp10t76xju6"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_qit1d"]
+radius = 0.1
+height = 0.4
+radial_segments = 16
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" unique_id=290836703]
+
+[node name="TreeBase" type="CSGMesh3D" parent="." unique_id=1674160551]
+mesh = SubResource("CapsuleMesh_qit1d")
+
+[node name="TreeMidPart" type="CSGMesh3D" parent="." unique_id=1987461919]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3925404, 0)
+mesh = SubResource("CapsuleMesh_qit1d")
+
+[node name="TreeTopPart" type="CSGMesh3D" parent="." unique_id=1543797183]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.76132274, 0)
+mesh = SubResource("CapsuleMesh_qit1d")

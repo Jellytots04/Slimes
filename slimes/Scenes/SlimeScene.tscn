@@ -44,6 +44,33 @@ _surfaces = [{
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5dung"]
 
+[sub_resource type="Animation" id="Animation_0kgc6"]
+length = 0.001
+tracks/0/type = "scale_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SlimeMesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1)
+
+[sub_resource type="Animation" id="Animation_5dung"]
+resource_name = "SlimeAnimation"
+length = 2.0
+tracks/0/type = "scale_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SlimeMesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1, 1, 1, 1.2, 0.8, 1.2, 2, 1, 1, 1, 1)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_75xdn"]
+_data = {
+&"RESET": SubResource("Animation_0kgc6"),
+&"SlimeWalking": SubResource("Animation_5dung")
+}
+
 [node name="SlimeNode" type="Node3D" unique_id=1881136207]
 
 [node name="Stats" type="Node" parent="." unique_id=1547681711]
@@ -54,3 +81,6 @@ mesh = SubResource("ArrayMesh_h3eeh")
 surface_material_override/0 = SubResource("StandardMaterial3D_h3eeh")
 surface_material_override/1 = SubResource("StandardMaterial3D_0kgc6")
 surface_material_override/2 = SubResource("StandardMaterial3D_5dung")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1922637765]
+libraries/ = SubResource("AnimationLibrary_75xdn")

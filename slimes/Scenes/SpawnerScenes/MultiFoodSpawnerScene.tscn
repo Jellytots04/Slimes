@@ -16,6 +16,7 @@ _surfaces = [{
 [sub_resource type="Animation" id="Animation_l6s5f"]
 resource_name = "MultiFoodSpawnerIdle"
 length = 2.0
+loop_mode = 1
 tracks/0/type = "scale_3d"
 tracks/0/imported = false
 tracks/0/enabled = true

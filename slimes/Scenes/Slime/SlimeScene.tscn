@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://dpinh4fq3otar"]
 
-[ext_resource type="Script" uid="uid://c7a075r7q4fk7" path="res://Scenes/statsBase.gd" id="1_0kgc6"]
+[ext_resource type="Script" uid="uid://c7a075r7q4fk7" path="res://Scripts/Slime/statsBase.gd" id="1_dtw35"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fkhrg"]
 
@@ -74,7 +74,7 @@ _data = {
 [node name="SlimeNode" type="Node3D" unique_id=1881136207]
 
 [node name="Stats" type="Node" parent="." unique_id=1547681711]
-script = ExtResource("1_0kgc6")
+script = ExtResource("1_dtw35")
 
 [node name="SlimeMesh" type="MeshInstance3D" parent="." unique_id=1767432797]
 mesh = SubResource("ArrayMesh_h3eeh")

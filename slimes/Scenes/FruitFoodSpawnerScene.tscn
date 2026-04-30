@@ -32,6 +32,13 @@ tracks/0/path = NodePath("CSGBakedMeshInstance3D")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1, 1, 1, 1, 1.05, 1, 2, 1, 1, 1, 1)
+tracks/1/type = "position_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CSGBakedMeshInstance3D")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1, 0, 0.005, 0, 2, 1, 0, 0, 0)
 
 [sub_resource type="Animation" id="Animation_ltien"]
 resource_name = "FruitTreeSpawn"

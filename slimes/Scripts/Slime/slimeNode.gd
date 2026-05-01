@@ -9,11 +9,12 @@ const JUMP_VELOCITY = 4.5
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
-	var total_force := Vector3(1, 0, 0)# Vector3.ZERO
+	var total_force := Vector3.ZERO
 	var steering_root := $SteeringBehaviors
 	for behavior in steering_root.get_children():
 		if behavior is SteeringBehavior and behavior.enabled:
 			total_force += behavior.calculate() * behavior.weight
+			print(total_force)
 	
 	velocity += total_force * delta
 	

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b4jg3d6wvf1mx" path="res://Scripts/Slime/slimeNode.gd" id="1_cupy1"]
 [ext_resource type="Script" uid="uid://c7a075r7q4fk7" path="res://Scripts/Slime/statsBase.gd" id="1_dtw35"]
+[ext_resource type="Script" uid="uid://b1gxm73e0y10s" path="res://Scripts/Behaviors/Wander.gd" id="3_1x8j8"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fkhrg"]
 
@@ -83,7 +84,7 @@ script = ExtResource("1_dtw35")
 max_health = 100
 damage = 10
 defense = 2
-speed = 3.0
+speed = 6.0
 attack_range = 1.5
 attack_cooldown = 1
 
@@ -102,8 +103,13 @@ attack_cooldown = 1
 [node name="SteeringBehaviors" type="Node" parent="." unique_id=1620315794]
 
 [node name="Wander" type="Node" parent="SteeringBehaviors" unique_id=669552518]
+script = ExtResource("3_1x8j8")
+wander_radius = 1.0
+arrival_distnace = 0.3
 
 [node name="SeekFood" type="Node" parent="SteeringBehaviors" unique_id=2116656009]
+
+[node name="SeekTarget" type="Node" parent="SteeringBehaviors" unique_id=1655809910]
 
 [node name="Flee" type="Node" parent="SteeringBehaviors" unique_id=458215509]
 

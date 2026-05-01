@@ -16,6 +16,7 @@ const SPAWN_HEALTH_PERCENT := 0.75
 @export var speed: float
 @export var attack_range: float
 @export var attack_cooldown: int
+@export var max_overeat_multiplier: float = 1.5
 
 # Personality type 
 @export var food_preference: int # 0, 1, 2: Three different food types

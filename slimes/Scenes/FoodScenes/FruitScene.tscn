@@ -41,7 +41,7 @@ points = PackedVector3Array(-0.09625113, 0.013972957, -1.8842518e-05, -0.0680616
 
 [node name="Fruit" type="StaticBody3D" unique_id=1854380508]
 
-[node name="fruitStatistics" type="Node" parent="." unique_id=254814862]
+[node name="Stats" type="Node" parent="." unique_id=254814862]
 
 [node name="FruitMesh" type="MeshInstance3D" parent="." unique_id=429216863]
 mesh = SubResource("ArrayMesh_p110w")

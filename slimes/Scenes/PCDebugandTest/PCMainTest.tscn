@@ -41,4 +41,4 @@ mesh = SubResource("PlaneMesh_1t576")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.26686835, 0)
 
 [node name="Camera3D" type="Camera3D" parent="SlimeNode" unique_id=122892782]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1115303, 3.0541863)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 1.1115303, -3.1654258)

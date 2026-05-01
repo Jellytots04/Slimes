@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://b4jg3d6wvf1mx" path="res://Scripts/Slime/slimeNode.gd" id="1_cupy1"]
 [ext_resource type="Script" uid="uid://c7a075r7q4fk7" path="res://Scripts/Slime/statsBase.gd" id="1_dtw35"]
 [ext_resource type="Script" uid="uid://b1gxm73e0y10s" path="res://Scripts/Behaviors/Wander.gd" id="3_1x8j8"]
+[ext_resource type="Script" uid="uid://p2wpoty2uyd4" path="res://Scripts/States/StateMachine.gd" id="3_sdy3c"]
+[ext_resource type="Script" uid="uid://covgrmn7q7sjc" path="res://Scripts/States/WanderState.gd" id="4_3e2nn"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fkhrg"]
 
@@ -89,10 +91,13 @@ attack_range = 1.5
 attack_cooldown = 1
 
 [node name="StateMachine" type="Node" parent="." unique_id=879610353]
+script = ExtResource("3_sdy3c")
+initial_state = NodePath("../states/WanderState")
 
 [node name="states" type="Node" parent="." unique_id=1185066792]
 
 [node name="WanderState" type="Node" parent="states" unique_id=372647351]
+script = ExtResource("4_3e2nn")
 
 [node name="SeekFoodState" type="Node" parent="states" unique_id=143496110]
 
@@ -104,6 +109,7 @@ attack_cooldown = 1
 
 [node name="Wander" type="Node" parent="SteeringBehaviors" unique_id=669552518]
 script = ExtResource("3_1x8j8")
+enabled = false
 
 [node name="SeekFood" type="Node" parent="SteeringBehaviors" unique_id=2116656009]
 

@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://dhknfx4kqgvqh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oijrh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ld5eg"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_0rx7x"]
+radius = 0.04
+height = 0.1
+radial_segments = 8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q0aug"]
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" unique_id=95951668]
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="." unique_id=53428910]
+radius = 0.1
+radial_segments = 8
+material = SubResource("StandardMaterial3D_oijrh")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGSphere3D" unique_id=460763509]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.04850903, 0)
+operation = 2
+size = Vector3(0.2, 0.125, 0.2)
+material = SubResource("StandardMaterial3D_ld5eg")
+
+[node name="CSGSphere3D2" type="CSGSphere3D" parent="." unique_id=440045474]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.078894496, 0)
+radius = 0.06
+material = SubResource("StandardMaterial3D_oijrh")
+
+[node name="CSGSphere3D3" type="CSGSphere3D" parent="." unique_id=351263390]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.13989829, 0)
+radius = 0.04
+material = SubResource("StandardMaterial3D_oijrh")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="." unique_id=394419161]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.006187111, 0)
+mesh = SubResource("CapsuleMesh_0rx7x")
+material = SubResource("StandardMaterial3D_q0aug")

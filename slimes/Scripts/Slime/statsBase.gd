@@ -1,17 +1,36 @@
 # Statistics.gd
-extends Node
+class_name Statistics extends Node
 
+# Constants for tuning
+const HEALTH_DECAY_RATE := 1.0
+const OVEREAT_DECAY_RATE := 3.0
+const LEVEL_2_TIME := 60.0
+const LEVEL_3_TIME := 180.0
+const RECURRING_OFFSPRING_INTERVAL := 300.0
+const SPAWN_HEALTH_PERCENT := 0.75
+
+# Per-slime statistics
 @export var max_health: int
-@export var current_health: int
 @export var damage: int
 @export var defense: int
 @export var speed: float
+@export var attack_range: float
+@export var attack_cooldown: int
+
+# Personality type 
 @export var food_preference: int # 0, 1, 2: Three different food types
 @export var aggression_type: int # 0, 1, 2: Different aggression type to define AI style
+@export var defensive_type: int # 0, 1, 2: Defensive types to define how it responds to attacks
+
+# Runtime state
+var current_health: int
+var level: int = 1 # 1, 2, 3
+var time_alive: float = 0.0 # For levelling
+var time_since_last_offspring: float = 0.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	current_health = max_health * SPAWN_HEALTH_PERCENT
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

@@ -14,6 +14,19 @@ config/name="Slimes"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
+[file_customization]
+
+folder_colors={
+"res://Scenes/FoodCSGs/": "purple",
+"res://Scenes/FoodScenes/": "teal",
+"res://Scenes/Slime/": "teal",
+"res://Scenes/SpawnerCSGs/": "purple",
+"res://Scenes/SpawnerScenes/": "teal",
+"res://Scripts/Behaviors/": "green",
+"res://Scripts/Slime/": "red",
+"res://Scripts/States/": "yellow"
+}
+
 [physics]
 
 3d/physics_engine="Jolt Physics"

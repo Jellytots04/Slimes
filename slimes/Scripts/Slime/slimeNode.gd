@@ -3,23 +3,39 @@ class_name SlimeNode extends CharacterBody3D
 @onready var stats: Statistics = $Stats
 
 @export var slowing_radius: float = 2.0
+@export var damping: float = 3.0
 
 var current_force: Vector3 = Vector3.ZERO
 
-const SPEED = 5.0
-const JUMP_VELOCITY = 4.5
+func _ready() -> void:
+	stats.current_health = stats.max_health * Statistics.SPAWN_HEALTH_PERCENT
+	print("HP Spawned in with : ", stats.current_health, " / ", stats.max_health)
+
+func _process(delta: float) -> void:
+	print(global_position)
 
 func _physics_process(delta: float) -> void:
-	# Add the gravity.
+	var decay_rate: float
+	if stats.current_health > stats.max_health:
+		decay_rate = Statistics.OVEREAT_DECAY_RATE
+	else:
+		decay_rate = Statistics.HEALTH_DECAY_RATE
+
+	if stats.current_health <= 0:
+		die()
+		return
+
 	var total_force := Vector3.ZERO
 	var steering_root := $SteeringBehaviors
 	for behavior in steering_root.get_children():
 		if behavior is SteeringBehavior and behavior.enabled:
 			total_force += behavior.calculate() * behavior.weight
-			print(total_force)
+			# print(total_force)
+	
+	total_force.y = 0
 	
 	velocity += total_force * delta
-	
+	velocity = velocity.lerp(Vector3.ZERO, damping * delta)
 	velocity.y = 0
 	
 	if velocity.length() > stats.speed:
@@ -29,6 +45,7 @@ func _physics_process(delta: float) -> void:
 	
 	if velocity.length() > 0.1:
 		look_at(global_position - velocity, Vector3.UP)
+	
 
 func seek_force(target_pos) -> Vector3:
 	var desired = (target_pos - global_position).normalized() * stats.speed

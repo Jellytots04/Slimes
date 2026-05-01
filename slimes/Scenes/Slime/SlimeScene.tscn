@@ -104,8 +104,8 @@ attack_cooldown = 1
 
 [node name="Wander" type="Node" parent="SteeringBehaviors" unique_id=669552518]
 script = ExtResource("3_1x8j8")
-wander_radius = 1.0
-arrival_distnace = 0.3
+pause_min = 0.1
+pause_max = 0.6
 
 [node name="SeekFood" type="Node" parent="SteeringBehaviors" unique_id=2116656009]
 

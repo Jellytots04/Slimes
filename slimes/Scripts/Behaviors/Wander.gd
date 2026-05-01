@@ -1,7 +1,7 @@
 class_name Wander extends SteeringBehavior
 
 @export var wander_radius: float = 5.0 # How far the targets can be picked
-@export var arrival_distnace: float = 0.5 # How close before picking a new target
+@export var arrival_distance: float = 0.5 # How close before picking a new target
 @export var pause_min: float = 0.3 # Minimum time to pause at target
 @export var pause_max: float = 1.2 # Maximum time to pause at target
 
@@ -17,17 +17,17 @@ func _ready() -> void:
 func calculate() -> Vector3:
 	if pause_timer > 0.0:
 		pause_timer -= get_process_delta_time()
-		return Vector3.ZERO
+		return -boid.velocity
 
 	var to_target = current_target - boid.global_position
 	to_target.y = 0
 	
-	if to_target.length() < arrival_distnace:
+	if to_target.length() < arrival_distance:
 		pause_timer = randf_range(pause_min, pause_max)
 		pick_new_target()
-		return Vector3.ZERO
+		return -boid.velocity
 		
-	return boid.seek_force(current_target)
+	return boid.arrive_force(current_target)
 	
 func pick_new_target() -> void:
 	var angle = randf() * TAU

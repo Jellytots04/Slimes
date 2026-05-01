@@ -2,6 +2,8 @@ class_name SlimeNode extends CharacterBody3D
 
 @onready var stats: Statistics = $Stats
 
+@export var slowing_radius: float = 2.0
+
 var current_force: Vector3 = Vector3.ZERO
 
 const SPEED = 5.0
@@ -30,6 +32,20 @@ func _physics_process(delta: float) -> void:
 
 func seek_force(target_pos) -> Vector3:
 	var desired = (target_pos - global_position).normalized() * stats.speed
+	return desired - velocity
+
+func arrive_force(target_pos) -> Vector3:
+	var to_target = target_pos - global_position
+	to_target.y = 0
+	var distance = to_target.length()
+	
+	if distance < 0.01:
+		return -velocity
+		
+	var ramped_speed: float = stats.speed * (distance / slowing_radius)
+	var clipped_speed: float = min(ramped_speed, stats.speed)
+	
+	var desired = to_target.normalized() * clipped_speed
 	return desired - velocity
 
 func eat(health_value: int) -> void:

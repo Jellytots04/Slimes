@@ -28,7 +28,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 	if velocity.length() > 0.1:
-		look_at(global_position + velocity, Vector3.UP)
+		look_at(global_position - velocity, Vector3.UP)
 
 func seek_force(target_pos) -> Vector3:
 	var desired = (target_pos - global_position).normalized() * stats.speed

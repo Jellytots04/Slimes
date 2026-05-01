@@ -30,9 +30,19 @@ func calculate() -> Vector3:
 	return boid.arrive_force(current_target)
 	
 func pick_new_target() -> void:
-	var angle = randf() * TAU
-	var distance = randf_range(wander_radius * 0.3, wander_radius)
-	var offset = Vector3(cos(angle) * distance, 0, sin(angle) * distance)
+	var min_target_distance: float = arrival_distance * 4.0
+	var distance = randf_range(min_target_distance, wander_radius)
+	
+	var forward = boid.global_transform.basis.z
+	var forward_angle = atan2(forward.x, forward.z)
+	
+	var angle: float
+	if randf() < 0.8:
+		angle = forward_angle + randf_range(-PI / 3.0, PI / 3.0)
+	else:
+		angle = randf() * TAU
+	
+	var offset := Vector3(sin(angle) * distance, 0, cos(angle) * distance)
 	current_target = boid.global_position + offset
 	print("New target picked : ", current_target)
 

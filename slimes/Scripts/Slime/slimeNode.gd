@@ -3,7 +3,7 @@ class_name SlimeNode extends CharacterBody3D
 @onready var stats: Statistics = $Stats
 
 @export var slowing_radius: float = 2.0
-@export var damping: float = 3.0
+@export var damping: float = 1.0
 
 var current_force: Vector3 = Vector3.ZERO
 
@@ -12,7 +12,8 @@ func _ready() -> void:
 	print("HP Spawned in with : ", stats.current_health, " / ", stats.max_health)
 
 func _process(delta: float) -> void:
-	print(global_position)
+	# print(global_position)
+	pass
 
 func _physics_process(delta: float) -> void:
 	var decay_rate: float
@@ -20,6 +21,9 @@ func _physics_process(delta: float) -> void:
 		decay_rate = Statistics.OVEREAT_DECAY_RATE
 	else:
 		decay_rate = Statistics.HEALTH_DECAY_RATE
+	
+	# stats.current_health -= decay_rate * delta
+	# print("HP: ", stats.current_health, "  decay this frame: ", decay_rate * delta)
 
 	if stats.current_health <= 0:
 		die()
@@ -35,7 +39,7 @@ func _physics_process(delta: float) -> void:
 	total_force.y = 0
 	
 	velocity += total_force * delta
-	velocity = velocity.lerp(Vector3.ZERO, damping * delta)
+	# velocity = velocity.lerp(Vector3.ZERO, damping * delta)
 	velocity.y = 0
 	
 	if velocity.length() > stats.speed:
@@ -59,11 +63,24 @@ func arrive_force(target_pos) -> Vector3:
 	if distance < 0.01:
 		return -velocity
 		
-	var ramped_speed: float = stats.speed * (distance / slowing_radius)
-	var clipped_speed: float = min(ramped_speed, stats.speed)
+	var ramped_speed = stats.speed * (distance / slowing_radius)
+	var clipped_speed = min(ramped_speed, stats.speed)
 	
 	var desired = to_target.normalized() * clipped_speed
 	return desired - velocity
+	
+	#var desired_speed: float
+	#if distance >= slowing_radius:
+		#desired_speed = stats.speed
+	#else:
+		#var travel_distance = distance / slowing_radius
+		#desired_speed = stats.speed * travel_distance * ( 2.0 - travel_distance )
+	#
+	#var desired_velocity = to_target.normalized() * desired_speed
+	#
+	#var force = ( desired_velocity - velocity )
+	#
+	#return force * 5.0
 
 func eat(health_value: int) -> void:
 	var cap = stats.max_health * stats.max_overeat_multiplier

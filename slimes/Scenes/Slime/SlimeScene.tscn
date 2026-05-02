@@ -109,6 +109,11 @@ script = ExtResource("4_3e2nn")
 
 [node name="Wander" type="Node" parent="SteeringBehaviors" unique_id=669552518]
 script = ExtResource("3_1x8j8")
+wander_radius = 3.0
+arrival_distance = 0.6
+pause_min = 0.2
+pause_max = 0.6
+max_travel_time = 2.0
 enabled = false
 
 [node name="SeekFood" type="Node" parent="SteeringBehaviors" unique_id=2116656009]

@@ -2,7 +2,7 @@
 class_name Statistics extends Node
 
 # Constants for tuning
-const HEALTH_DECAY_RATE := 1.0
+const HEALTH_DECAY_RATE := 0.5
 const OVEREAT_DECAY_RATE := 3.0
 const LEVEL_2_TIME := 60.0
 const LEVEL_3_TIME := 180.0

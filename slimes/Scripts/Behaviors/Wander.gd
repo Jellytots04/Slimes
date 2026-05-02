@@ -1,13 +1,14 @@
 class_name Wander extends SteeringBehavior
 
 @export var wander_radius: float = 5.0 # How far the targets can be picked
-@export var arrival_distance: float = 0.5 # How close before picking a new target
+@export var arrival_distance: float = 0.8 # How close before picking a new target
 @export var pause_min: float = 0.3 # Minimum time to pause at target
 @export var pause_max: float = 1.2 # Maximum time to pause at target
+@export var max_travel_time: float = 5.0 # Max time traveling to current target spot
 
 var current_target: Vector3
 var pause_timer: float = 0.0
-var has_target: bool = false
+var travel_timer: float = 0.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -19,14 +20,21 @@ func calculate() -> Vector3:
 		pause_timer -= get_process_delta_time()
 		return -boid.velocity
 
+	# travel_timer += get_process_delta_time()
+
 	var to_target = current_target - boid.global_position
 	to_target.y = 0
 	
 	if to_target.length() < arrival_distance:
 		pause_timer = randf_range(pause_min, pause_max)
 		pick_new_target()
-		return -boid.velocity
-		
+		return boid.seek_force(current_target)
+	
+	#if travel_timer > max_travel_time:
+		#print("Stuck - Pick new target")
+		#pick_new_target()
+		#return Vector3.ZERO
+	
 	return boid.arrive_force(current_target)
 	
 func pick_new_target() -> void:

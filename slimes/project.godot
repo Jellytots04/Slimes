@@ -25,6 +25,7 @@ folder_colors={
 "res://Scenes/SpawnerCSGs/": "purple",
 "res://Scenes/SpawnerScenes/": "teal",
 "res://Scripts/Behaviors/": "green",
+"res://Scripts/Food/": "orange",
 "res://Scripts/Slime/": "red",
 "res://Scripts/States/": "yellow"
 }

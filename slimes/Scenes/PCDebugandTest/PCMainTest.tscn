@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dpinh4fq3otar" path="res://Scenes/Slime/SlimeScene.tscn" id="1_1t576"]
 [ext_resource type="PackedScene" uid="uid://dkcddvosk3hnt" path="res://Scenes/FoodScenes/FruitScene.tscn" id="1_eloht"]
+[ext_resource type="PackedScene" uid="uid://sw2thxowg2qj" path="res://Scenes/FoodScenes/MeatScene.tscn" id="3_ajfxa"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1t576"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -39,9 +40,6 @@ shape = SubResource("WorldBoundaryShape3D_psh2w")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=1699012118]
 mesh = SubResource("PlaneMesh_1t576")
 
-[node name="Fruit" parent="Floor" unique_id=1854380508 instance=ExtResource("1_eloht")]
-transform = Transform3D(0.11117287, 0, 0, 0, 0.11117287, 0, 0, 0, 0.11117287, -0.3313178, 0.0068961894, 0.27690274)
-
 [node name="SlimeNode" parent="." unique_id=108224271 instance=ExtResource("1_1t576")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 
@@ -53,3 +51,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9441571, 0.056187112, 3.722
 
 [node name="Fruit2" parent="." unique_id=1244614221 instance=ExtResource("1_eloht")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2322006, 0.062031705, 5.32094)
+
+[node name="Fruit3" parent="." unique_id=1854380508 instance=ExtResource("1_eloht")]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -2.9802036, 0.062031224, 2.49074)
+
+[node name="Meat" parent="." unique_id=69273725 instance=ExtResource("3_ajfxa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5726564, 0.06509933, 1.4597814)
+
+[node name="Meat2" parent="." unique_id=1607454654 instance=ExtResource("3_ajfxa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6028776, 0.06509945, 3.2615738)
+
+[node name="Meat3" parent="." unique_id=1150700730 instance=ExtResource("3_ajfxa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8585377, 0.06509945, 0.8648048)

@@ -91,6 +91,7 @@ defense = 2
 speed = 6.0
 attack_range = 1.5
 attack_cooldown = 1
+food_preference = 1
 
 [node name="StateMachine" type="Node" parent="." unique_id=879610353]
 script = ExtResource("3_sdy3c")

@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://v6sbnwi11ncd"
+path="res://.godot/imported/MeatMesh.obj-6c13aa86bd746967c3a1a4a0f23b5dea.mesh"
+
+[deps]
+
+files=["res://.godot/imported/MeatMesh.obj-6c13aa86bd746967c3a1a4a0f23b5dea.mesh"]
+
+source_file="res://Scenes/FoodCSGs/MeatMesh.obj"
+dest_files=["res://.godot/imported/MeatMesh.obj-6c13aa86bd746967c3a1a4a0f23b5dea.mesh", "res://.godot/imported/MeatMesh.obj-6c13aa86bd746967c3a1a4a0f23b5dea.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

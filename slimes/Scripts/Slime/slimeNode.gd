@@ -15,19 +15,6 @@ func _process(delta: float) -> void:
 	pass
 
 func _physics_process(delta: float) -> void:
-	var decay_rate: float
-	if stats.current_health > stats.max_health:
-		decay_rate = Statistics.OVEREAT_DECAY_RATE
-	else:
-		decay_rate = Statistics.HEALTH_DECAY_RATE
-	
-	# stats.current_health -= decay_rate * delta
-	# print("HP: ", stats.current_health, "  decay this frame: ", decay_rate * delta)
-
-	if stats.current_health <= 0:
-		die()
-		return
-
 	var total_force := Vector3.ZERO
 	var steering_root := $SteeringBehaviors
 	for behavior in steering_root.get_children():
@@ -96,3 +83,19 @@ func take_damage(amount: int) -> void:
 
 func die() -> void:
 	queue_free()
+
+func _decay_timer_timeout() -> void:
+	var decay_rate: float
+	if stats.current_health > stats.max_health:
+		decay_rate = Statistics.OVEREAT_DECAY_RATE
+	else:
+		decay_rate = Statistics.HEALTH_DECAY_RATE
+
+	stats.current_health -= Statistics.HEALTH_DECAY_RATE
+	# stats.current_health -= decay_rate * delta
+	print("HP: ", stats.current_health)
+
+	if stats.current_health <= 0:
+		print("DIED")
+		die()
+		return

@@ -1,12 +1,13 @@
 class_name Food extends StaticBody3D
 
-@onready var stats: FoodStatistics = %Stats
+@onready var stats: FoodStatistics = $Stats
 
 var consumed: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	add_to_group("food")
+	print("Food added to group, type: ", get_food_type())
 
 func consume() -> int:
 	if consumed:

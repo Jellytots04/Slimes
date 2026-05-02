@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://b1gxm73e0y10s" path="res://Scripts/Behaviors/Wander.gd" id="3_1x8j8"]
 [ext_resource type="Script" uid="uid://p2wpoty2uyd4" path="res://Scripts/States/StateMachine.gd" id="3_sdy3c"]
 [ext_resource type="Script" uid="uid://covgrmn7q7sjc" path="res://Scripts/States/WanderState.gd" id="4_3e2nn"]
+[ext_resource type="Script" uid="uid://dudjqch3j0l6d" path="res://Scripts/Behaviors/SeekFood.gd" id="6_3e2nn"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fkhrg"]
 
@@ -92,7 +93,6 @@ attack_cooldown = 1
 
 [node name="StateMachine" type="Node" parent="." unique_id=879610353]
 script = ExtResource("3_sdy3c")
-initial_state = NodePath("../states/WanderState")
 
 [node name="states" type="Node" parent="." unique_id=1185066792]
 
@@ -117,6 +117,7 @@ max_travel_time = 2.0
 enabled = false
 
 [node name="SeekFood" type="Node" parent="SteeringBehaviors" unique_id=2116656009]
+script = ExtResource("6_3e2nn")
 
 [node name="SeekTarget" type="Node" parent="SteeringBehaviors" unique_id=1655809910]
 

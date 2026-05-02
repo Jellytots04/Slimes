@@ -4,19 +4,28 @@ class_name SlimeNode extends CharacterBody3D
 
 @export var slowing_radius: float = 2.0
 
-var current_force: Vector3 = Vector3.ZERO
-
-const SPEED = 5.0
-const JUMP_VELOCITY = 4.5
+func _ready() -> void:
+	stats.current_health = stats.max_health * Statistics.SPAWN_HEALTH_PERCENT
 
 func _physics_process(delta: float) -> void:
+	var decay_rate: float
+	if stats.current_health > stats.max_health:
+		decay_rate = Statistics.OVEREAT_DECAY_RATE
+	else:
+		decay_rate = Statistics.HEALTH_DECAY_RATE
+	
+	
+	if stats.current_health <= 0:
+		die()
+		return
+
 	# Add the gravity.
 	var total_force := Vector3.ZERO
 	var steering_root := $SteeringBehaviors
 	for behavior in steering_root.get_children():
 		if behavior is SteeringBehavior and behavior.enabled:
 			total_force += behavior.calculate() * behavior.weight
-			print(total_force)
+			# print(total_force)
 	
 	velocity += total_force * delta
 	
@@ -40,12 +49,15 @@ func arrive_force(target_pos) -> Vector3:
 	var distance = to_target.length()
 	
 	if distance < 0.01:
-		return -velocity
+		return -velocity * 10.0
 		
-	var ramped_speed: float = stats.speed * (distance / slowing_radius)
-	var clipped_speed: float = min(ramped_speed, stats.speed)
+	var desired_speed: float
+	if distance >= slowing_radius:
+		desired_speed = stats.speed
+	else:
+		desired_speed = stats.speed * 0.2
 	
-	var desired = to_target.normalized() * clipped_speed
+	var desired = to_target.normalized() * desired_speed
 	return desired - velocity
 
 func eat(health_value: int) -> void:

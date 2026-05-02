@@ -17,7 +17,7 @@ func _ready() -> void:
 func calculate() -> Vector3:
 	if pause_timer > 0.0:
 		pause_timer -= get_process_delta_time()
-		return -boid.velocity
+		return -boid.velocity * 10.0
 
 	var to_target = current_target - boid.global_position
 	to_target.y = 0
@@ -25,7 +25,7 @@ func calculate() -> Vector3:
 	if to_target.length() < arrival_distance:
 		pause_timer = randf_range(pause_min, pause_max)
 		pick_new_target()
-		return -boid.velocity
+		return -boid.velocity * 10.0
 		
 	return boid.arrive_force(current_target)
 	

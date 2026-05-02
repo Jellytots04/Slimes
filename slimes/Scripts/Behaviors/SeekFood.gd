@@ -1,6 +1,6 @@
 class_name SeekFood extends SteeringBehavior
 
-@export var target_lost_distance: float = 25.0
+@export var eat_distance: float = 1.0
 
 var target_food: Food = null
 
@@ -19,12 +19,20 @@ func calculate() -> Vector3:
 	if not target_food:
 		return Vector3.ZERO
 	
+	var distance: float = boid.global_position.distance_to(target_food.global_position)
+	if distance < eat_distance:
+		var nutrition: int = target_food.consume()
+		boid.eat(nutrition)
+		target_food = null
+		return -boid.velocity * 10.0 # Full stop after eating.
+	
+	# Move towards the food
 	return boid.arrive_force(target_food.global_position)
 
 func find_nearest_food() -> Node3D:
 	var preference: int = boid.stats.food_preference
 	var all_food = boid.get_tree().get_nodes_in_group("food")
-	print("SeekFood called | food count: ", all_food.size(), " | target: ", target_food)
+	# print("SeekFood called | food count: ", all_food.size(), " | target: ", target_food)
 	
 	var nearest: Food = null
 	var nearest_distance = INF

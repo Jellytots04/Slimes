@@ -17,7 +17,6 @@ func _ready()-> void:
 	if initial_state:
 		current_state = get_node(initial_state)
 		current_state._enter()
-	
 
 func change_state(new_state) -> void:
 	if new_state == current_state:
@@ -29,6 +28,7 @@ func change_state(new_state) -> void:
 	current_state = new_state
 	
 	if current_state:
+		print(current_state)
 		current_state._enter()
 		
 func _process(delta: float) -> void:

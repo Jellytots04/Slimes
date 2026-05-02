@@ -74,6 +74,7 @@ func arrive_force(target_pos) -> Vector3:
 func eat(health_value: int) -> void:
 	var cap = stats.max_health * stats.max_overeat_multiplier
 	stats.current_health = min(stats.current_health + health_value, cap)
+	print("Ate food HP now : ", stats.current_health)
 
 func take_damage(amount: int) -> void:
 	var actual = max(0, amount - stats.defense)

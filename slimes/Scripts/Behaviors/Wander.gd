@@ -17,7 +17,8 @@ func _ready() -> void:
 
 func calculate() -> Vector3:
 	if pause_timer > 0.0:
-		pause_timer -= get_process_delta_time()
+		pause_timer -= 15 * get_process_delta_time()
+		# print("Current timer left", pause_timer)
 		return -boid.velocity * 10.0
 
 	# travel_timer += get_process_delta_time()
@@ -27,8 +28,9 @@ func calculate() -> Vector3:
 	
 	if to_target.length() < arrival_distance:
 		pause_timer = randf_range(pause_min, pause_max)
+		# print("Just arrived new timer is now : ",pause_timer)
 		pick_new_target()
-		return -boid.velocity * 10.0
+		return -boid.velocity
 		
 	return boid.arrive_force(current_target)
 	

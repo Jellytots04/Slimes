@@ -5,7 +5,6 @@ class_name SlimeNode extends CharacterBody3D
 @export var slowing_radius: float = 2.0
 @export var damping: float = 1.0
 
-var current_force: Vector3 = Vector3.ZERO
 
 func _ready() -> void:
 	stats.current_health = stats.max_health * Statistics.SPAWN_HEALTH_PERCENT
@@ -61,12 +60,15 @@ func arrive_force(target_pos) -> Vector3:
 	var distance = to_target.length()
 	
 	if distance < 0.01:
-		return -velocity
+		return -velocity * 10.0
 		
-	var ramped_speed = stats.speed * (distance / slowing_radius)
-	var clipped_speed = min(ramped_speed, stats.speed)
+	var desired_speed: float
+	if distance >= slowing_radius:
+		desired_speed = stats.speed
+	else:
+		desired_speed = stats.speed * 0.2
 	
-	var desired = to_target.normalized() * clipped_speed
+	var desired = to_target.normalized() * desired_speed
 	return desired - velocity
 	
 	#var desired_speed: float

@@ -5,6 +5,10 @@ class_name SlimeNode extends CharacterBody3D
 @export var slowing_radius: float = 2.0
 @export var damping: float = 1.0
 
+const DETECTION_RANGE: float = 10.0
+const DETECTION_INTERVAL: float = 0.3
+
+var nearest_other_slime: SlimeNode = null
 
 func _ready() -> void:
 	add_to_group("slimes")
@@ -58,19 +62,6 @@ func arrive_force(target_pos) -> Vector3:
 	
 	var desired = to_target.normalized() * desired_speed
 	return desired - velocity
-	
-	#var desired_speed: float
-	#if distance >= slowing_radius:
-		#desired_speed = stats.speed
-	#else:
-		#var travel_distance = distance / slowing_radius
-		#desired_speed = stats.speed * travel_distance * ( 2.0 - travel_distance )
-	#
-	#var desired_velocity = to_target.normalized() * desired_speed
-	#
-	#var force = ( desired_velocity - velocity )
-	#
-	#return force * 5.0
 
 func eat(health_value: int) -> void:
 	var cap = stats.max_health * stats.max_overeat_multiplier
@@ -101,3 +92,28 @@ func _decay_timer_timeout() -> void:
 		print("DIED")
 		die()
 		return
+
+func _on_deteciton_timer_timeout() -> void:
+	update_nearest_slime()
+
+func update_nearest_slime() -> void:
+	var all_slimes = get_tree().get_nodes_in_group("slimes")
+	# print(name, " — group size: ", all_slimes.size())
+	var nearest: SlimeNode = null
+	var nearest_distance = DETECTION_RANGE
+	
+	for slime in all_slimes:
+		if slime == self:
+			continue
+		if not is_instance_valid(slime):
+			continue
+			
+		var distance: float = slime.global_position.distance_to(global_position)
+		print(name, " checking ", slime.name, " at distance ", distance, " (range ", DETECTION_RANGE, ")")
+		if distance < nearest_distance:
+			nearest_distance = distance
+			nearest = slime
+	
+	nearest_other_slime = nearest
+	
+	print(name, " : sees : ", nearest_other_slime)

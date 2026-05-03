@@ -47,19 +47,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 1.1783986, -3.1654258)
 
 [node name="Fruit" parent="." unique_id=783155490 instance=ExtResource("1_eloht")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9441571, 0.056187112, 3.7221844)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.8892136, 0.056187112, 5.868286)
 
 [node name="Fruit2" parent="." unique_id=1244614221 instance=ExtResource("1_eloht")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2322006, 0.062031705, 5.32094)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.7128558, 0.062031705, 7.467042)
 
 [node name="Fruit3" parent="." unique_id=1854380508 instance=ExtResource("1_eloht")]
 transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -2.9802036, 0.062031224, 2.49074)
 
 [node name="Meat" parent="." unique_id=69273725 instance=ExtResource("3_ajfxa")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5726564, 0.06509933, 1.4597814)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5177126, 0.06509933, 3.6058834)
 
 [node name="Meat2" parent="." unique_id=1607454654 instance=ExtResource("3_ajfxa")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6028776, 0.06509945, 3.2615738)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.547934, 0.06509945, 5.4076757)
 
 [node name="Meat3" parent="." unique_id=1150700730 instance=ExtResource("3_ajfxa")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8585377, 0.06509945, 0.8648048)

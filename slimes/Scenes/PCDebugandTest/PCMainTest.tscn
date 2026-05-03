@@ -155,7 +155,7 @@ max_health = 100
 damage = 5
 defense = 2
 speed = 6.0
-attack_range = 1.5
+attack_range = 4.0
 attack_cooldown = 1
 
 [node name="StateMachine" type="Node" parent="LocalSlime" unique_id=879610353]

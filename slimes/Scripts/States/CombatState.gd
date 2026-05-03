@@ -3,6 +3,7 @@ class_name CombatState extends State
 var seek_target: SeekTarget
 var target: SlimeNode = null
 var attack_cooldown_timer: float = 0.0
+@export var stop_distance: float = 2.0
 
 func _enter() -> void:
 	print(boid.name, " entered combat targeting ", target.name if target else "NULL")
@@ -32,6 +33,12 @@ func _think() -> void:
 		if attack_cooldown_timer <= 0.0:
 			target.take_damage(boid.stats.damage)
 			attack_cooldown_timer = boid.stats.attack_cooldown
+	
+	if distance <= stop_distance:
+		seek_target.enabled = false
+		boid.velocity = Vector3.ZERO
+	else:
+		seek_target.enabled = true
 
 func set_target(slime) -> void:
 	target = slime

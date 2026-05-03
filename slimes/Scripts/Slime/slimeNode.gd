@@ -7,8 +7,9 @@ class_name SlimeNode extends CharacterBody3D
 
 
 func _ready() -> void:
+	add_to_group("slimes")
 	stats.current_health = stats.max_health * Statistics.SPAWN_HEALTH_PERCENT
-	print("HP Spawned in with : ", stats.current_health, " / ", stats.max_health)
+	# print("HP Spawned in with : ", stats.current_health, " / ", stats.max_health)
 
 func _process(delta: float) -> void:
 	# print(global_position)

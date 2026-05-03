@@ -152,7 +152,7 @@ script = ExtResource("4_fngqy")
 [node name="Stats" type="Node" parent="LocalSlime" unique_id=1547681711]
 script = ExtResource("5_xa6cj")
 max_health = 100
-damage = 5
+damage = 10
 defense = 2
 speed = 6.0
 attack_range = 4.0
@@ -214,5 +214,76 @@ autostart = true
 wait_time = 3.0
 autostart = true
 
+[node name="LocalSlime2" type="CharacterBody3D" parent="." unique_id=237952418]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.612256, 0.2, 2.6908464)
+script = ExtResource("4_fngqy")
+
+[node name="Stats" type="Node" parent="LocalSlime2" unique_id=599414845]
+script = ExtResource("5_xa6cj")
+max_health = 100
+damage = 10
+defense = 2
+speed = 6.0
+attack_range = 4.0
+attack_cooldown = 1
+
+[node name="StateMachine" type="Node" parent="LocalSlime2" unique_id=2037459794]
+script = ExtResource("6_v1s3h")
+initial_state = NodePath("../states/WanderState")
+
+[node name="states" type="Node" parent="LocalSlime2" unique_id=1582621747]
+
+[node name="WanderState" type="Node" parent="LocalSlime2/states" unique_id=619782504]
+script = ExtResource("7_qtb3o")
+
+[node name="SeekFoodState" type="Node" parent="LocalSlime2/states" unique_id=1097531608]
+script = ExtResource("8_7w8dv")
+
+[node name="CombatState" type="Node" parent="LocalSlime2/states" unique_id=1641322094]
+script = ExtResource("9_er53d")
+
+[node name="FleeState" type="Node" parent="LocalSlime2/states" unique_id=140526728]
+
+[node name="SteeringBehaviors" type="Node" parent="LocalSlime2" unique_id=554693995]
+
+[node name="Wander" type="Node" parent="LocalSlime2/SteeringBehaviors" unique_id=184642434]
+script = ExtResource("10_6bh6g")
+arrival_distance = 0.6
+pause_min = 0.6
+max_travel_time = 2.0
+enabled = false
+
+[node name="SeekFood" type="Node" parent="LocalSlime2/SteeringBehaviors" unique_id=1526663113]
+script = ExtResource("11_wfgdr")
+enabled = false
+
+[node name="SeekTarget" type="Node" parent="LocalSlime2/SteeringBehaviors" unique_id=1779108355]
+script = ExtResource("12_jh62p")
+
+[node name="Flee" type="Node" parent="LocalSlime2/SteeringBehaviors" unique_id=842190981]
+
+[node name="Flocking" type="Node" parent="LocalSlime2/SteeringBehaviors" unique_id=551008188]
+
+[node name="SlimeMesh" type="MeshInstance3D" parent="LocalSlime2" unique_id=708435478]
+mesh = SubResource("ArrayMesh_h3eeh")
+surface_material_override/0 = SubResource("StandardMaterial3D_h3eeh")
+surface_material_override/1 = SubResource("StandardMaterial3D_0kgc6")
+surface_material_override/2 = SubResource("StandardMaterial3D_5dung")
+
+[node name="SlimeCollision" type="CollisionShape3D" parent="LocalSlime2" unique_id=1003720675]
+shape = SubResource("ConvexPolygonShape3D_dtw35")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="LocalSlime2" unique_id=2022656375]
+libraries/ = SubResource("AnimationLibrary_75xdn")
+
+[node name="DecayTimer" type="Timer" parent="LocalSlime2" unique_id=908260462]
+autostart = true
+
+[node name="DetecitonTimer" type="Timer" parent="LocalSlime2" unique_id=432707901]
+wait_time = 3.0
+autostart = true
+
 [connection signal="timeout" from="LocalSlime/DecayTimer" to="LocalSlime" method="_decay_timer_timeout"]
 [connection signal="timeout" from="LocalSlime/DetecitonTimer" to="LocalSlime" method="_on_deteciton_timer_timeout"]
+[connection signal="timeout" from="LocalSlime2/DecayTimer" to="LocalSlime2" method="_decay_timer_timeout"]
+[connection signal="timeout" from="LocalSlime2/DetecitonTimer" to="LocalSlime2" method="_on_deteciton_timer_timeout"]

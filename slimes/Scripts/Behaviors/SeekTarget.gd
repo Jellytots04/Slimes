@@ -1,6 +1,7 @@
 class_name  SeekTarget extends SteeringBehavior
 
 var target: SlimeNode = null
+@export var stop_distance: float = 2.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -13,7 +14,16 @@ func calculate() -> Vector3:
 	if not target:
 		return Vector3.ZERO
 	
-	return boid.seek_force(target.global_position)
+	var to_target = target.global_position - boid.global_position
+	var distance = to_target.length()
+	
+	if distance < 0.01:
+		return Vector3.ZERO
+	
+	if distance <= stop_distance:
+		return -boid.velocity * 10.0
+	
+	return boid.arrive_force(target.global_position)
 
 func set_target(slime) -> void:
 	target = slime

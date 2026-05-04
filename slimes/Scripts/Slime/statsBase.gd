@@ -10,7 +10,7 @@ const RECURRING_OFFSPRING_INTERVAL := 300.0
 const SPAWN_HEALTH_PERCENT := 0.75
 
 # Per-slime statistics
-@export var max_health: int
+@export var max_health: float
 @export var damage: int
 @export var defense: int
 @export var speed: float

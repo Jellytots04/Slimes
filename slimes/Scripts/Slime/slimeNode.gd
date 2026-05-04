@@ -14,7 +14,7 @@ var nearest_other_slime: SlimeNode = null
 func _ready() -> void:
 	add_to_group("slimes")
 	stats.current_health = stats.max_health * Statistics.SPAWN_HEALTH_PERCENT
-	# print("HP Spawned in with : ", stats.current_health, " / ", stats.max_health)
+	print("HP Spawned in with : ", stats.current_health, " / ", stats.max_health)
 
 func _process(delta: float) -> void:
 	# print(global_position)
@@ -92,7 +92,7 @@ func react_to_attack(attacker: SlimeNode) -> void:
 			should_fight = true
 	
 	var sm = $StateMachine
-	
+	print(name, " hit. HP%: ", hp_pct, " | defensive_type: ", stats.defensive_type, " | fight: ", should_fight)
 	if should_fight:
 		var combat_state = sm.get_node("../states/CombatState")
 		if sm.current_state != combat_state:
@@ -116,7 +116,7 @@ func _decay_timer_timeout() -> void:
 
 	stats.current_health -= Statistics.HEALTH_DECAY_RATE
 	# stats.current_health -= decay_rate * delta
-	print("HP: ", stats.current_health)
+	print("HP: ", stats.current_health, " : From : ", self)
 
 	if stats.current_health <= 0:
 		print("DIED")

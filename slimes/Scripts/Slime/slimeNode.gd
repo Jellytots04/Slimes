@@ -17,6 +17,8 @@ var nearest_other_slime: SlimeNode = null
 var time_since_last_repro: float = 0.0
 @export var speed_multiplier: float = 1.0
 
+var last_attacker: SlimeNode = null
+
 func _ready() -> void:
 	add_to_group("slimes")
 	stats.current_health = stats.max_health * Statistics.SPAWN_HEALTH_PERCENT
@@ -79,6 +81,10 @@ func arrive_force(target_pos) -> Vector3:
 	return desired - velocity
 
 func eat(health_value: int) -> void:
+	if stats.kill_heal_only:
+		print(name, " : kill heal only, cannot eat")
+		# Last stand quirk: food will not help you
+		return
 	var cap = stats.max_health * stats.max_overeat_multiplier
 	stats.current_health = min(stats.current_health + health_value, cap)
 	print("Ate food HP now : ", stats.current_health)
@@ -87,11 +93,24 @@ func take_damage(amount: int, attacker: SlimeNode = null) -> void:
 	var actual = max(0, amount - stats.defense)
 	stats.current_health -= actual
 	if stats.current_health <= 0:
+		if attacker and is_instance_valid(attacker):
+			attacker.gain_kill_health(self)
 		die()
 		return
 		
 	if attacker:
 		react_to_attack(attacker)
+
+func gain_kill_health(victim: SlimeNode) -> void:
+	var heal_amount: float
+	if stats.kill_heal_only:
+		heal_amount = victim.stats.max_health * 0.5
+	else:
+		heal_amount = victim.stats.max_health * 0.15
+	
+	var cap = stats.max_health * stats.max_overeat_multiplier
+	stats.current_health = min(stats.current_health + heal_amount, cap)
+	print(name, " gained ", heal_amount, " HP from killing ", victim.name)
 
 func react_to_attack(attacker: SlimeNode) -> void:
 	var hp_pct = stats.current_health / stats.max_health
@@ -222,14 +241,25 @@ func reproduce() -> void:
 	child_stats.damage = randi_range(5, 20)
 	child_stats.defense = randi_range(0, 5)
 	child_stats.speed = randf_range(2.5, 4.0)
-	child_stats.attack_range = stats.attack_range  # inherit, not randomise
-	child_stats.attack_cooldown = stats.attack_cooldown  # inherit
-	child_stats.max_overeat_multiplier = stats.max_overeat_multiplier  # inherit
+	child_stats.attack_range = stats.attack_range
+	child_stats.attack_cooldown = stats.attack_cooldown
+	child_stats.max_overeat_multiplier = stats.max_overeat_multiplier
 	
 	# Mutate personality (mostly inherit from parent)
 	child_stats.food_preference = mutate_value(stats.food_preference, [0, 1, 2], 0.2)
 	child_stats.aggression_type = mutate_value(stats.aggression_type, [0, 1, 2], 0.1)
 	child_stats.defensive_type = mutate_value(stats.defensive_type, [-1, 0, 1, 2, 3], 0.1)
+	
+	# Inherit kill_heal_only quirk (only Last Stand parents can pass it on)
+	if stats.defensive_type == 3:
+		if stats.kill_heal_only:
+			# Already quirked — high chance to pass it on
+			child_stats.kill_heal_only = randf() < 0.7
+		else:
+			# Last Stand but normal — small mutation chance
+			child_stats.kill_heal_only = randf() < 0.1
+	else:
+		child_stats.kill_heal_only = false
 	
 	# Add to scene (triggers offspring._ready, which now sees the new max_health)
 	get_parent().add_child(offspring)
@@ -257,6 +287,10 @@ func update_debug_label() -> void:
 	var agg_str = agg_names[stats.aggression_type] if stats.aggression_type < agg_names.size() else "?"
 	var def_str = def_names.get(stats.defensive_type, "?")
 	
+	# Append quirk indicator
+	if stats.kill_heal_only:
+		def_str += "⚔"
+	
 	var hp_pct = stats.current_health / stats.max_health
 	
 	# Build XP progress string based on current level
@@ -266,7 +300,6 @@ func update_debug_label() -> void:
 	elif stats.level == 2:
 		xp_str = "XP: %.1f / %.0f" % [stats.time_alive, Statistics.LEVEL_3_TIME]
 	else:
-		# Level 3+ — show time since last reproduction roll
 		xp_str = "Repro: %.1f / %.0f" % [time_since_last_repro, Statistics.RECURRING_OFFSPRING_INTERVAL]
 	
 	debug_label.text = "%s\nHP: %d/%d\n%s | %s\nLvl: %d\n%s" % [

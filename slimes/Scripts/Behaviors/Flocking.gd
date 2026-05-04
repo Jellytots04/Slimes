@@ -25,6 +25,9 @@ func calculate() -> Vector3:
 		if not is_instance_valid(other):
 			continue
 
+		if other.stats.aggression_type != 0:
+			continue
+
 		var offset = other.global_position - boid.global_position
 		offset.y = 0
 		var distance = offset.length()

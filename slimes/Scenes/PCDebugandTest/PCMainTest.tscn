@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://b1gxm73e0y10s" path="res://Scripts/Behaviors/Wander.gd" id="10_6bh6g"]
 [ext_resource type="Script" uid="uid://dudjqch3j0l6d" path="res://Scripts/Behaviors/SeekFood.gd" id="11_wfgdr"]
 [ext_resource type="Script" uid="uid://b3ro74d6xupi2" path="res://Scripts/Behaviors/SeekTarget.gd" id="12_jh62p"]
+[ext_resource type="Script" uid="uid://dm0jn2o3l26oq" path="res://Scripts/Behaviors/Flocking.gd" id="13_v1s3h"]
 [ext_resource type="Script" uid="uid://chsdn2lcwv5em" path="res://Scripts/Behaviors/Avoidance.gd" id="13_xa6cj"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1t576"]
@@ -146,156 +147,311 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.547934, 0.06509945, 5.40767
 [node name="Meat3" parent="." unique_id=1150700730 instance=ExtResource("3_ajfxa")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8585377, 0.06509945, 0.8648048)
 
-[node name="AlphaSlime" type="CharacterBody3D" parent="." unique_id=957346647]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.121, 0.22, 4.064)
+[node name="Flocking" type="CharacterBody3D" parent="." unique_id=68202647]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.48, 0.22, 6.05968)
 script = ExtResource("4_fngqy")
 
-[node name="Stats" type="Node" parent="AlphaSlime" unique_id=1547681711]
+[node name="Stats" type="Node" parent="Flocking" unique_id=1547681711]
 script = ExtResource("5_xa6cj")
 max_health = 100
-damage = 3
+damage = 10
 defense = 2
 speed = 6.0
 attack_range = 4.0
 attack_cooldown = 1
-aggression_type = 1
 
-[node name="StateMachine" type="Node" parent="AlphaSlime" unique_id=879610353]
+[node name="StateMachine" type="Node" parent="Flocking" unique_id=879610353]
 script = ExtResource("6_v1s3h")
 initial_state = NodePath("../states/WanderState")
 
-[node name="states" type="Node" parent="AlphaSlime" unique_id=1185066792]
+[node name="states" type="Node" parent="Flocking" unique_id=1185066792]
 
-[node name="WanderState" type="Node" parent="AlphaSlime/states" unique_id=372647351]
+[node name="WanderState" type="Node" parent="Flocking/states" unique_id=372647351]
 script = ExtResource("7_qtb3o")
 
-[node name="SeekFoodState" type="Node" parent="AlphaSlime/states" unique_id=143496110]
+[node name="SeekFoodState" type="Node" parent="Flocking/states" unique_id=143496110]
 script = ExtResource("8_7w8dv")
 
-[node name="CombatState" type="Node" parent="AlphaSlime/states" unique_id=824000295]
+[node name="CombatState" type="Node" parent="Flocking/states" unique_id=824000295]
 script = ExtResource("9_er53d")
 
-[node name="FleeState" type="Node" parent="AlphaSlime/states" unique_id=1134553032]
+[node name="FleeState" type="Node" parent="Flocking/states" unique_id=1134553032]
 
-[node name="SteeringBehaviors" type="Node" parent="AlphaSlime" unique_id=1620315794]
+[node name="SteeringBehaviors" type="Node" parent="Flocking" unique_id=1620315794]
 
-[node name="Wander" type="Node" parent="AlphaSlime/SteeringBehaviors" unique_id=669552518]
+[node name="Wander" type="Node" parent="Flocking/SteeringBehaviors" unique_id=669552518]
 script = ExtResource("10_6bh6g")
 arrival_distance = 0.6
 pause_min = 0.6
 max_travel_time = 2.0
 enabled = false
 
-[node name="SeekFood" type="Node" parent="AlphaSlime/SteeringBehaviors" unique_id=2116656009]
+[node name="SeekFood" type="Node" parent="Flocking/SteeringBehaviors" unique_id=2116656009]
 script = ExtResource("11_wfgdr")
 enabled = false
 
-[node name="SeekTarget" type="Node" parent="AlphaSlime/SteeringBehaviors" unique_id=1655809910]
+[node name="SeekTarget" type="Node" parent="Flocking/SteeringBehaviors" unique_id=1655809910]
 script = ExtResource("12_jh62p")
+
+[node name="Flee" type="Node" parent="Flocking/SteeringBehaviors" unique_id=458215509]
+
+[node name="Flocking" type="Node" parent="Flocking/SteeringBehaviors" unique_id=544755538]
+script = ExtResource("13_v1s3h")
 enabled = false
 
-[node name="Flee" type="Node" parent="AlphaSlime/SteeringBehaviors" unique_id=458215509]
-
-[node name="Flocking" type="Node" parent="AlphaSlime/SteeringBehaviors" unique_id=544755538]
-
-[node name="Avoidance" type="Node" parent="AlphaSlime/SteeringBehaviors" unique_id=682009692]
+[node name="Avoidance" type="Node" parent="Flocking/SteeringBehaviors" unique_id=682009692]
 script = ExtResource("13_xa6cj")
 enabled = false
 
-[node name="SlimeMesh" type="MeshInstance3D" parent="AlphaSlime" unique_id=1767432797]
+[node name="SlimeMesh" type="MeshInstance3D" parent="Flocking" unique_id=1767432797]
 mesh = SubResource("ArrayMesh_h3eeh")
 surface_material_override/0 = SubResource("StandardMaterial3D_h3eeh")
 surface_material_override/1 = SubResource("StandardMaterial3D_0kgc6")
 surface_material_override/2 = SubResource("StandardMaterial3D_5dung")
 
-[node name="SlimeCollision" type="CollisionShape3D" parent="AlphaSlime" unique_id=1741512111]
+[node name="SlimeCollision" type="CollisionShape3D" parent="Flocking" unique_id=1741512111]
 shape = SubResource("ConvexPolygonShape3D_dtw35")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="AlphaSlime" unique_id=1922637765]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Flocking" unique_id=1922637765]
 libraries/ = SubResource("AnimationLibrary_75xdn")
 
-[node name="DecayTimer" type="Timer" parent="AlphaSlime" unique_id=1072270780]
+[node name="DecayTimer" type="Timer" parent="Flocking" unique_id=1072270780]
 autostart = true
 
-[node name="DetecitonTimer" type="Timer" parent="AlphaSlime" unique_id=37135893]
+[node name="DetecitonTimer" type="Timer" parent="Flocking" unique_id=37135893]
 wait_time = 3.0
 autostart = true
 
-[node name="FlockingSlime" type="CharacterBody3D" parent="." unique_id=2023762144]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6807818, 0.22, 5.7557445)
+[node name="Flocking2" type="CharacterBody3D" parent="." unique_id=1560705639]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.48, 0.22, 3.1671896)
 script = ExtResource("4_fngqy")
 
-[node name="Stats" type="Node" parent="FlockingSlime" unique_id=1904097514]
+[node name="Stats" type="Node" parent="Flocking2" unique_id=1015452430]
 script = ExtResource("5_xa6cj")
 max_health = 100
-damage = 3
+damage = 10
 defense = 2
 speed = 6.0
 attack_range = 4.0
 attack_cooldown = 1
 
-[node name="StateMachine" type="Node" parent="FlockingSlime" unique_id=1666443739]
+[node name="StateMachine" type="Node" parent="Flocking2" unique_id=30229167]
 script = ExtResource("6_v1s3h")
 initial_state = NodePath("../states/WanderState")
 
-[node name="states" type="Node" parent="FlockingSlime" unique_id=632110905]
+[node name="states" type="Node" parent="Flocking2" unique_id=50301228]
 
-[node name="WanderState" type="Node" parent="FlockingSlime/states" unique_id=206784544]
+[node name="WanderState" type="Node" parent="Flocking2/states" unique_id=563810376]
 script = ExtResource("7_qtb3o")
 
-[node name="SeekFoodState" type="Node" parent="FlockingSlime/states" unique_id=1060655075]
+[node name="SeekFoodState" type="Node" parent="Flocking2/states" unique_id=177258891]
 script = ExtResource("8_7w8dv")
 
-[node name="CombatState" type="Node" parent="FlockingSlime/states" unique_id=1787540000]
+[node name="CombatState" type="Node" parent="Flocking2/states" unique_id=2133486337]
 script = ExtResource("9_er53d")
 
-[node name="FleeState" type="Node" parent="FlockingSlime/states" unique_id=962451093]
+[node name="FleeState" type="Node" parent="Flocking2/states" unique_id=1534780283]
 
-[node name="SteeringBehaviors" type="Node" parent="FlockingSlime" unique_id=309848587]
+[node name="SteeringBehaviors" type="Node" parent="Flocking2" unique_id=1414172353]
 
-[node name="Wander" type="Node" parent="FlockingSlime/SteeringBehaviors" unique_id=969947501]
+[node name="Wander" type="Node" parent="Flocking2/SteeringBehaviors" unique_id=1814021360]
 script = ExtResource("10_6bh6g")
 arrival_distance = 0.6
 pause_min = 0.6
 max_travel_time = 2.0
 enabled = false
 
-[node name="SeekFood" type="Node" parent="FlockingSlime/SteeringBehaviors" unique_id=411428785]
+[node name="SeekFood" type="Node" parent="Flocking2/SteeringBehaviors" unique_id=1678547574]
 script = ExtResource("11_wfgdr")
 enabled = false
 
-[node name="SeekTarget" type="Node" parent="FlockingSlime/SteeringBehaviors" unique_id=1781381772]
+[node name="SeekTarget" type="Node" parent="Flocking2/SteeringBehaviors" unique_id=996175324]
 script = ExtResource("12_jh62p")
+
+[node name="Flee" type="Node" parent="Flocking2/SteeringBehaviors" unique_id=957285081]
+
+[node name="Flocking" type="Node" parent="Flocking2/SteeringBehaviors" unique_id=1099230098]
+script = ExtResource("13_v1s3h")
 enabled = false
 
-[node name="Flee" type="Node" parent="FlockingSlime/SteeringBehaviors" unique_id=836992089]
-
-[node name="Flocking" type="Node" parent="FlockingSlime/SteeringBehaviors" unique_id=1298462693]
-
-[node name="Avoidance" type="Node" parent="FlockingSlime/SteeringBehaviors" unique_id=1542172300]
+[node name="Avoidance" type="Node" parent="Flocking2/SteeringBehaviors" unique_id=800135968]
 script = ExtResource("13_xa6cj")
 enabled = false
 
-[node name="SlimeMesh" type="MeshInstance3D" parent="FlockingSlime" unique_id=624314402]
+[node name="SlimeMesh" type="MeshInstance3D" parent="Flocking2" unique_id=774597519]
 mesh = SubResource("ArrayMesh_h3eeh")
 surface_material_override/0 = SubResource("StandardMaterial3D_h3eeh")
 surface_material_override/1 = SubResource("StandardMaterial3D_0kgc6")
 surface_material_override/2 = SubResource("StandardMaterial3D_5dung")
 
-[node name="SlimeCollision" type="CollisionShape3D" parent="FlockingSlime" unique_id=1085888776]
+[node name="SlimeCollision" type="CollisionShape3D" parent="Flocking2" unique_id=1826559999]
 shape = SubResource("ConvexPolygonShape3D_dtw35")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="FlockingSlime" unique_id=2029170476]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Flocking2" unique_id=470909666]
 libraries/ = SubResource("AnimationLibrary_75xdn")
 
-[node name="DecayTimer" type="Timer" parent="FlockingSlime" unique_id=1021034359]
+[node name="DecayTimer" type="Timer" parent="Flocking2" unique_id=1398176317]
 autostart = true
 
-[node name="DetecitonTimer" type="Timer" parent="FlockingSlime" unique_id=1631730878]
+[node name="DetecitonTimer" type="Timer" parent="Flocking2" unique_id=777793817]
 wait_time = 3.0
 autostart = true
 
-[connection signal="timeout" from="AlphaSlime/DecayTimer" to="AlphaSlime" method="_decay_timer_timeout"]
-[connection signal="timeout" from="AlphaSlime/DetecitonTimer" to="AlphaSlime" method="_on_deteciton_timer_timeout"]
-[connection signal="timeout" from="FlockingSlime/DecayTimer" to="FlockingSlime" method="_decay_timer_timeout"]
-[connection signal="timeout" from="FlockingSlime/DetecitonTimer" to="FlockingSlime" method="_on_deteciton_timer_timeout"]
+[node name="Flocking3" type="CharacterBody3D" parent="." unique_id=1839351238]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2883677, 0.22, 4.547)
+script = ExtResource("4_fngqy")
+
+[node name="Stats" type="Node" parent="Flocking3" unique_id=297413068]
+script = ExtResource("5_xa6cj")
+max_health = 100
+damage = 10
+defense = 2
+speed = 6.0
+attack_range = 4.0
+attack_cooldown = 1
+
+[node name="StateMachine" type="Node" parent="Flocking3" unique_id=1495612445]
+script = ExtResource("6_v1s3h")
+initial_state = NodePath("../states/WanderState")
+
+[node name="states" type="Node" parent="Flocking3" unique_id=1643923310]
+
+[node name="WanderState" type="Node" parent="Flocking3/states" unique_id=364399147]
+script = ExtResource("7_qtb3o")
+
+[node name="SeekFoodState" type="Node" parent="Flocking3/states" unique_id=378839507]
+script = ExtResource("8_7w8dv")
+
+[node name="CombatState" type="Node" parent="Flocking3/states" unique_id=727825539]
+script = ExtResource("9_er53d")
+
+[node name="FleeState" type="Node" parent="Flocking3/states" unique_id=293334877]
+
+[node name="SteeringBehaviors" type="Node" parent="Flocking3" unique_id=447856516]
+
+[node name="Wander" type="Node" parent="Flocking3/SteeringBehaviors" unique_id=287506816]
+script = ExtResource("10_6bh6g")
+arrival_distance = 0.6
+pause_min = 0.6
+max_travel_time = 2.0
+enabled = false
+
+[node name="SeekFood" type="Node" parent="Flocking3/SteeringBehaviors" unique_id=1102542116]
+script = ExtResource("11_wfgdr")
+enabled = false
+
+[node name="SeekTarget" type="Node" parent="Flocking3/SteeringBehaviors" unique_id=1826002453]
+script = ExtResource("12_jh62p")
+
+[node name="Flee" type="Node" parent="Flocking3/SteeringBehaviors" unique_id=1926666250]
+
+[node name="Flocking" type="Node" parent="Flocking3/SteeringBehaviors" unique_id=130950358]
+script = ExtResource("13_v1s3h")
+enabled = false
+
+[node name="Avoidance" type="Node" parent="Flocking3/SteeringBehaviors" unique_id=324098303]
+script = ExtResource("13_xa6cj")
+enabled = false
+
+[node name="SlimeMesh" type="MeshInstance3D" parent="Flocking3" unique_id=332657269]
+mesh = SubResource("ArrayMesh_h3eeh")
+surface_material_override/0 = SubResource("StandardMaterial3D_h3eeh")
+surface_material_override/1 = SubResource("StandardMaterial3D_0kgc6")
+surface_material_override/2 = SubResource("StandardMaterial3D_5dung")
+
+[node name="SlimeCollision" type="CollisionShape3D" parent="Flocking3" unique_id=39241669]
+shape = SubResource("ConvexPolygonShape3D_dtw35")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Flocking3" unique_id=650888608]
+libraries/ = SubResource("AnimationLibrary_75xdn")
+
+[node name="DecayTimer" type="Timer" parent="Flocking3" unique_id=1688375167]
+autostart = true
+
+[node name="DetecitonTimer" type="Timer" parent="Flocking3" unique_id=157572458]
+wait_time = 3.0
+autostart = true
+
+[node name="Flocking4" type="CharacterBody3D" parent="." unique_id=424053924]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.48, 0.22, 4.547)
+script = ExtResource("4_fngqy")
+
+[node name="Stats" type="Node" parent="Flocking4" unique_id=1109884422]
+script = ExtResource("5_xa6cj")
+max_health = 100
+damage = 10
+defense = 2
+speed = 6.0
+attack_range = 4.0
+attack_cooldown = 1
+
+[node name="StateMachine" type="Node" parent="Flocking4" unique_id=841506676]
+script = ExtResource("6_v1s3h")
+initial_state = NodePath("../states/WanderState")
+
+[node name="states" type="Node" parent="Flocking4" unique_id=675224863]
+
+[node name="WanderState" type="Node" parent="Flocking4/states" unique_id=177842176]
+script = ExtResource("7_qtb3o")
+
+[node name="SeekFoodState" type="Node" parent="Flocking4/states" unique_id=1313517769]
+script = ExtResource("8_7w8dv")
+
+[node name="CombatState" type="Node" parent="Flocking4/states" unique_id=1441688885]
+script = ExtResource("9_er53d")
+
+[node name="FleeState" type="Node" parent="Flocking4/states" unique_id=907561215]
+
+[node name="SteeringBehaviors" type="Node" parent="Flocking4" unique_id=484833787]
+
+[node name="Wander" type="Node" parent="Flocking4/SteeringBehaviors" unique_id=944883543]
+script = ExtResource("10_6bh6g")
+arrival_distance = 0.6
+pause_min = 0.6
+max_travel_time = 2.0
+enabled = false
+
+[node name="SeekFood" type="Node" parent="Flocking4/SteeringBehaviors" unique_id=2005823032]
+script = ExtResource("11_wfgdr")
+enabled = false
+
+[node name="SeekTarget" type="Node" parent="Flocking4/SteeringBehaviors" unique_id=583837010]
+script = ExtResource("12_jh62p")
+
+[node name="Flee" type="Node" parent="Flocking4/SteeringBehaviors" unique_id=1675430128]
+
+[node name="Flocking" type="Node" parent="Flocking4/SteeringBehaviors" unique_id=427505424]
+script = ExtResource("13_v1s3h")
+enabled = false
+
+[node name="Avoidance" type="Node" parent="Flocking4/SteeringBehaviors" unique_id=2105142784]
+script = ExtResource("13_xa6cj")
+enabled = false
+
+[node name="SlimeMesh" type="MeshInstance3D" parent="Flocking4" unique_id=638938573]
+mesh = SubResource("ArrayMesh_h3eeh")
+surface_material_override/0 = SubResource("StandardMaterial3D_h3eeh")
+surface_material_override/1 = SubResource("StandardMaterial3D_0kgc6")
+surface_material_override/2 = SubResource("StandardMaterial3D_5dung")
+
+[node name="SlimeCollision" type="CollisionShape3D" parent="Flocking4" unique_id=6352481]
+shape = SubResource("ConvexPolygonShape3D_dtw35")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Flocking4" unique_id=1670628563]
+libraries/ = SubResource("AnimationLibrary_75xdn")
+
+[node name="DecayTimer" type="Timer" parent="Flocking4" unique_id=258896951]
+autostart = true
+
+[node name="DetecitonTimer" type="Timer" parent="Flocking4" unique_id=823592079]
+wait_time = 3.0
+autostart = true
+
+[connection signal="timeout" from="Flocking/DecayTimer" to="Flocking" method="_decay_timer_timeout"]
+[connection signal="timeout" from="Flocking/DetecitonTimer" to="Flocking" method="_on_deteciton_timer_timeout"]
+[connection signal="timeout" from="Flocking2/DecayTimer" to="Flocking2" method="_decay_timer_timeout"]
+[connection signal="timeout" from="Flocking2/DetecitonTimer" to="Flocking2" method="_on_deteciton_timer_timeout"]
+[connection signal="timeout" from="Flocking3/DecayTimer" to="Flocking3" method="_decay_timer_timeout"]
+[connection signal="timeout" from="Flocking3/DetecitonTimer" to="Flocking3" method="_on_deteciton_timer_timeout"]
+[connection signal="timeout" from="Flocking4/DecayTimer" to="Flocking4" method="_decay_timer_timeout"]
+[connection signal="timeout" from="Flocking4/DetecitonTimer" to="Flocking4" method="_on_deteciton_timer_timeout"]

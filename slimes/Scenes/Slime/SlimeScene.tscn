@@ -9,6 +9,8 @@
 [ext_resource type="Script" uid="uid://dudjqch3j0l6d" path="res://Scripts/Behaviors/SeekFood.gd" id="6_3e2nn"]
 [ext_resource type="Script" uid="uid://sawtebol5lex" path="res://Scripts/States/CombatState.gd" id="6_jka1h"]
 [ext_resource type="Script" uid="uid://b3ro74d6xupi2" path="res://Scripts/Behaviors/SeekTarget.gd" id="9_rq52p"]
+[ext_resource type="Script" uid="uid://butffmf4stxhf" path="res://Scripts/Behaviors/Flee.gd" id="10_53pfp"]
+[ext_resource type="Script" uid="uid://dm0jn2o3l26oq" path="res://Scripts/Behaviors/Flocking.gd" id="10_a0355"]
 [ext_resource type="Script" uid="uid://chsdn2lcwv5em" path="res://Scripts/Behaviors/Avoidance.gd" id="10_rq52p"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fkhrg"]
@@ -129,8 +131,12 @@ enabled = false
 script = ExtResource("9_rq52p")
 
 [node name="Flee" type="Node" parent="SteeringBehaviors" unique_id=458215509]
+script = ExtResource("10_53pfp")
+enabled = false
 
 [node name="Flocking" type="Node" parent="SteeringBehaviors" unique_id=544755538]
+script = ExtResource("10_a0355")
+enabled = false
 
 [node name="Avoidance" type="Node" parent="SteeringBehaviors" unique_id=682009692]
 script = ExtResource("10_rq52p")

@@ -10,12 +10,15 @@ var wander_behavior: SteeringBehavior
 var seek_food_state: State
 var combat_state: CombatState
 var avoidance_behavior: SteeringBehavior
+var flocking_behavior: SteeringBehavior
 
 func _enter() -> void:
 	if not wander_behavior:
 		wander_behavior = boid.get_node("SteeringBehaviors/Wander")
 	if not avoidance_behavior:
 		avoidance_behavior = boid.get_node("SteeringBehaviors/Avoidance")
+	if not flocking_behavior:
+		flocking_behavior = boid.get_node("SteeringBehaviors/Flocking")
 	if not seek_food_state:
 		seek_food_state = state_machine.get_node("../states/SeekFoodState")
 	if not combat_state:
@@ -28,6 +31,8 @@ func _exit() -> void:
 		wander_behavior.enabled = false
 	if avoidance_behavior:
 		avoidance_behavior.enabled = false
+	if flocking_behavior:
+		flocking_behavior.enabled = false
 
 func _think() -> void:
 	if boid.stats.current_health < boid.stats.max_health * HUNGER_THRESHOLD:
@@ -51,11 +56,14 @@ func _think() -> void:
 				return
 			
 			AGG_FLOCKER:
-				avoidance_behavior.enabled = false
+				if not flocking_behavior.enabled:
+					flocking_behavior.enabled = true
+					avoidance_behavior.enabled = false
 				return
 	else:
-		# No nearby slimes
-		if avoidance_behavior.enabled:
-			avoidance_behavior.enabled = false
-			wander_behavior.enabled = true
+		var was_avoiding = avoidance_behavior.enabled
+		avoidance_behavior.enabled = false
+		flocking_behavior.enabled = false
+		wander_behavior.enabled = true
+		if was_avoiding:
 			wander_behavior.pick_new_target()

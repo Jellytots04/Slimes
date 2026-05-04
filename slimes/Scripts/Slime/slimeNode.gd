@@ -27,6 +27,8 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	stats.time_alive += delta
+	if stats.level >= 3:
+		time_since_last_repro += delta
 	check_level_up()
 	update_debug_label()
 	pass
@@ -181,7 +183,15 @@ func check_level_up() -> void:
 	elif stats.level == 2 and stats.time_alive >= Statistics.LEVEL_3_TIME:
 		stats.level = 3
 		on_level_up()
+	elif stats.level >= 3:
+		check_recurring_reproduction()
 
+func check_recurring_reproduction() -> void:
+	if time_since_last_repro >= Statistics.RECURRING_OFFSPRING_INTERVAL:
+		time_since_last_repro = 0.0
+		print(name, " rolling for recurring reproduction")
+		if randf() < 0.5:
+			reproduce()
 
 func on_level_up() -> void:
 	print(name, " leveled up to ", stats.level)
@@ -190,6 +200,7 @@ func on_level_up() -> void:
 		chance = 0.5
 	elif stats.level == 3:
 		chance = 1.0
+		time_since_last_repro = 0.0 # Start the recurring timer
 	
 	if randf() < chance:
 		reproduce()
@@ -199,12 +210,32 @@ func reproduce() -> void:
 	
 	var offspring = SLIME_SCENE.instantiate()
 	
-	# Position slightly offset from parent (before adding to tree)
+	# Position offset
 	var offset = Vector3(randf_range(-1.5, 1.5), 0, randf_range(-1.5, 1.5))
 	offspring.position = position + offset
 	
-	# Add to scene
+	# Randomise body stats BEFORE adding to tree (so _ready uses correct max_health)
+	var child_stats = offspring.get_node("Stats")
+	child_stats.max_health = randi_range(70, 130)
+	child_stats.damage = randi_range(5, 20)
+	child_stats.defense = randi_range(0, 5)
+	child_stats.speed = randf_range(2.5, 4.0)
+	child_stats.attack_range = stats.attack_range  # inherit, not randomise
+	child_stats.attack_cooldown = stats.attack_cooldown  # inherit
+	child_stats.max_overeat_multiplier = stats.max_overeat_multiplier  # inherit
+	
+	# Mutate personality (mostly inherit from parent)
+	child_stats.food_preference = mutate_value(stats.food_preference, [0, 1, 2], 0.2)
+	child_stats.aggression_type = mutate_value(stats.aggression_type, [0, 1, 2], 0.1)
+	child_stats.defensive_type = mutate_value(stats.defensive_type, [-1, 0, 1, 2, 3], 0.1)
+	
+	# Add to scene (triggers offspring._ready, which now sees the new max_health)
 	get_parent().add_child(offspring)
+
+func mutate_value(parent_value, possible_values: Array, mutation_chance: float):
+	if randf() < mutation_chance:
+		return possible_values.pick_random()
+	return parent_value
 
 # Debugging functions
 func update_debug_label() -> void:

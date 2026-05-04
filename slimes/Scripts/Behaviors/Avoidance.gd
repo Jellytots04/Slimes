@@ -10,6 +10,9 @@ func calculate() -> Vector3:
 	var force = Vector3.ZERO
 	
 	for other in boid.nearby_slimes:
+		if not is_instance_valid(other):
+			continue
+			
 		var to_other = other.global_position - boid.global_position
 		to_other.y = 0
 		var distance = to_other.length()

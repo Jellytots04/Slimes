@@ -128,9 +128,6 @@ mesh = SubResource("PlaneMesh_1t576")
 [node name="SlimeNode" parent="." unique_id=108224271 instance=ExtResource("1_1t576")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 
-[node name="Camera3D" type="Camera3D" parent="SlimeNode" unique_id=122892782]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 1.1783986, -3.1654258)
-
 [node name="Fruit" parent="." unique_id=783155490 instance=ExtResource("1_eloht")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.8892136, 0.056187112, 5.868286)
 
@@ -237,6 +234,9 @@ one_shot = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 billboard = 1
 no_depth_test = true
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=122892782]
+transform = Transform3D(-1, 0, -8.742278e-08, -6.1753546e-08, 0.7078346, 0.7063783, 6.188086e-08, 0.7063783, -0.7078346, 0, 4.2177095, -5.112776)
 
 [connection signal="timeout" from="SlimeNode2/DecayTimer" to="SlimeNode2" method="_decay_timer_timeout"]
 [connection signal="timeout" from="SlimeNode2/DetecitonTimer" to="SlimeNode2" method="_on_deteciton_timer_timeout"]

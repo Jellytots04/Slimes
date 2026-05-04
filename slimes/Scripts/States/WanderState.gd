@@ -44,9 +44,10 @@ func _think() -> void:
 				return
 			
 			AGG_ALPHA:
+				if not avoidance_behavior.enabled:
 				# Avoid everyone, stay wandering
-				avoidance_behavior.enabled = true
-				wander_behavior.enabled = false
+					avoidance_behavior.enabled = true
+					wander_behavior.enabled = false
 				return
 			
 			AGG_FLOCKER:
@@ -54,5 +55,7 @@ func _think() -> void:
 				return
 	else:
 		# No nearby slimes
-		avoidance_behavior.enabled = false
-		wander_behavior.enabled = true
+		if avoidance_behavior.enabled:
+			avoidance_behavior.enabled = false
+			wander_behavior.enabled = true
+			wander_behavior.pick_new_target()

@@ -168,5 +168,10 @@ autostart = true
 wait_time = 4.0
 one_shot = true
 
+[node name="DebugLabel" type="Label3D" parent="." unique_id=1822044647]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+billboard = 1
+no_depth_test = true
+
 [connection signal="timeout" from="DecayTimer" to="." method="_decay_timer_timeout"]
 [connection signal="timeout" from="DetecitonTimer" to="." method="_on_deteciton_timer_timeout"]

@@ -1,6 +1,9 @@
 class_name SlimeNode extends CharacterBody3D
 
 @onready var stats: Statistics = $Stats
+# Debugging tools
+@onready var debug_label: Label3D = $DebugLabel
+@export var debug_visible: bool = true
 
 @export var slowing_radius: float = 2.0
 @export var damping: float = 1.0
@@ -10,14 +13,21 @@ const DETECTION_INTERVAL: float = 0.3
 
 var nearby_slimes: Array = []
 var nearest_other_slime: SlimeNode = null
+var time_since_last_repro: float = 0.0
 
 func _ready() -> void:
 	add_to_group("slimes")
 	stats.current_health = stats.max_health * Statistics.SPAWN_HEALTH_PERCENT
 	print("HP Spawned in with : ", stats.current_health, " / ", stats.max_health)
+	stats.level = 1
+	stats.time_alive = 0.0
+	if debug_label:
+		debug_label.visible = debug_visible
 
 func _process(delta: float) -> void:
-	# print(global_position)
+	stats.time_alive += delta
+	check_level_up()
+	update_debug_label()
 	pass
 
 func _physics_process(delta: float) -> void:
@@ -161,3 +171,75 @@ func get_nearby_flocker() -> Array:
 		if other.stats.aggression_type == 0:
 			result.append(other)
 	return result
+
+# Level up functions
+func check_level_up() -> void:
+	if stats.level == 1 and stats.time_alive >= Statistics.LEVEL_2_TIME:
+		stats.level = 2
+		on_level_up()
+	elif stats.level == 2 and stats.time_alive >= Statistics.LEVEL_3_TIME:
+		stats.level = 3
+		on_level_up()
+
+
+func on_level_up() -> void:
+	print(name, " leveled up to ", stats.level)
+	var chance: float = 0.0
+	if stats.level == 2:
+		chance = 0.5
+	elif stats.level == 3:
+		chance = 1.0
+	
+	if randf() < chance:
+		reproduce()
+
+
+func reproduce() -> void:
+	print(name, " reproduces!")
+
+# Debugging functions
+func update_debug_label() -> void:
+	if not debug_label or not debug_visible:
+		return
+	
+	var sm = $StateMachine
+	var state_name = "?"
+	if sm.current_state:
+		var script = sm.current_state.get_script()
+		if script:
+			state_name = script.resource_path.get_file().get_basename()
+	
+	var agg_names = ["Pacifist", "Alpha", "Killer"]
+	var def_names = {-1: "Default", 0: "Pack", 1: "Healthy", 2: "Runner", 3: "LastStand"}
+	
+	var agg_str = agg_names[stats.aggression_type] if stats.aggression_type < agg_names.size() else "?"
+	var def_str = def_names.get(stats.defensive_type, "?")
+	
+	var hp_pct = stats.current_health / stats.max_health
+	
+	# Build XP progress string based on current level
+	var xp_str: String
+	if stats.level == 1:
+		xp_str = "XP: %.1f / %.0f" % [stats.time_alive, Statistics.LEVEL_2_TIME]
+	elif stats.level == 2:
+		xp_str = "XP: %.1f / %.0f" % [stats.time_alive, Statistics.LEVEL_3_TIME]
+	else:
+		# Level 3+ — show time since last reproduction roll
+		xp_str = "Repro: %.1f / %.0f" % [time_since_last_repro, Statistics.RECURRING_OFFSPRING_INTERVAL]
+	
+	debug_label.text = "%s\nHP: %d/%d\n%s | %s\nLvl: %d\n%s" % [
+		state_name,
+		int(stats.current_health),
+		int(stats.max_health),
+		agg_str,
+		def_str,
+		stats.level,
+		xp_str
+	]
+	
+	if hp_pct < 0.3:
+		debug_label.modulate = Color.RED
+	elif hp_pct < 0.7:
+		debug_label.modulate = Color.YELLOW
+	else:
+		debug_label.modulate = Color.WHITE

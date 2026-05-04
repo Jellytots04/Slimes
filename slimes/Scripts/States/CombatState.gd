@@ -36,12 +36,12 @@ func _think() -> void:
 		return
 	
 	if boid.stats.aggression_type == 2:
-		if boid.stats.current_health > boid.stats.max_health * KILLER_HEALTH_THRESHOLD:
+		if boid.stats.current_health < boid.stats.max_health * KILLER_HEALTH_THRESHOLD:
 			flee_behavior.set_threat(target)
 			flee_behavior.enabled = true
 			seek_target.enabled = false
 			
-			var seek_food_state = state_machine.get_node("../states/seekFoodState")
+			var seek_food_state = state_machine.get_node("../states/SeekFoodState")
 			state_machine.change_state(seek_food_state)
 			return
 	
@@ -51,6 +51,7 @@ func _think() -> void:
 	boid.look_at(opposite_point, Vector3.UP)
 	
 	var distance: float = boid.global_position.distance_to(target.global_position)
+	# print("Damaging time")
 	if distance <= boid.stats.attack_range:
 		if attack_cooldown_timer <= 0.0:
 			target.take_damage(boid.stats.damage)

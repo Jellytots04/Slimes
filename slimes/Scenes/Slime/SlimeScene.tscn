@@ -90,12 +90,13 @@ script = ExtResource("1_cupy1")
 
 [node name="Stats" type="Node" parent="." unique_id=1547681711]
 script = ExtResource("1_dtw35")
-max_health = 100
-damage = 10
+max_health = 50
+damage = 5
 defense = 2
 speed = 6.0
 attack_range = 4.0
 attack_cooldown = 1
+aggression_type = 2
 
 [node name="StateMachine" type="Node" parent="." unique_id=879610353]
 script = ExtResource("3_sdy3c")

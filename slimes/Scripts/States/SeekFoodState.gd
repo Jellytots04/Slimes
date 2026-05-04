@@ -22,6 +22,11 @@ func _exit() -> void:
 	if wander_behavior:
 		wander_behavior.enabled = false
 	
+	var flee = boid.get_node("SteeringBehaviors/Flee")
+	if flee:
+		flee.enabled = false
+		flee.clear_threat()
+
 func _think() -> void:
 	# Switch to wandering state once health is restored
 	if boid.stats.current_health >= boid.stats.max_health * FULL_THRESHOLD:

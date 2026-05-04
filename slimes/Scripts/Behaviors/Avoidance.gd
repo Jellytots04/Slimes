@@ -1,6 +1,6 @@
 class_name Avoidance extends SteeringBehavior
 
-@export var avoidance_radius: float = 15.0
+@export var avoidance_radius: float = 20.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

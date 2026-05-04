@@ -4,8 +4,8 @@
 [ext_resource type="Script" uid="uid://keh5pk22thxn" path="res://Scripts/Food/Food.gd" id="1_u4i7u"]
 [ext_resource type="Script" uid="uid://b7uot4mph21xx" path="res://Scripts/Food/FoodStatistics.gd" id="2_efmbd"]
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_sjp1g"]
-points = PackedVector3Array(-14.203495, -4.4275026, -36.126366, -14.0520935, -5.2779016, -36.027203, -14.903736, -5.408487, -35.899708, -15.045677, -4.5580883, -35.99887, 0.3879738, 3.8694582, -23.532597, 14.194038, -4.4275026, -36.126366, 14.042633, -5.2779016, -36.027203, -28.25559, -5.925521, -3.1686554, -28.236666, -5.891547, -4.0115433, -48.16509, 0.20032263, 22.684696, -48.33542, 0.5028987, 22.69178, 14.894276, -5.408487, -35.899708, 0.3879738, 4.920513, -16.463652, 48.32596, 0.5028987, 22.69178, 15.036217, -4.5580883, -35.99887, 28.246132, -5.925521, -3.1686554, -17.013914, -5.4286585, 14.815361, -45.619625, 1.0995579, 26.523743, -45.80888, 1.57094, 26.622906, 48.155632, 0.20032263, 22.684696, 28.227203, -5.891547, -4.0115433, 0.3879738, 4.920513, -0.3779106, 28.369148, 4.6710205, 36.234688, 37.49118, 3.635891, 33.783928, 45.799423, 1.57094, 26.622906, -37.50064, 3.635891, 33.783928, -28.38807, 4.6710205, 36.234688, 45.61017, 1.0995579, 26.523743, 17.004456, -5.4286585, 14.815361, -28.312366, 4.072238, 36.04344, -37.282997, 3.0562181, 33.649353, 28.30291, 4.072238, 36.04344, 37.273537, 3.0562181, 33.649353)
+[sub_resource type="SphereShape3D" id="SphereShape3D_u4i7u"]
+radius = 0.3
 
 [node name="Meat" type="StaticBody3D" unique_id=69273725]
 script = ExtResource("1_u4i7u")
@@ -18,8 +18,7 @@ food_type = 1
 transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
 mesh = ExtResource("1_sjp1g")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1520153665]
-transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
-shape = SubResource("ConvexPolygonShape3D_sjp1g")
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1197587464]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=211597697]
+shape = SubResource("SphereShape3D_u4i7u")

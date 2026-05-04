@@ -1,5 +1,7 @@
 [gd_scene format=4 uid="uid://c4ha2xpj65jsm"]
 
+[ext_resource type="Script" uid="uid://cm2ucs6l0w4wf" path="res://Scripts/Food/FoodSpawner.gd" id="1_rgi82"]
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ka3h6"]
 albedo_color = Color(0, 0, 0, 1)
 
@@ -79,6 +81,7 @@ _data = {
 }
 
 [node name="MeatSpawner" type="StaticBody3D" unique_id=424952191]
+script = ExtResource("1_rgi82")
 
 [node name="MeatSpawnerMesh" type="MeshInstance3D" parent="." unique_id=159617181]
 mesh = SubResource("ArrayMesh_dm0f5")

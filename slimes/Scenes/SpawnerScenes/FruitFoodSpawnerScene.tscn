@@ -1,5 +1,7 @@
 [gd_scene format=4 uid="uid://daooav2wrneea"]
 
+[ext_resource type="Script" uid="uid://cm2ucs6l0w4wf" path="res://Scripts/Food/FoodSpawner.gd" id="1_8ljjk"]
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qit1d"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_7qvbs"]
@@ -78,6 +80,7 @@ _data = {
 }
 
 [node name="FruitFoodSpawner" type="StaticBody3D" unique_id=1675664060]
+script = ExtResource("1_8ljjk")
 
 [node name="FruitTreeMesh" type="MeshInstance3D" parent="." unique_id=46362530]
 mesh = SubResource("ArrayMesh_7qvbs")

@@ -1,5 +1,7 @@
 [gd_scene format=4 uid="uid://blw7c6mt8m55x"]
 
+[ext_resource type="Script" uid="uid://cm2ucs6l0w4wf" path="res://Scripts/Food/FoodSpawner.gd" id="1_oslkw"]
+
 [sub_resource type="ArrayMesh" id="ArrayMesh_yyf62"]
 _surfaces = [{
 "aabb": AABB(-0.2, -0.17919922, -0.2, 0.4, 0.51472455, 0.4),
@@ -69,7 +71,8 @@ _data = {
 &"RESET": SubResource("Animation_3w7nn")
 }
 
-[node name="FoodSpawner1" type="StaticBody3D" unique_id=2128878253]
+[node name="MultiFoodSpawner" type="StaticBody3D" unique_id=2128878253]
+script = ExtResource("1_oslkw")
 
 [node name="MultiFoodSpawnerMesh" type="MeshInstance3D" parent="." unique_id=1003533035]
 mesh = SubResource("ArrayMesh_yyf62")

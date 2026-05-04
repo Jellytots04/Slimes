@@ -81,7 +81,9 @@ _data = {
 }
 
 [node name="MeatSpawner" type="StaticBody3D" unique_id=424952191]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
 script = ExtResource("1_rgi82")
+spawner_type = 0
 
 [node name="MeatSpawnerMesh" type="MeshInstance3D" parent="." unique_id=159617181]
 mesh = SubResource("ArrayMesh_dm0f5")
@@ -91,3 +93,5 @@ shape = SubResource("ConvexPolygonShape3D_sf2hx")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=8667611]
 libraries/ = SubResource("AnimationLibrary_7oga5")
+
+[node name="SpawnTimer" type="Timer" parent="." unique_id=674728528]

@@ -72,7 +72,9 @@ _data = {
 }
 
 [node name="MultiFoodSpawner" type="StaticBody3D" unique_id=2128878253]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 script = ExtResource("1_oslkw")
+spawner_type = 2
 
 [node name="MultiFoodSpawnerMesh" type="MeshInstance3D" parent="." unique_id=1003533035]
 mesh = SubResource("ArrayMesh_yyf62")
@@ -83,3 +85,5 @@ shape = SubResource("ConvexPolygonShape3D_pdcqb")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1744113324]
 libraries/ = SubResource("AnimationLibrary_3w7nn")
+
+[node name="SpawnTimer" type="Timer" parent="." unique_id=216861302]

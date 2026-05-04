@@ -16,6 +16,9 @@
 [ext_resource type="Script" uid="uid://butffmf4stxhf" path="res://Scripts/Behaviors/Flee.gd" id="13_qtb3o"]
 [ext_resource type="Script" uid="uid://dm0jn2o3l26oq" path="res://Scripts/Behaviors/Flocking.gd" id="13_v1s3h"]
 [ext_resource type="Script" uid="uid://chsdn2lcwv5em" path="res://Scripts/Behaviors/Avoidance.gd" id="13_xa6cj"]
+[ext_resource type="PackedScene" uid="uid://daooav2wrneea" path="res://Scenes/SpawnerScenes/FruitFoodSpawnerScene.tscn" id="17_wfgdr"]
+[ext_resource type="PackedScene" uid="uid://c4ha2xpj65jsm" path="res://Scenes/SpawnerScenes/MeatFoodSpawnerScene.tscn" id="18_jh62p"]
+[ext_resource type="PackedScene" uid="uid://blw7c6mt8m55x" path="res://Scenes/SpawnerScenes/MultiFoodSpawnerScene.tscn" id="19_41j5y"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1t576"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -118,6 +121,9 @@ environment = SubResource("Environment_ajfxa")
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
 shadow_enabled = true
 
+[node name="Camera3D" type="Camera3D" parent="." unique_id=122892782]
+transform = Transform3D(-1, 3.5527137e-15, -8.742278e-08, -6.856381e-08, 0.6204089, 0.7842786, 5.423787e-08, 0.7842786, -0.6204089, 0, 8.908476, -10.140211)
+
 [node name="Floor" type="StaticBody3D" parent="." unique_id=331863369]
 transform = Transform3D(8.995, 0, 0, 0, 8.995, 0, 0, 0, 8.995, 0, 0, 0)
 
@@ -127,6 +133,9 @@ shape = SubResource("WorldBoundaryShape3D_psh2w")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=1699012118]
 mesh = SubResource("PlaneMesh_1t576")
+
+[node name="MeatSpawner" parent="Floor" unique_id=424952191 instance=ExtResource("18_jh62p")]
+transform = Transform3D(0.16675931, 0, 0, 0, 0.16675931, 0, 0, 0, 0.16675931, -0.113515496, 0.085245326, -0.3666767)
 
 [node name="SlimeNode" parent="." unique_id=108224271 instance=ExtResource("1_1t576")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
@@ -241,9 +250,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 billboard = 1
 no_depth_test = true
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=122892782]
-transform = Transform3D(-1, 3.5527137e-15, -8.742278e-08, -6.856381e-08, 0.6204089, 0.7842786, 5.423787e-08, 0.7842786, -0.6204089, 0, 8.908476, -10.140211)
-
 [node name="Walls" type="StaticBody3D" parent="." unique_id=1644532589]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.936493, 0)
 
@@ -262,6 +268,12 @@ shape = SubResource("BoxShape3D_7w8dv")
 [node name="CollisionShape3D4" type="CollisionShape3D" parent="Walls" unique_id=1677649424]
 transform = Transform3D(0.049372695, 0, 0.9987804, 0, 1, 0, -0.9987804, 0, 0.049372695, 9.062043, 2.68355, -0.07339573)
 shape = SubResource("BoxShape3D_7w8dv")
+
+[node name="FruitFoodSpawner" parent="." unique_id=1675664060 instance=ExtResource("17_wfgdr")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -5.042835, 0.30013186, 0.018409729)
+
+[node name="MultiFoodSpawner" parent="." unique_id=2128878253 instance=ExtResource("19_41j5y")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -6.367506, 0.3642428, -4.6153827)
 
 [connection signal="timeout" from="SlimeNode2/DecayTimer" to="SlimeNode2" method="_decay_timer_timeout"]
 [connection signal="timeout" from="SlimeNode2/DetecitonTimer" to="SlimeNode2" method="_on_deteciton_timer_timeout"]

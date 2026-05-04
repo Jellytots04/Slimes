@@ -53,6 +53,11 @@ func _think() -> void:
 				# Avoid everyone, stay wandering
 					avoidance_behavior.enabled = true
 					wander_behavior.enabled = false
+					
+					var away = boid.global_position - boid.nearest_other_slime.global_position
+					away.y = 0
+					if away.length() > 0.01:
+						boid.velocity = away.normalized() * boid.stats.speed
 				return
 			
 			AGG_FLOCKER:

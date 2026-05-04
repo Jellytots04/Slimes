@@ -16,10 +16,16 @@ func _enter() -> void:
 	if not flee_timer:
 		flee_timer = boid.get_node("FleeTimer")
 		flee_timer.timeout.connect(_on_flee_timer_timeout)
-
+	
 	flee_behavior.set_threat(threat)
 	flee_behavior.enabled = true
 	flee_timer.start(FLEE_DURATION)
+	
+	if boid.stats.defensive_type == 2:
+		boid.speed_multiplier = 2.0
+		print(boid.name, " RUNNER buff applied: speed_multiplier = ", boid.speed_multiplier)
+	else:
+		boid.speed_multiplier = 1.0
 
 func _exit() -> void:
 	if flee_behavior:
@@ -27,6 +33,7 @@ func _exit() -> void:
 		flee_behavior.clear_threat()
 	if flee_timer:
 		flee_timer.stop()
+	boid.speed_multiplier = 1.0
 	threat = null
 
 func _think() -> void:

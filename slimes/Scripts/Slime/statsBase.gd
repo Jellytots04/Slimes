@@ -23,6 +23,9 @@ const SPAWN_HEALTH_PERCENT := 0.75
 @export var aggression_type: int # 0, 1, 2: Different aggression type to define AI style
 @export var defensive_type: int = -1 # -1, 0, 1, 2, 3: Defensive types to define how it responds to attacks
 
+# Super special personality
+@export var kill_heal_only: bool = false
+
 # Runtime state
 var current_health: int
 var level: int = 1 # 1, 2, 3

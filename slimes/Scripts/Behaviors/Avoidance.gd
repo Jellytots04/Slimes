@@ -1,6 +1,7 @@
 class_name Avoidance extends SteeringBehavior
 
 @export var avoidance_radius: float = 20.0
+@export var urgency_multiplier = 2.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -23,7 +24,7 @@ func calculate() -> Vector3:
 		if distance > avoidance_radius:
 			continue
 		
-		var push = -to_other.normalized() * (1.0 / distance) * boid.stats.speed
+		var push = -to_other.normalized() * (1.0 / distance) * boid.stats.speed * urgency_multiplier
 		force += push
-	print(boid.name, " avoidance force: ", force)
+	# print(boid.name, " avoidance force: ", force)
 	return force

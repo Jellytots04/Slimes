@@ -15,6 +15,7 @@ const SLIME_SCENE = preload("res://Scenes/Slime/SlimeScene.tscn")
 var nearby_slimes: Array = []
 var nearest_other_slime: SlimeNode = null
 var time_since_last_repro: float = 0.0
+@export var speed_multiplier: float = 1.0
 
 func _ready() -> void:
 	add_to_group("slimes")
@@ -47,8 +48,9 @@ func _physics_process(delta: float) -> void:
 	# velocity = velocity.lerp(Vector3.ZERO, damping * delta)
 	velocity.y = 0
 	
-	if velocity.length() > stats.speed:
-		velocity = velocity.normalized() * stats.speed
+	var effective_max_speed = stats.speed * speed_multiplier
+	if velocity.length() > effective_max_speed:
+		velocity = velocity.normalized() * effective_max_speed
 	
 	move_and_slide()
 	

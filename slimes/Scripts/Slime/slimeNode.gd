@@ -10,6 +10,7 @@ class_name SlimeNode extends CharacterBody3D
 
 const DETECTION_RANGE: float = 10.0
 const DETECTION_INTERVAL: float = 0.3
+const SLIME_SCENE = preload("res://Scenes/Slime/SlimeScene.tscn")
 
 var nearby_slimes: Array = []
 var nearest_other_slime: SlimeNode = null
@@ -193,9 +194,17 @@ func on_level_up() -> void:
 	if randf() < chance:
 		reproduce()
 
-
 func reproduce() -> void:
 	print(name, " reproduces!")
+	
+	var offspring = SLIME_SCENE.instantiate()
+	
+	# Position slightly offset from parent (before adding to tree)
+	var offset = Vector3(randf_range(-1.5, 1.5), 0, randf_range(-1.5, 1.5))
+	offspring.position = position + offset
+	
+	# Add to scene
+	get_parent().add_child(offspring)
 
 # Debugging functions
 func update_debug_label() -> void:

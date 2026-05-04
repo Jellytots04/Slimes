@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://cp6pxd571nsj1" path="res://Scripts/States/SeekFoodState.gd" id="5_76vrm"]
 [ext_resource type="Script" uid="uid://dudjqch3j0l6d" path="res://Scripts/Behaviors/SeekFood.gd" id="6_3e2nn"]
 [ext_resource type="Script" uid="uid://sawtebol5lex" path="res://Scripts/States/CombatState.gd" id="6_jka1h"]
+[ext_resource type="Script" uid="uid://c0dsubjtiuo7p" path="res://Scripts/States/FleeState.gd" id="7_t4dub"]
 [ext_resource type="Script" uid="uid://b3ro74d6xupi2" path="res://Scripts/Behaviors/SeekTarget.gd" id="9_rq52p"]
 [ext_resource type="Script" uid="uid://butffmf4stxhf" path="res://Scripts/Behaviors/Flee.gd" id="10_53pfp"]
 [ext_resource type="Script" uid="uid://dm0jn2o3l26oq" path="res://Scripts/Behaviors/Flocking.gd" id="10_a0355"]
@@ -114,6 +115,7 @@ script = ExtResource("5_76vrm")
 script = ExtResource("6_jka1h")
 
 [node name="FleeState" type="Node" parent="states" unique_id=1134553032]
+script = ExtResource("7_t4dub")
 
 [node name="SteeringBehaviors" type="Node" parent="." unique_id=1620315794]
 
@@ -161,6 +163,10 @@ autostart = true
 [node name="DetecitonTimer" type="Timer" parent="." unique_id=37135893]
 wait_time = 3.0
 autostart = true
+
+[node name="FleeTimer" type="Timer" parent="." unique_id=1753351412]
+wait_time = 4.0
+one_shot = true
 
 [connection signal="timeout" from="DecayTimer" to="." method="_decay_timer_timeout"]
 [connection signal="timeout" from="DetecitonTimer" to="." method="_on_deteciton_timer_timeout"]

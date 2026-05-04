@@ -54,7 +54,7 @@ func _think() -> void:
 	# print("Damaging time")
 	if distance <= boid.stats.attack_range:
 		if attack_cooldown_timer <= 0.0:
-			target.take_damage(boid.stats.damage)
+			target.take_damage(boid.stats.damage, boid)
 			attack_cooldown_timer = boid.stats.attack_cooldown
 
 func set_target(slime) -> void:

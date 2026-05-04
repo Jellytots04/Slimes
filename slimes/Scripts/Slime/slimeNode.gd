@@ -68,11 +68,41 @@ func eat(health_value: int) -> void:
 	stats.current_health = min(stats.current_health + health_value, cap)
 	print("Ate food HP now : ", stats.current_health)
 
-func take_damage(amount: int) -> void:
+func take_damage(amount: int, attacker: SlimeNode = null) -> void:
 	var actual = max(0, amount - stats.defense)
 	stats.current_health -= actual
 	if stats.current_health <= 0:
 		die()
+		
+	if attacker:
+		react_to_attack(attacker)
+
+func react_to_attack(attacker: SlimeNode) -> void:
+	var hp_pct = stats.current_health / stats.max_health
+	var should_fight: bool
+	
+	match stats.defensive_type:
+		0: # Pack defender - only fights if other flockers are nearby
+			should_fight = get_nearby_flocker().size() > 0
+		1: # Health fighter - Fights only above 50% HP
+			should_fight = hp_pct > 0.5
+		2: # Runner - Fights only above 75% HP
+			should_fight = hp_pct > 0.75
+		3: # Last staand - always fight
+			should_fight = true
+	
+	var sm = $StateMachine
+	
+	if should_fight:
+		var combat_state = sm.get_node("../states/CombatState")
+		if sm.current_state != combat_state:
+			combat_state.set_target(attacker)
+			sm.change_state(combat_state)
+	else:
+		var flee_state = sm.get_node("../states/FleeState")
+		if sm.current_state != flee_state:
+			flee_state.set_threat(attacker)
+			sm.change_state(flee_state)
 
 func die() -> void:
 	queue_free()

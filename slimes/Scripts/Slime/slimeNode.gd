@@ -116,3 +116,12 @@ func update_nearby_slimes() -> void:
 		if distance < nearest_distance:
 			nearest_distance = distance
 			nearest_other_slime = slime
+
+func get_nearby_flocker() -> Array:
+	var result = []
+	for other in nearby_slimes:
+		if not is_instance_valid(other):
+			continue
+		if other.stats.aggression_type == 0:
+			result.append(other)
+	return result

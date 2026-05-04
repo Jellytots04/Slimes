@@ -1,7 +1,5 @@
 class_name CombatState extends State
 
-const KILLER_HEALTH_THRESHOLD: float = 0.25
-
 var seek_target: SeekTarget
 var flee_behavior: Flee
 var target: SlimeNode = null
@@ -35,15 +33,13 @@ func _think() -> void:
 		return_to_wander()
 		return
 	
-	if boid.stats.aggression_type == 2:
-		if boid.stats.current_health < boid.stats.max_health * KILLER_HEALTH_THRESHOLD:
-			flee_behavior.set_threat(target)
-			flee_behavior.enabled = true
-			seek_target.enabled = false
-			
-			var seek_food_state = state_machine.get_node("../states/SeekFoodState")
-			state_machine.change_state(seek_food_state)
-			return
+	if boid.should_stop_combat():
+		flee_behavior.set_threat(target)
+		flee_behavior.enabled = true
+		seek_target.enabled = false
+		var seek_food_state = state_machine.get_node("../states/SeekFoodState")
+		state_machine.change_state(seek_food_state)
+		return
 	
 	var direction_target = target.global_position - boid.global_position
 	direction_target.y = 0

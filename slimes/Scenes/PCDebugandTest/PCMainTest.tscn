@@ -149,88 +149,89 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.547934, 0.06509945, 5.40767
 [node name="Meat3" parent="." unique_id=1150700730 instance=ExtResource("3_ajfxa")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8585377, 0.06509945, 0.8648048)
 
-[node name="Healthy" type="CharacterBody3D" parent="." unique_id=1637838970]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.82150936, 0.2, 3.3978634)
+[node name="TestDummy" type="CharacterBody3D" parent="." unique_id=1324769001]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 2.2953098)
 script = ExtResource("4_fngqy")
 
-[node name="Stats" type="Node" parent="Healthy" unique_id=1547681711]
+[node name="Stats" type="Node" parent="TestDummy" unique_id=1547681711]
 script = ExtResource("5_xa6cj")
 max_health = 100.0
-damage = 5
+damage = 3
 defense = 2
-speed = 6.0
+speed = 10.0
 attack_range = 4.0
 attack_cooldown = 1
-defensive_type = 1
+aggression_type = 2
+defensive_type = 3
 
-[node name="StateMachine" type="Node" parent="Healthy" unique_id=879610353]
+[node name="StateMachine" type="Node" parent="TestDummy" unique_id=879610353]
 script = ExtResource("6_v1s3h")
 initial_state = NodePath("../states/WanderState")
 
-[node name="states" type="Node" parent="Healthy" unique_id=1185066792]
+[node name="states" type="Node" parent="TestDummy" unique_id=1185066792]
 
-[node name="WanderState" type="Node" parent="Healthy/states" unique_id=372647351]
+[node name="WanderState" type="Node" parent="TestDummy/states" unique_id=372647351]
 script = ExtResource("7_qtb3o")
 
-[node name="SeekFoodState" type="Node" parent="Healthy/states" unique_id=143496110]
+[node name="SeekFoodState" type="Node" parent="TestDummy/states" unique_id=143496110]
 script = ExtResource("8_7w8dv")
 
-[node name="CombatState" type="Node" parent="Healthy/states" unique_id=824000295]
+[node name="CombatState" type="Node" parent="TestDummy/states" unique_id=824000295]
 script = ExtResource("9_er53d")
 
-[node name="FleeState" type="Node" parent="Healthy/states" unique_id=1134553032]
+[node name="FleeState" type="Node" parent="TestDummy/states" unique_id=1134553032]
 script = ExtResource("10_7w8dv")
 
-[node name="SteeringBehaviors" type="Node" parent="Healthy" unique_id=1620315794]
+[node name="SteeringBehaviors" type="Node" parent="TestDummy" unique_id=1620315794]
 
-[node name="Wander" type="Node" parent="Healthy/SteeringBehaviors" unique_id=669552518]
+[node name="Wander" type="Node" parent="TestDummy/SteeringBehaviors" unique_id=669552518]
 script = ExtResource("10_6bh6g")
 arrival_distance = 0.6
 pause_min = 0.6
 max_travel_time = 2.0
 enabled = false
 
-[node name="SeekFood" type="Node" parent="Healthy/SteeringBehaviors" unique_id=2116656009]
+[node name="SeekFood" type="Node" parent="TestDummy/SteeringBehaviors" unique_id=2116656009]
 script = ExtResource("11_wfgdr")
 enabled = false
 
-[node name="SeekTarget" type="Node" parent="Healthy/SteeringBehaviors" unique_id=1655809910]
+[node name="SeekTarget" type="Node" parent="TestDummy/SteeringBehaviors" unique_id=1655809910]
 script = ExtResource("12_jh62p")
 
-[node name="Flee" type="Node" parent="Healthy/SteeringBehaviors" unique_id=458215509]
+[node name="Flee" type="Node" parent="TestDummy/SteeringBehaviors" unique_id=458215509]
 script = ExtResource("13_qtb3o")
 enabled = false
 
-[node name="Flocking" type="Node" parent="Healthy/SteeringBehaviors" unique_id=544755538]
+[node name="Flocking" type="Node" parent="TestDummy/SteeringBehaviors" unique_id=544755538]
 script = ExtResource("13_v1s3h")
 enabled = false
 
-[node name="Avoidance" type="Node" parent="Healthy/SteeringBehaviors" unique_id=682009692]
+[node name="Avoidance" type="Node" parent="TestDummy/SteeringBehaviors" unique_id=682009692]
 script = ExtResource("13_xa6cj")
 enabled = false
 
-[node name="SlimeMesh" type="MeshInstance3D" parent="Healthy" unique_id=1767432797]
+[node name="SlimeMesh" type="MeshInstance3D" parent="TestDummy" unique_id=1767432797]
 mesh = SubResource("ArrayMesh_h3eeh")
 surface_material_override/0 = SubResource("StandardMaterial3D_h3eeh")
 surface_material_override/1 = SubResource("StandardMaterial3D_0kgc6")
 surface_material_override/2 = SubResource("StandardMaterial3D_5dung")
 
-[node name="SlimeCollision" type="CollisionShape3D" parent="Healthy" unique_id=1741512111]
+[node name="SlimeCollision" type="CollisionShape3D" parent="TestDummy" unique_id=1741512111]
 shape = SubResource("ConvexPolygonShape3D_dtw35")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Healthy" unique_id=1922637765]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="TestDummy" unique_id=1922637765]
 libraries/ = SubResource("AnimationLibrary_75xdn")
 
-[node name="DecayTimer" type="Timer" parent="Healthy" unique_id=1072270780]
+[node name="DecayTimer" type="Timer" parent="TestDummy" unique_id=1072270780]
 autostart = true
 
-[node name="DetecitonTimer" type="Timer" parent="Healthy" unique_id=37135893]
+[node name="DetecitonTimer" type="Timer" parent="TestDummy" unique_id=37135893]
 wait_time = 3.0
 autostart = true
 
-[node name="FleeTimer" type="Timer" parent="Healthy" unique_id=1753351412]
+[node name="FleeTimer" type="Timer" parent="TestDummy" unique_id=1753351412]
 wait_time = 4.0
 one_shot = true
 
-[connection signal="timeout" from="Healthy/DecayTimer" to="Healthy" method="_decay_timer_timeout"]
-[connection signal="timeout" from="Healthy/DetecitonTimer" to="Healthy" method="_on_deteciton_timer_timeout"]
+[connection signal="timeout" from="TestDummy/DecayTimer" to="TestDummy" method="_decay_timer_timeout"]
+[connection signal="timeout" from="TestDummy/DetecitonTimer" to="TestDummy" method="_on_deteciton_timer_timeout"]

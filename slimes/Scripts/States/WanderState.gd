@@ -2,29 +2,57 @@ class_name WanderState extends State
 
 const  HUNGER_THRESHOLD: float = 0.6 # Seek food when health < 60% of max
 
+const AGG_FLOCKER := 0
+const AGG_ALPHA := 1
+const AGG_KILLER := 2
+
 var wander_behavior: SteeringBehavior
 var seek_food_state: State
 var combat_state: CombatState
-
+var avoidance_behavior: SteeringBehavior
 
 func _enter() -> void:
 	if not wander_behavior:
 		wander_behavior = boid.get_node("SteeringBehaviors/Wander")
+	if not avoidance_behavior:
+		avoidance_behavior = boid.get_node("SteeringBehaviors/Avoidance")
 	if not seek_food_state:
 		seek_food_state = state_machine.get_node("../states/SeekFoodState")
 	if not combat_state:
 		combat_state = state_machine.get_node("../states/CombatState")
+	
 	wander_behavior.enabled = true
 
 func _exit() -> void:
 	if wander_behavior:
 		wander_behavior.enabled = false
+	if avoidance_behavior:
+		avoidance_behavior.enabled = false
 
 func _think() -> void:
 	if boid.stats.current_health < boid.stats.max_health * HUNGER_THRESHOLD:
 		state_machine.change_state(seek_food_state)
 		
 	if boid.nearest_other_slime:
-		print(boid.name, " trying to enter combat with ", boid.nearest_other_slime.name)
-		combat_state.set_target(boid.nearest_other_slime)
-		state_machine.change_state(combat_state)
+		# print(boid.name, " sees ", boid.nearest_other_slime.name, " | type: ", boid.stats.aggression_type)
+		match boid.stats.aggression_type:
+			AGG_KILLER:
+				# Hunting, transition into combat
+				avoidance_behavior.enabled = false
+				combat_state.set_target(boid.nearest_other_slime)
+				state_machine.change_state(combat_state)
+				return
+			
+			AGG_ALPHA:
+				# Avoid everyone, stay wandering
+				avoidance_behavior.enabled = true
+				wander_behavior.enabled = false
+				return
+			
+			AGG_FLOCKER:
+				avoidance_behavior.enabled = false
+				return
+	else:
+		# No nearby slimes
+		avoidance_behavior.enabled = false
+		wander_behavior.enabled = true

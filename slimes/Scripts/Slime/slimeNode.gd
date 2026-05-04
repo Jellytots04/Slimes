@@ -8,6 +8,7 @@ class_name SlimeNode extends CharacterBody3D
 const DETECTION_RANGE: float = 10.0
 const DETECTION_INTERVAL: float = 0.3
 
+var nearby_slimes: Array = []
 var nearest_other_slime: SlimeNode = null
 
 func _ready() -> void:
@@ -40,7 +41,6 @@ func _physics_process(delta: float) -> void:
 	
 	if velocity.length() > 0.1:
 		look_at(global_position - velocity, Vector3.UP)
-	
 
 func seek_force(target_pos) -> Vector3:
 	var desired = (target_pos - global_position).normalized() * stats.speed
@@ -94,26 +94,25 @@ func _decay_timer_timeout() -> void:
 		return
 
 func _on_deteciton_timer_timeout() -> void:
-	update_nearest_slime()
+	update_nearby_slimes()
 
-func update_nearest_slime() -> void:
-	var all_slimes = get_tree().get_nodes_in_group("slimes")
-	# print(name, " — group size: ", all_slimes.size())
-	var nearest: SlimeNode = null
+func update_nearby_slimes() -> void:
+	nearby_slimes.clear()
+	nearest_other_slime = null
 	var nearest_distance = DETECTION_RANGE
 	
+	var all_slimes = get_tree().get_nodes_in_group("slimes")
 	for slime in all_slimes:
 		if slime == self:
 			continue
 		if not is_instance_valid(slime):
 			continue
-			
+		
 		var distance: float = slime.global_position.distance_to(global_position)
-		print(name, " checking ", slime.name, " at distance ", distance, " (range ", DETECTION_RANGE, ")")
+		if distance > DETECTION_RANGE:
+			continue
+		
+		nearby_slimes.append(slime)
 		if distance < nearest_distance:
 			nearest_distance = distance
-			nearest = slime
-	
-	nearest_other_slime = nearest
-	
-	print(name, " : sees : ", nearest_other_slime)
+			nearest_other_slime = slime

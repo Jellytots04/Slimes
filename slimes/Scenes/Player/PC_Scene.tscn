@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://dpmm0h5hg51mb"]
+
+[ext_resource type="Script" uid="uid://dkav0yehoml1w" path="res://Scenes/Player/PC_Scene.gd" id="1_iifhm"]
+
+[node name="PlayerNode" type="Node3D" unique_id=866012436]
+script = ExtResource("1_iifhm")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=871966026]

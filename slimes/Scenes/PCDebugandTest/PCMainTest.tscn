@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dpinh4fq3otar" path="res://Scenes/Slime/SlimeScene.tscn" id="1_1t576"]
 [ext_resource type="PackedScene" uid="uid://dkcddvosk3hnt" path="res://Scenes/FoodScenes/FruitScene.tscn" id="1_eloht"]
+[ext_resource type="PackedScene" uid="uid://dpmm0h5hg51mb" path="res://Scenes/Player/PC_Scene.tscn" id="1_jh62p"]
 [ext_resource type="PackedScene" uid="uid://sw2thxowg2qj" path="res://Scenes/FoodScenes/MeatScene.tscn" id="3_ajfxa"]
 [ext_resource type="Script" uid="uid://b4jg3d6wvf1mx" path="res://Scripts/Slime/slimeNode.gd" id="4_fngqy"]
 [ext_resource type="Script" uid="uid://c7a075r7q4fk7" path="res://Scripts/Slime/statsBase.gd" id="5_xa6cj"]
@@ -121,6 +122,9 @@ environment = SubResource("Environment_ajfxa")
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
 shadow_enabled = true
 
+[node name="PlayerNode" parent="." unique_id=866012436 instance=ExtResource("1_jh62p")]
+transform = Transform3D(-1, 4.761386e-08, -7.331891e-08, 0, 0.83867055, 0.54463905, 8.742278e-08, 0.54463905, -0.83867055, 0, 4.6531286, -6.5307865)
+
 [node name="Floor" type="StaticBody3D" parent="." unique_id=331863369]
 transform = Transform3D(8.995, 0, 0, 0, 8.995, 0, 0, 0, 8.995, 0, 0, 0)
 
@@ -129,19 +133,14 @@ transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -0
 shape = SubResource("WorldBoundaryShape3D_psh2w")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=1699012118]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
 mesh = SubResource("PlaneMesh_1t576")
 
 [node name="MeatSpawner" parent="Floor" unique_id=424952191 instance=ExtResource("18_jh62p")]
 transform = Transform3D(0.16675931, 0, 0, 0, 0.16675931, 0, 0, 0, 0.16675931, -0.113515496, 0.085245326, -0.3666767)
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=122892782]
-transform = Transform3D(-1, 3.5527137e-15, -8.742278e-08, -6.856381e-08, 0.6204089, 0.7842786, 5.423787e-08, 0.7842786, -0.6204089, 0, 8.908476, -10.140211)
-
 [node name="SlimeNode" parent="." unique_id=108224271 instance=ExtResource("1_1t576")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
-
-[node name="Camera3D" type="Camera3D" parent="SlimeNode" unique_id=541505668]
-transform = Transform3D(-1, 3.5527137e-15, -8.742278e-08, -6.856381e-08, 0.6204089, 0.7842786, 5.423787e-08, 0.7842786, -0.6204089, -4.7683716e-07, 1.8444655, -1.5204425)
 
 [node name="Fruit" parent="." unique_id=783155490 instance=ExtResource("1_eloht")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.8892136, 0.056187112, 5.868286)
@@ -274,5 +273,276 @@ transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -5.042835, 0.30013186, 0.0184
 [node name="MultiFoodSpawner" parent="." unique_id=2128878253 instance=ExtResource("19_41j5y")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -6.367506, 0.3642428, -4.6153827)
 
+[node name="SlimeNode3" type="CharacterBody3D" parent="." unique_id=1254026552]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2291765, 0.2, 6.5841966)
+script = ExtResource("4_fngqy")
+
+[node name="Stats" type="Node" parent="SlimeNode3" unique_id=215542494]
+script = ExtResource("5_xa6cj")
+max_health = 100.0
+damage = 3
+defense = 2
+speed = 6.0
+attack_range = 4.0
+attack_cooldown = 1
+defensive_type = 0
+
+[node name="StateMachine" type="Node" parent="SlimeNode3" unique_id=347010480]
+script = ExtResource("6_v1s3h")
+initial_state = NodePath("../states/WanderState")
+
+[node name="states" type="Node" parent="SlimeNode3" unique_id=1947284019]
+
+[node name="WanderState" type="Node" parent="SlimeNode3/states" unique_id=302133127]
+script = ExtResource("7_qtb3o")
+
+[node name="SeekFoodState" type="Node" parent="SlimeNode3/states" unique_id=176817533]
+script = ExtResource("8_7w8dv")
+
+[node name="CombatState" type="Node" parent="SlimeNode3/states" unique_id=460250368]
+script = ExtResource("9_er53d")
+
+[node name="FleeState" type="Node" parent="SlimeNode3/states" unique_id=835214223]
+script = ExtResource("10_7w8dv")
+
+[node name="SteeringBehaviors" type="Node" parent="SlimeNode3" unique_id=235778664]
+
+[node name="Wander" type="Node" parent="SlimeNode3/SteeringBehaviors" unique_id=400791841]
+script = ExtResource("10_6bh6g")
+arrival_distance = 0.6
+pause_min = 0.6
+max_travel_time = 2.0
+enabled = false
+
+[node name="SeekFood" type="Node" parent="SlimeNode3/SteeringBehaviors" unique_id=1433449808]
+script = ExtResource("11_wfgdr")
+enabled = false
+
+[node name="SeekTarget" type="Node" parent="SlimeNode3/SteeringBehaviors" unique_id=797487059]
+script = ExtResource("12_jh62p")
+
+[node name="Flee" type="Node" parent="SlimeNode3/SteeringBehaviors" unique_id=1683295783]
+script = ExtResource("13_qtb3o")
+enabled = false
+
+[node name="Flocking" type="Node" parent="SlimeNode3/SteeringBehaviors" unique_id=183668167]
+script = ExtResource("13_v1s3h")
+enabled = false
+
+[node name="Avoidance" type="Node" parent="SlimeNode3/SteeringBehaviors" unique_id=155179204]
+script = ExtResource("13_xa6cj")
+enabled = false
+
+[node name="SlimeMesh" type="MeshInstance3D" parent="SlimeNode3" unique_id=1488035848]
+mesh = SubResource("ArrayMesh_h3eeh")
+surface_material_override/0 = SubResource("StandardMaterial3D_h3eeh")
+surface_material_override/1 = SubResource("StandardMaterial3D_0kgc6")
+surface_material_override/2 = SubResource("StandardMaterial3D_5dung")
+
+[node name="SlimeCollision" type="CollisionShape3D" parent="SlimeNode3" unique_id=1991308065]
+shape = SubResource("ConvexPolygonShape3D_dtw35")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SlimeNode3" unique_id=413428243]
+libraries/ = SubResource("AnimationLibrary_75xdn")
+
+[node name="DecayTimer" type="Timer" parent="SlimeNode3" unique_id=1669330064]
+autostart = true
+
+[node name="DetecitonTimer" type="Timer" parent="SlimeNode3" unique_id=1893562871]
+wait_time = 3.0
+autostart = true
+
+[node name="FleeTimer" type="Timer" parent="SlimeNode3" unique_id=589597367]
+wait_time = 4.0
+one_shot = true
+
+[node name="DebugLabel" type="Label3D" parent="SlimeNode3" unique_id=607326838]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+billboard = 1
+no_depth_test = true
+
+[node name="SlimeNode4" type="CharacterBody3D" parent="." unique_id=1813335991]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9899492, 0.2, 6.492427)
+script = ExtResource("4_fngqy")
+
+[node name="Stats" type="Node" parent="SlimeNode4" unique_id=763607658]
+script = ExtResource("5_xa6cj")
+max_health = 100.0
+damage = 3
+defense = 2
+speed = 6.0
+attack_range = 4.0
+attack_cooldown = 1
+defensive_type = 0
+
+[node name="StateMachine" type="Node" parent="SlimeNode4" unique_id=1051806817]
+script = ExtResource("6_v1s3h")
+initial_state = NodePath("../states/WanderState")
+
+[node name="states" type="Node" parent="SlimeNode4" unique_id=1088219525]
+
+[node name="WanderState" type="Node" parent="SlimeNode4/states" unique_id=98034521]
+script = ExtResource("7_qtb3o")
+
+[node name="SeekFoodState" type="Node" parent="SlimeNode4/states" unique_id=1961413436]
+script = ExtResource("8_7w8dv")
+
+[node name="CombatState" type="Node" parent="SlimeNode4/states" unique_id=1025958285]
+script = ExtResource("9_er53d")
+
+[node name="FleeState" type="Node" parent="SlimeNode4/states" unique_id=551945343]
+script = ExtResource("10_7w8dv")
+
+[node name="SteeringBehaviors" type="Node" parent="SlimeNode4" unique_id=1411087529]
+
+[node name="Wander" type="Node" parent="SlimeNode4/SteeringBehaviors" unique_id=678187097]
+script = ExtResource("10_6bh6g")
+arrival_distance = 0.6
+pause_min = 0.6
+max_travel_time = 2.0
+enabled = false
+
+[node name="SeekFood" type="Node" parent="SlimeNode4/SteeringBehaviors" unique_id=220990510]
+script = ExtResource("11_wfgdr")
+enabled = false
+
+[node name="SeekTarget" type="Node" parent="SlimeNode4/SteeringBehaviors" unique_id=1484641083]
+script = ExtResource("12_jh62p")
+
+[node name="Flee" type="Node" parent="SlimeNode4/SteeringBehaviors" unique_id=734829250]
+script = ExtResource("13_qtb3o")
+enabled = false
+
+[node name="Flocking" type="Node" parent="SlimeNode4/SteeringBehaviors" unique_id=1771860716]
+script = ExtResource("13_v1s3h")
+enabled = false
+
+[node name="Avoidance" type="Node" parent="SlimeNode4/SteeringBehaviors" unique_id=1092832176]
+script = ExtResource("13_xa6cj")
+enabled = false
+
+[node name="SlimeMesh" type="MeshInstance3D" parent="SlimeNode4" unique_id=2002899875]
+mesh = SubResource("ArrayMesh_h3eeh")
+surface_material_override/0 = SubResource("StandardMaterial3D_h3eeh")
+surface_material_override/1 = SubResource("StandardMaterial3D_0kgc6")
+surface_material_override/2 = SubResource("StandardMaterial3D_5dung")
+
+[node name="SlimeCollision" type="CollisionShape3D" parent="SlimeNode4" unique_id=1220860235]
+shape = SubResource("ConvexPolygonShape3D_dtw35")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SlimeNode4" unique_id=1902295104]
+libraries/ = SubResource("AnimationLibrary_75xdn")
+
+[node name="DecayTimer" type="Timer" parent="SlimeNode4" unique_id=764388604]
+autostart = true
+
+[node name="DetecitonTimer" type="Timer" parent="SlimeNode4" unique_id=563514500]
+wait_time = 3.0
+autostart = true
+
+[node name="FleeTimer" type="Timer" parent="SlimeNode4" unique_id=589022116]
+wait_time = 4.0
+one_shot = true
+
+[node name="DebugLabel" type="Label3D" parent="SlimeNode4" unique_id=1376443061]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+billboard = 1
+no_depth_test = true
+
+[node name="SlimeNode5" type="CharacterBody3D" parent="." unique_id=420253426]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.643052, 0.2, -1.2692075)
+script = ExtResource("4_fngqy")
+
+[node name="Stats" type="Node" parent="SlimeNode5" unique_id=1730287777]
+script = ExtResource("5_xa6cj")
+max_health = 100.0
+damage = 3
+defense = 2
+speed = 6.0
+attack_range = 4.0
+attack_cooldown = 1
+aggression_type = 1
+defensive_type = 1
+
+[node name="StateMachine" type="Node" parent="SlimeNode5" unique_id=532184743]
+script = ExtResource("6_v1s3h")
+initial_state = NodePath("../states/WanderState")
+
+[node name="states" type="Node" parent="SlimeNode5" unique_id=1682514654]
+
+[node name="WanderState" type="Node" parent="SlimeNode5/states" unique_id=1359694790]
+script = ExtResource("7_qtb3o")
+
+[node name="SeekFoodState" type="Node" parent="SlimeNode5/states" unique_id=2054350600]
+script = ExtResource("8_7w8dv")
+
+[node name="CombatState" type="Node" parent="SlimeNode5/states" unique_id=17130754]
+script = ExtResource("9_er53d")
+
+[node name="FleeState" type="Node" parent="SlimeNode5/states" unique_id=1245185731]
+script = ExtResource("10_7w8dv")
+
+[node name="SteeringBehaviors" type="Node" parent="SlimeNode5" unique_id=278410043]
+
+[node name="Wander" type="Node" parent="SlimeNode5/SteeringBehaviors" unique_id=1524778524]
+script = ExtResource("10_6bh6g")
+arrival_distance = 0.6
+pause_min = 0.6
+max_travel_time = 2.0
+enabled = false
+
+[node name="SeekFood" type="Node" parent="SlimeNode5/SteeringBehaviors" unique_id=1628696699]
+script = ExtResource("11_wfgdr")
+enabled = false
+
+[node name="SeekTarget" type="Node" parent="SlimeNode5/SteeringBehaviors" unique_id=1280470935]
+script = ExtResource("12_jh62p")
+
+[node name="Flee" type="Node" parent="SlimeNode5/SteeringBehaviors" unique_id=1241908558]
+script = ExtResource("13_qtb3o")
+enabled = false
+
+[node name="Flocking" type="Node" parent="SlimeNode5/SteeringBehaviors" unique_id=1157280300]
+script = ExtResource("13_v1s3h")
+enabled = false
+
+[node name="Avoidance" type="Node" parent="SlimeNode5/SteeringBehaviors" unique_id=1365919472]
+script = ExtResource("13_xa6cj")
+enabled = false
+
+[node name="SlimeMesh" type="MeshInstance3D" parent="SlimeNode5" unique_id=511421110]
+mesh = SubResource("ArrayMesh_h3eeh")
+surface_material_override/0 = SubResource("StandardMaterial3D_h3eeh")
+surface_material_override/1 = SubResource("StandardMaterial3D_0kgc6")
+surface_material_override/2 = SubResource("StandardMaterial3D_5dung")
+
+[node name="SlimeCollision" type="CollisionShape3D" parent="SlimeNode5" unique_id=134775964]
+shape = SubResource("ConvexPolygonShape3D_dtw35")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SlimeNode5" unique_id=927251771]
+libraries/ = SubResource("AnimationLibrary_75xdn")
+
+[node name="DecayTimer" type="Timer" parent="SlimeNode5" unique_id=1835808122]
+autostart = true
+
+[node name="DetecitonTimer" type="Timer" parent="SlimeNode5" unique_id=639965373]
+wait_time = 3.0
+autostart = true
+
+[node name="FleeTimer" type="Timer" parent="SlimeNode5" unique_id=1363962810]
+wait_time = 4.0
+one_shot = true
+
+[node name="DebugLabel" type="Label3D" parent="SlimeNode5" unique_id=593131574]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+billboard = 1
+no_depth_test = true
+
 [connection signal="timeout" from="SlimeNode2/DecayTimer" to="SlimeNode2" method="_decay_timer_timeout"]
 [connection signal="timeout" from="SlimeNode2/DetecitonTimer" to="SlimeNode2" method="_on_deteciton_timer_timeout"]
+[connection signal="timeout" from="SlimeNode3/DecayTimer" to="SlimeNode3" method="_decay_timer_timeout"]
+[connection signal="timeout" from="SlimeNode3/DetecitonTimer" to="SlimeNode3" method="_on_deteciton_timer_timeout"]
+[connection signal="timeout" from="SlimeNode4/DecayTimer" to="SlimeNode4" method="_decay_timer_timeout"]
+[connection signal="timeout" from="SlimeNode4/DetecitonTimer" to="SlimeNode4" method="_on_deteciton_timer_timeout"]
+[connection signal="timeout" from="SlimeNode5/DecayTimer" to="SlimeNode5" method="_decay_timer_timeout"]
+[connection signal="timeout" from="SlimeNode5/DetecitonTimer" to="SlimeNode5" method="_on_deteciton_timer_timeout"]

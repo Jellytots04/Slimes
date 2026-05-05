@@ -37,6 +37,12 @@ var time_since_last_repro: float = 0.0
 
 var last_attacker: SlimeNode = null
 
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+
+func play_animation(anim_name: String) -> void:
+	if animation_player.has_animation(anim_name):
+		animation_player.play(anim_name)
+
 func _ready() -> void:
 	add_to_group("slimes")
 	stats.current_health = stats.max_health * Statistics.SPAWN_HEALTH_PERCENT
@@ -70,9 +76,17 @@ func _physics_process(delta: float) -> void:
 	velocity.y = 0
 	
 	var effective_max_speed = stats.speed * speed_multiplier
+	var is_oneshot_playing = animation_player.current_animation in ["Eat", "Attack", "Death", "LevelUp", "Reproduce"]
 	if velocity.length() > effective_max_speed:
 		velocity = velocity.normalized() * effective_max_speed
-	
+		if not is_oneshot_playing:
+			if animation_player.current_animation != "SlimeWalking":
+				play_animation("SlimeWalking")
+	else:
+		if not is_oneshot_playing:
+			if animation_player.current_animation != "Idle":
+				play_animation("Idle")
+
 	move_and_slide()
 	
 	if velocity.length() > 0.1:
@@ -100,12 +114,14 @@ func arrive_force(target_pos) -> Vector3:
 	return desired - velocity
 
 func eat(health_value: int) -> void:
+	play_animation("Eat")
 	if stats.kill_heal_only:
 		print(name, " : kill heal only, cannot eat")
 		# Last stand quirk: food will not help you
 		return
 	var cap = stats.max_health * stats.max_overeat_multiplier
 	stats.current_health = min(stats.current_health + health_value, cap)
+	
 	print("Ate food HP now : ", stats.current_health)
 
 func take_damage(amount: int, attacker: SlimeNode = null) -> void:
@@ -164,6 +180,13 @@ func should_stop_combat() -> bool:
 	return false
 
 func die() -> void:
+	$SteeringBehaviors.process_mode = Node.PROCESS_MODE_DISABLED
+	$StateMachine.set_process(false)
+	
+	if animation_player.has_animation("Death"):
+		animation_player.play("Death")
+		await animation_player.animation_finished
+	
 	queue_free()
 
 func _decay_timer_timeout() -> void:
@@ -235,6 +258,7 @@ func check_recurring_reproduction() -> void:
 
 func on_level_up() -> void:
 	print(name, " leveled up to ", stats.level)
+
 	var chance: float = 0.0
 	if stats.level == 2:
 		chance = 0.5
@@ -242,12 +266,19 @@ func on_level_up() -> void:
 		chance = 1.0
 		time_since_last_repro = 0.0 # Start the recurring timer
 	
+	play_animation("LevelUp")
+	await animation_player.animation_finished
+	
 	if randf() < chance:
 		reproduce()
 
 func reproduce() -> void:
 	print(name, " reproduces!")
-	
+
+	if animation_player.has_animation("Reproduce"):
+		animation_player.play("Reproduce")
+		await animation_player.animation_finished
+
 	var offspring = SLIME_SCENE.instantiate()
 	
 	# Position offset

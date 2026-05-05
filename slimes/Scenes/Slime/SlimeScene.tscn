@@ -61,6 +61,30 @@ points = PackedVector3Array(0, -0.14965358, -0.5416443, -0.20730513, -0.14965358
 
 [sub_resource type="Animation" id="Animation_hdlff"]
 resource_name = "Attack"
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SlimeMesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.3, 1, 0, 0.5, 0.5, 0.5, 1, 0, 0, 1, 0.7, 1, 0, 0.5, 0.5, 1, 1, 0, 0, 0)
+
+[sub_resource type="Animation" id="Animation_mdbqr"]
+resource_name = "Death"
+tracks/0/type = "scale_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SlimeMesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1, 0.3, 1, 1, 0.1, 1, 1, 1, 0, 0, 0)
+tracks/1/type = "position_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SlimeMesh")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.3, 1, 0, -0.1, 0)
 
 [sub_resource type="Animation" id="Animation_7pn1m"]
 resource_name = "Eat"
@@ -97,6 +121,16 @@ tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1, 0, 0.005, 0, 2, 1, 0, 0, 0)
 
+[sub_resource type="Animation" id="Animation_0pq5b"]
+resource_name = "LevelUp"
+tracks/0/type = "scale_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SlimeMesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1, 0.33333334, 1, 1.8, 0.2, 1.8, 0.6666667, 1, 0.2, 1.8, 0.2, 1, 1, 1, 1, 1)
+
 [sub_resource type="Animation" id="Animation_0kgc6"]
 length = 0.001
 tracks/0/type = "scale_3d"
@@ -106,6 +140,16 @@ tracks/0/path = NodePath("SlimeMesh")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1)
+
+[sub_resource type="Animation" id="Animation_y70hk"]
+resource_name = "LevelUp"
+tracks/0/type = "scale_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SlimeMesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1, 0.33333334, 1, 0.2, 1.8, 0.2, 0.6333333, 1, 1.8, 0.2, 1.8, 1, 1, 1, 1, 1)
 
 [sub_resource type="Animation" id="Animation_5dung"]
 resource_name = "SlimeAnimation"
@@ -121,9 +165,12 @@ tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1, 1, 1, 1.2, 0.8, 1.2, 2, 1, 1, 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_75xdn"]
 _data = {
 &"Attack": SubResource("Animation_hdlff"),
+&"Death": SubResource("Animation_mdbqr"),
 &"Eat": SubResource("Animation_7pn1m"),
 &"Idle": SubResource("Animation_t4dub"),
+&"LevelUp": SubResource("Animation_0pq5b"),
 &"RESET": SubResource("Animation_0kgc6"),
+&"Reproduce": SubResource("Animation_y70hk"),
 &"SlimeWalking": SubResource("Animation_5dung")
 }
 

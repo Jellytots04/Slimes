@@ -50,6 +50,7 @@ func _think() -> void:
 	# print("Damaging time")
 	if distance <= boid.stats.attack_range:
 		if attack_cooldown_timer <= 0.0:
+			boid.play_animation("Attack")
 			target.take_damage(boid.stats.damage, boid)
 			attack_cooldown_timer = boid.stats.attack_cooldown
 

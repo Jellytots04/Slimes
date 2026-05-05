@@ -11,6 +11,24 @@ class_name SlimeNode extends CharacterBody3D
 const DETECTION_RANGE: float = 10.0
 const DETECTION_INTERVAL: float = 0.3
 const SLIME_SCENE = preload("res://Scenes/Slime/SlimeScene.tscn")
+const LEFT_EYE_SURFACE_INDEX := 1
+const RIGHT_EYE_SURFACE_INDEX := 2
+
+const AGG_COLORS = {
+	0: Color(0.3, 0.8, 0.3), # Pacifist green
+	1: Color(0.3, 0.5, 0.9), # Alpha blue
+	2: Color(0.9, 0.3, 0.3)  # Killer red
+}
+
+const DEF_COLORS := {
+	-1: Color(1.0, 1.0, 1.0),  # Default white
+	0: Color(0.3, 0.9, 0.9),   # Pack cyan
+	1: Color(1.0, 0.9, 0.2),   # Healthy yellow
+	2: Color(1.0, 0.5, 0.1),   # Runner orange
+	3: Color(0.0, 0.0, 0.0),   # Last Stand black (override anyway)
+}
+
+const COLOR_LAST_STAND := Color(0.0, 0.0, 0.0)
 
 var nearby_slimes: Array = []
 var nearest_other_slime: SlimeNode = null
@@ -27,6 +45,7 @@ func _ready() -> void:
 	stats.time_alive = 0.0
 	if debug_label:
 		debug_label.visible = debug_visible
+	apply_eye_colors()
 
 func _process(delta: float) -> void:
 	stats.time_alive += delta
@@ -318,3 +337,27 @@ func update_debug_label() -> void:
 		debug_label.modulate = Color.YELLOW
 	else:
 		debug_label.modulate = Color.WHITE
+
+func apply_eye_colors() -> void:
+	var slime_mesh = get_node_or_null("SlimeMesh")
+	if not slime_mesh:
+		push_warning(name + " missing SlimeMesh")
+		return
+	
+	var left_color: Color
+	var right_color: Color
+	
+	if stats.defensive_type == 3:
+		left_color = COLOR_LAST_STAND
+		right_color = COLOR_LAST_STAND
+	else:
+		left_color = AGG_COLORS.get(stats.aggression_type, Color.WHITE)
+		right_color = DEF_COLORS.get(stats.defensive_type, Color.WHITE)
+	
+	var left_mat = StandardMaterial3D.new()
+	left_mat.albedo_color = left_color
+	slime_mesh.set_surface_override_material(LEFT_EYE_SURFACE_INDEX, left_mat)
+	
+	var right_mat = StandardMaterial3D.new()
+	right_mat.albedo_color = right_color
+	slime_mesh.set_surface_override_material(RIGHT_EYE_SURFACE_INDEX, right_mat)	

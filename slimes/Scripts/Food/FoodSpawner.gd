@@ -15,6 +15,7 @@ const FRUIT_SCENE_PATH := "res://Scenes/FoodScenes/FruitScene.tscn"
 const MEAT_SCENE_PATH := "res://Scenes/FoodScenes/MeatScene.tscn"
 
 @onready var spawn_timer: Timer = $SpawnTimer
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 var spawned_food: Array = []  # track what we spawned
 
 func _ready() -> void:
@@ -23,6 +24,9 @@ func _ready() -> void:
 	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
 	spawn_timer.start()
 	
+	if animation_player and animation_player.has_animation("Idle"):
+		animation_player.play("Idle")
+		
 	# Burst once on spawner placement so the scene starts with food
 	burst_spawn()
 
@@ -43,6 +47,14 @@ func burst_spawn() -> void:
 	var available_slots = max_food - spawned_food.size()
 	burst_count = min(burst_count, available_slots)
 	# print(name, " spawning ", burst_count, " food this burst")
+	
+	# Play spawn animation
+	if animation_player and animation_player.has_animation("Spawn"):
+		animation_player.play("Spawn")
+		await animation_player.animation_finished
+		# Return to idle
+		if animation_player.has_animation("Idle"):
+			animation_player.play("Idle")
 	
 	for i in range(burst_count):
 		spawn_one_food()

@@ -31,6 +31,7 @@ points = PackedVector3Array(0.52864575, -0.50729144, 0.29287392, 0.52864575, -0.
 [sub_resource type="Animation" id="Animation_ulre6"]
 resource_name = "MeatSpawnerIdle"
 length = 2.0
+loop_mode = 1
 tracks/0/type = "scale_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -45,6 +46,16 @@ tracks/1/path = NodePath("MeatSpawnerMesh")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1, 0, 0.005, 0, 2, 1, 0, 0, 0)
+
+[sub_resource type="Animation" id="Animation_7oga5"]
+length = 0.001
+tracks/0/type = "scale_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeatSpawnerMesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1)
 
 [sub_resource type="Animation" id="Animation_dm0f5"]
 resource_name = "MeatSpawnerSpawn"
@@ -63,21 +74,11 @@ tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = PackedFloat32Array(0.5, 1, 0, 0, 0, 0.8333333, 1, 0, 0.2, 0, 1, 1, 0, 0, 0)
 
-[sub_resource type="Animation" id="Animation_7oga5"]
-length = 0.001
-tracks/0/type = "scale_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("MeatSpawnerMesh")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1)
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_7oga5"]
 _data = {
-&"MeatSpawnerIdle": SubResource("Animation_ulre6"),
-&"MeatSpawnerSpawn": SubResource("Animation_dm0f5"),
-&"RESET": SubResource("Animation_7oga5")
+&"Idle": SubResource("Animation_ulre6"),
+&"RESET": SubResource("Animation_7oga5"),
+&"Spawn": SubResource("Animation_dm0f5")
 }
 
 [node name="MeatSpawner" type="StaticBody3D" unique_id=424952191]

@@ -37,6 +37,16 @@ tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1, 0, 0.005, 0, 2, 1, 0, 0, 0)
 
+[sub_resource type="Animation" id="Animation_3w7nn"]
+length = 0.001
+tracks/0/type = "scale_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MultiFoodSpawnerMesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1)
+
 [sub_resource type="Animation" id="Animation_08g0y"]
 resource_name = "MultiFoodSpawnerSpawn"
 tracks/0/type = "scale_3d"
@@ -54,21 +64,11 @@ tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = PackedFloat32Array(0.5, 1, 0, 0, 0, 0.85, 1, 0, 0.2, 0, 1, 1, 0, 0, 0)
 
-[sub_resource type="Animation" id="Animation_3w7nn"]
-length = 0.001
-tracks/0/type = "scale_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("MultiFoodSpawnerMesh")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1)
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3w7nn"]
 _data = {
-&"MultiFoodSpawnerIdle": SubResource("Animation_l6s5f"),
-&"MultiFoodSpawnerSpawn": SubResource("Animation_08g0y"),
-&"RESET": SubResource("Animation_3w7nn")
+&"Idle": SubResource("Animation_l6s5f"),
+&"RESET": SubResource("Animation_3w7nn"),
+&"Spawn": SubResource("Animation_08g0y")
 }
 
 [node name="MultiFoodSpawner" type="StaticBody3D" unique_id=2128878253]

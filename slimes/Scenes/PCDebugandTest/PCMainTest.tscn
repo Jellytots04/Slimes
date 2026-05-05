@@ -134,14 +134,14 @@ mesh = SubResource("PlaneMesh_1t576")
 [node name="MeatSpawner" parent="Floor" unique_id=424952191 instance=ExtResource("18_jh62p")]
 transform = Transform3D(0.16675931, 0, 0, 0, 0.16675931, 0, 0, 0, 0.16675931, -0.113515496, 0.085245326, -0.3666767)
 
+[node name="Camera3D" type="Camera3D" parent="." unique_id=122892782]
+transform = Transform3D(-1, 3.5527137e-15, -8.742278e-08, -6.856381e-08, 0.6204089, 0.7842786, 5.423787e-08, 0.7842786, -0.6204089, 0, 8.908476, -10.140211)
+
 [node name="SlimeNode" parent="." unique_id=108224271 instance=ExtResource("1_1t576")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 
 [node name="Camera3D" type="Camera3D" parent="SlimeNode" unique_id=541505668]
-transform = Transform3D(-1, 3.5527137e-15, -8.742278e-08, -6.856381e-08, 0.6204089, 0.7842786, 5.423787e-08, 0.7842786, -0.6204089, -4.7683716e-07, 1.2704322, -1.5204425)
-
-[node name="Camera3D" type="Camera3D" parent="." unique_id=122892782]
-transform = Transform3D(-1, 3.5527137e-15, -8.742278e-08, -6.856381e-08, 0.6204089, 0.7842786, 5.423787e-08, 0.7842786, -0.6204089, 0, 8.908476, -10.140211)
+transform = Transform3D(-1, 3.5527137e-15, -8.742278e-08, -6.856381e-08, 0.6204089, 0.7842786, 5.423787e-08, 0.7842786, -0.6204089, -4.7683716e-07, 1.8444655, -1.5204425)
 
 [node name="Fruit" parent="." unique_id=783155490 instance=ExtResource("1_eloht")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.8892136, 0.056187112, 5.868286)
@@ -173,7 +173,6 @@ defense = 2
 speed = 6.0
 attack_range = 4.0
 attack_cooldown = 1
-aggression_type = 1
 defensive_type = 2
 
 [node name="StateMachine" type="Node" parent="SlimeNode2" unique_id=879610353]

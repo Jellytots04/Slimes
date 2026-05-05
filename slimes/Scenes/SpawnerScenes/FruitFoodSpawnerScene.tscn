@@ -30,6 +30,7 @@ points = PackedVector3Array(0.038650244, 0.6102841, 0.3076068, 0.068268776, 0.60
 [sub_resource type="Animation" id="Animation_7qvbs"]
 resource_name = "FruitTreeIdle"
 length = 2.0
+loop_mode = 1
 tracks/0/type = "scale_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -44,6 +45,16 @@ tracks/1/path = NodePath("FruitTreeMesh")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1, 0, 0.005, 0, 2, 1, 0, 0, 0)
+
+[sub_resource type="Animation" id="Animation_e6kja"]
+length = 0.001
+tracks/0/type = "scale_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FruitTreeMesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1)
 
 [sub_resource type="Animation" id="Animation_ltien"]
 resource_name = "FruitTreeSpawn"
@@ -62,21 +73,11 @@ tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = PackedFloat32Array(0.5, 1, 0, 0, 0, 0.85, 1, 0, 0.2, 0, 1, 1, 0, 0, 0)
 
-[sub_resource type="Animation" id="Animation_e6kja"]
-length = 0.001
-tracks/0/type = "scale_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("FruitTreeMesh")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1)
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ltien"]
 _data = {
-&"FruitTreeIdle": SubResource("Animation_7qvbs"),
-&"FruitTreeSpawn": SubResource("Animation_ltien"),
-&"RESET": SubResource("Animation_e6kja")
+&"Idle": SubResource("Animation_7qvbs"),
+&"RESET": SubResource("Animation_e6kja"),
+&"Spawn": SubResource("Animation_ltien")
 }
 
 [node name="FruitFoodSpawner" type="StaticBody3D" unique_id=1675664060]

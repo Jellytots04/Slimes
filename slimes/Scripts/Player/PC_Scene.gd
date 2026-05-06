@@ -137,10 +137,30 @@ func raycast_from_mouse(screen_pos: Vector2) -> Variant:
 func spawn_slime(pos: Vector3) -> void:
 	var slime = SLIME_SCENE.instantiate()
 	var stats_node = slime.get_node("Stats")
+	
+	# User-defined attributes
 	stats_node.slimeName = pending_slime_name
 	stats_node.aggression_type = pending_slime_aggression
 	stats_node.defensive_type = pending_slime_defensive
 	stats_node.food_preference = pending_slime_food_pref
+	
+	# Randomised body stats
+	match pending_slime_aggression:
+		0:  # Flocker
+			stats_node.max_health = randi_range(80, 120)
+			stats_node.damage = randi_range(5, 15)
+			stats_node.defense = randi_range(0, 5)
+			stats_node.speed = randf_range(2.5, 4.0)
+		1:  # Alpha
+			stats_node.max_health = randi_range(130, 180)
+			stats_node.damage = randi_range(3, 12)
+			stats_node.defense = randi_range(5, 10)
+			stats_node.speed = randf_range(3.5, 4.0)
+		2:  # Killer
+			stats_node.max_health = randi_range(100, 150)
+			stats_node.damage = randi_range(8, 20)
+			stats_node.defense = randi_range(0, 3)
+			stats_node.speed = randf_range(2.5, 4.0)
 	
 	get_tree().current_scene.add_child(slime)
 	slime.global_position = pos

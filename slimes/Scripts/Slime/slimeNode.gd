@@ -129,7 +129,7 @@ func eat(health_value: int) -> void:
 	print("Ate food HP now : ", stats.current_health)
 
 func take_damage(amount: int, attacker: SlimeNode = null) -> void:
-	var actual = max(0, amount - stats.defense)
+	var actual = max(1, amount - stats.defense)
 	stats.current_health -= actual
 	if stats.current_health <= 0:
 		if attacker and is_instance_valid(attacker):

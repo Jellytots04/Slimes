@@ -1,22 +1,17 @@
 extends Node3D
 
-signal placeRequest(buildingType) # Send a request to map to place down a block
-signal updateMoney(money) # Should send a signal to the UI when money is updated
-
-@export var money: int = 500
 @onready var hotbarUI: Control = $Camera3D/GameUI
-@onready var mapListener: Node3D = $"../Map"
 
 # Camera Variables
 @export var camSpeed: float = 10
-@onready var marker: Marker3D = $RotationPoint
+@onready var marker: Marker3D = $RotationPoint # Unused and not added in yet
 
 func _ready() -> void:
 	# hotbarUI = $Camera3D/GameUI
 	# hotbarUI.connect("buildingRequest", Callable(self, "placeBuilding"))
 	# mapListener.connect("takeFunds", Callable(self, "moneyChange"))
 	pass
-	
+
 # Add in the top down mouse camera movement.
 func _process(delta: float) -> void:
 	
@@ -91,11 +86,3 @@ func turnRight():
 # UI Logic requests
 # Place a building request on the selected node, send signal to
 # map to then place object on current selected node
-
-func placeBuilding(type):
-	# print("the building type is : ", type.name)
-	placeRequest.emit(type)
-
-func moneyChange():
-	print("Heard the money change call")
-	updateMoney.emit()

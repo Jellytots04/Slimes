@@ -88,7 +88,7 @@ func _input(event: InputEvent) -> void:
 				return
 			if current_mode != Mode.NONE:
 				current_mode = Mode.NONE
-				print("Placement cancelled")
+				# print("Placement cancelled")
 			hud.reset_after_placement()
 			return
 		
@@ -98,14 +98,14 @@ func _input(event: InputEvent) -> void:
 			if inspected_entity:
 				return
 			
-			print("Left click. Mode: ", Mode.keys()[current_mode])
+			# print("Left click. Mode: ", Mode.keys()[current_mode])
 			var click_result = raycast_from_mouse(event.position)
 			if click_result == null or click_result.is_empty():
-				print("  No collision hit")
+				# print("  No collision hit")
 				return
 			
-			print("  Hit position: ", click_result.position)
-			print("  Hit collider: ", click_result.collider)
+			#print("  Hit position: ", click_result.position)
+			#print("  Hit collider: ", click_result.collider)
 			
 			if current_mode != Mode.NONE:
 				# Placement mode — spawn at click
@@ -185,19 +185,19 @@ func _on_slime_spawn_requested(slime_name: String, aggression: int, defensive: i
 	pending_slime_food_pref = food_pref
 	pending_slime_body_color = body_color
 	current_mode = Mode.PLACE_SLIME
-	print("Slime placement mode active. Name: ", slime_name)
+	# print("Slime placement mode active. Name: ", slime_name)
 
 func _on_fruit_tree_requested() -> void:
 	current_mode = Mode.PLACE_FRUIT_TREE
-	print("Fruit tree placement mode active.")
+	# print("Fruit tree placement mode active.")
 
 func _on_meat_bin_requested() -> void:
 	current_mode = Mode.PLACE_MEAT_BIN
-	print("Meat bin placement mode active.")
+	# print("Meat bin placement mode active.")
 
 func _on_multi_bin_requested() -> void:
 	current_mode = Mode.PLACE_MULTI_BIN
-	print("Multi bin placement mode active.")
+	# print("Multi bin placement mode active.")
 
 # Camera movement
 func forwardMotion(delta):
@@ -252,7 +252,7 @@ func try_inspect(clicked_node: Node) -> void:
 		node = node.get_parent()
 
 func inspect_entity(entity: Node3D) -> void:
-	print("Inspecting: ", entity.name)
+	# print("Inspecting: ", entity.name)
 	inspected_entity = entity
 	
 	# Save current camera state

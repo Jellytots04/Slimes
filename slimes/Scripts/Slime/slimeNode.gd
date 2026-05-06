@@ -278,27 +278,28 @@ func on_level_up() -> void:
 
 func reproduce() -> void:
 	print(name, " reproduces!")
-
+	
 	if animation_player.has_animation("Reproduce"):
 		animation_player.play("Reproduce")
 		await animation_player.animation_finished
-
+	
 	var offspring = SLIME_SCENE.instantiate()
 	
 	# Position offset
 	var offset = Vector3(randf_range(-1.5, 1.5), 0, randf_range(-1.5, 1.5))
 	offspring.position = position + offset
 	
-	# Randomise body stats BEFORE adding to tree (so _ready uses correct max_health)
+	# Inherit stats from parent with bounded random variation
 	var child_stats = offspring.get_node("Stats")
-	child_stats.max_health = randi_range(70, 130)
-	child_stats.damage = randi_range(5, 20)
-	child_stats.defense = randi_range(0, 5)
-	child_stats.speed = randf_range(2.5, 4.0)
+	child_stats.max_health = max(80, stats.max_health + randi_range(-15, 15))
+	child_stats.damage = max(5, stats.damage + randi_range(-5, 5))
+	child_stats.defense = max(0, stats.defense + randi_range(-3, 3))
+	child_stats.speed = max(2.0, stats.speed + randf_range(-1.5, 1.5))
+	
+	# Inherit other attributes directly (these don't drift numerically)
 	child_stats.attack_range = stats.attack_range
 	child_stats.attack_cooldown = stats.attack_cooldown
 	child_stats.max_overeat_multiplier = stats.max_overeat_multiplier
-	child_stats.slimeName = stats.slimeName + " Jr."
 	
 	# Mutate personality (mostly inherit from parent)
 	child_stats.food_preference = mutate_value(stats.food_preference, [0, 1, 2], 0.2)
@@ -308,16 +309,39 @@ func reproduce() -> void:
 	# Inherit kill_heal_only quirk (only Last Stand parents can pass it on)
 	if stats.defensive_type == 3:
 		if stats.kill_heal_only:
-			# Already quirked — high chance to pass it on
 			child_stats.kill_heal_only = randf() < 0.7
 		else:
-			# Last Stand but normal — small mutation chance
 			child_stats.kill_heal_only = randf() < 0.1
 	else:
 		child_stats.kill_heal_only = false
 	
-	# Add to scene (triggers offspring._ready, which now sees the new max_health)
+	# Inherit body color with random variation per channel
+	var parent_color = _get_body_color()
+	var new_r = clamp(parent_color.r * 255 + randi_range(-30, 30), 0, 255)
+	var new_g = clamp(parent_color.g * 255 + randi_range(-30, 30), 0, 255)
+	var new_b = clamp(parent_color.b * 255 + randi_range(-30, 30), 0, 255)
+	var child_color = Color(new_r / 255.0, new_g / 255.0, new_b / 255.0)
+	
+	# Add to scene (triggers offspring._ready)
 	get_parent().add_child(offspring)
+	
+	# Apply body color after the offspring is in the tree
+	var slime_mesh = offspring.get_node("SlimeMesh")
+	if slime_mesh:
+		var body_mat = StandardMaterial3D.new()
+		body_mat.albedo_color = child_color
+		slime_mesh.set_surface_override_material(0, body_mat)
+
+func _get_body_color() -> Color:
+	var slime_mesh = get_node_or_null("SlimeMesh")
+	if not slime_mesh:
+		return Color.WHITE
+	
+	var mat = slime_mesh.get_surface_override_material(0)
+	if mat is StandardMaterial3D:
+		return mat.albedo_color
+	
+	return Color.WHITE
 
 func mutate_value(parent_value, possible_values: Array, mutation_chance: float):
 	if randf() < mutation_chance:

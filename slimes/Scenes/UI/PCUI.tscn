@@ -1,5 +1,19 @@
 [gd_scene format=3 uid="uid://cyxljw416bkur"]
 
+[ext_resource type="Script" uid="uid://drg2662i1yx" path="res://Scripts/Player/PCUI_Script.gd" id="1_5t4a7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yi7in"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5t4a7"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ii1ck"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3fq3p"]
+bg_color = Color(1, 1, 1, 1)
+
 [node name="PCUI" type="Control" unique_id=197488520]
 layout_mode = 3
 anchors_preset = 15
@@ -7,11 +21,186 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_5t4a7")
 
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1614368633]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="UITaskBar" type="MarginContainer" parent="." unique_id=1614368633]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -450.0
+offset_top = -388.0
+offset_right = 450.0
+offset_bottom = -7.9993286
+grow_horizontal = 2
+grow_vertical = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=1510305864]
+[node name="UIBar" type="HBoxContainer" parent="UITaskBar" unique_id=1510305864]
 layout_mode = 2
+
+[node name="AttributesHolder" type="VBoxContainer" parent="UITaskBar/UIBar" unique_id=2075674560]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+
+[node name="SlimeAttributes" type="Panel" parent="UITaskBar/UIBar/AttributesHolder" unique_id=1629112029]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(180, 260)
+layout_mode = 2
+
+[node name="AttributesSelecter" type="VBoxContainer" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes" unique_id=225247893]
+custom_minimum_size = Vector2(270, 260)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 53.0
+offset_bottom = 54.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+
+[node name="Name" type="VBoxContainer" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter" unique_id=1312924024]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter/Name" unique_id=1486387121]
+layout_mode = 2
+text = "Name"
+horizontal_alignment = 1
+
+[node name="TextEdit" type="TextEdit" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter/Name" unique_id=1943701675]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "Name"
+tab_input_mode = false
+
+[node name="BodyColor" type="VBoxContainer" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter" unique_id=202774581]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter/BodyColor" unique_id=1152192756]
+layout_mode = 2
+text = "Body Color"
+horizontal_alignment = 1
+
+[node name="ColorButton" type="Button" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter/BodyColor" unique_id=205033536]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_yi7in")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_5t4a7")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ii1ck")
+theme_override_styles/focus = SubResource("StyleBoxFlat_3fq3p")
+
+[node name="ColorPicker" type="ColorPicker" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter/BodyColor" unique_id=45157187]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+edit_alpha = false
+edit_intensity = false
+picker_shape = 4
+color_modes_visible = false
+hex_visible = false
+presets_visible = false
+
+[node name="DefenseType" type="VBoxContainer" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter" unique_id=2016775592]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Title" type="Label" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter/DefenseType" unique_id=872466936]
+layout_mode = 2
+text = "Defense Type"
+horizontal_alignment = 1
+
+[node name="DefenseOptions" type="OptionButton" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter/DefenseType" unique_id=1117735270]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+alignment = 1
+selected = 0
+allow_reselect = true
+item_count = 3
+popup/item_0/text = "Flocker"
+popup/item_0/id = 0
+popup/item_1/text = "Brawler"
+popup/item_1/id = 1
+popup/item_2/text = "Runner"
+popup/item_2/id = 2
+
+[node name="AggressionType" type="VBoxContainer" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter" unique_id=217211437]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Title" type="Label" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter/AggressionType" unique_id=2133757091]
+layout_mode = 2
+text = "Aggression Type"
+horizontal_alignment = 1
+
+[node name="AggressionOptions" type="OptionButton" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter/AggressionType" unique_id=622033354]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+alignment = 1
+selected = 0
+allow_reselect = true
+item_count = 3
+popup/item_0/text = "Pacifist"
+popup/item_0/id = 0
+popup/item_1/text = "Alpha"
+popup/item_1/id = 1
+popup/item_2/text = "Killer"
+popup/item_2/id = 2
+
+[node name="FoodType" type="VBoxContainer" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter" unique_id=1392605314]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Title" type="Label" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter/FoodType" unique_id=1235032032]
+layout_mode = 2
+text = "Favoured Food"
+horizontal_alignment = 1
+
+[node name="FoodOptions" type="OptionButton" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter/FoodType" unique_id=1206048987]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+alignment = 1
+selected = 0
+allow_reselect = true
+item_count = 3
+popup/item_0/text = "Omnivore"
+popup/item_0/id = 0
+popup/item_1/text = "Herbavore"
+popup/item_1/id = 1
+popup/item_2/text = "Carnivore"
+popup/item_2/id = 2
+
+[node name="SpawnSlime" type="Button" parent="UITaskBar/UIBar/AttributesHolder" unique_id=583449854]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_vertical = 8
+text = "Spawn Slime"
+
+[node name="FoodBin" type="Button" parent="UITaskBar/UIBar" unique_id=937964619]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "Spawn Food Bin"
+
+[node name="FruitTree" type="Button" parent="UITaskBar/UIBar" unique_id=1277655248]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "Spawn Fruit Tree"
+
+[node name="MeatCave" type="Button" parent="UITaskBar/UIBar" unique_id=1341306176]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "Spawn Meat Cave"
+
+[connection signal="pressed" from="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter/BodyColor/ColorButton" to="." method="_on_color_button_pressed"]
+[connection signal="pressed" from="UITaskBar/UIBar/AttributesHolder/SpawnSlime" to="." method="_on_spawn_slime_button_pressed"]
+[connection signal="pressed" from="UITaskBar/UIBar/FoodBin" to="." method="_on_spawn_multi_bin_button_pressed"]
+[connection signal="pressed" from="UITaskBar/UIBar/FruitTree" to="." method="_on_spawn_fruit_tree_button_pressed"]
+[connection signal="pressed" from="UITaskBar/UIBar/MeatCave" to="." method="_on_spawn_meat_bin_button_pressed"]

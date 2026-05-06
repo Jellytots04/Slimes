@@ -27,6 +27,7 @@ var pending_slime_name: String = "Jane Doe"
 var inspected_entity: Node3D = null
 var saved_camera_position: Vector3
 var saved_camera_rotation: Vector3
+var saved_inner_camera_rotation: Vector3
 
 func _ready() -> void:
 	hud.slime_spawn_requested.connect(_on_slime_spawn_requested)
@@ -34,6 +35,7 @@ func _ready() -> void:
 	hud.meat_bin_spawn_requested.connect(_on_meat_bin_requested)
 	hud.multi_bin_spawn_requested.connect(_on_multi_bin_requested)
 	placement_preview.hide()
+	saved_camera_rotation = rotation
 
 func _process(delta: float) -> void:
 	# Don't process input during inspection
@@ -164,7 +166,6 @@ func _on_slime_spawn_requested(slime_name: String, aggression: int, defensive: i
 	current_mode = Mode.PLACE_SLIME
 	print("Slime placement mode active. Name: ", slime_name)
 
-
 func _on_fruit_tree_requested() -> void:
 	current_mode = Mode.PLACE_FRUIT_TREE
 	print("Fruit tree placement mode active.")
@@ -236,15 +237,10 @@ func inspect_entity(entity: Node3D) -> void:
 	# Save current camera state
 	saved_camera_position = global_position
 	saved_camera_rotation = rotation
+	saved_inner_camera_rotation = camera_3d.rotation
 	
 	# Calculate target position: in front of entity, slightly elevated
-	var target_pos = entity.global_position + Vector3(0, 3, 3)
-	
-	# Tween camera to target
-	var tween = create_tween()
-	tween.set_parallel(true)
-	tween.tween_property(self, "global_position", target_pos, 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	tween.tween_method(_face_inspected_entity, 0.0, 1.0, 0.5)
+	camera_3d.rotation = Vector3.ZERO
 
 func _face_inspected_entity(_progress: float) -> void:
 	if inspected_entity:
@@ -257,21 +253,18 @@ func exit_inspection() -> void:
 	tween.set_parallel(true)
 	tween.tween_property(self, "global_position", saved_camera_position, 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	tween.tween_property(self, "rotation", saved_camera_rotation, 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	camera_3d.global_rotation_degrees.x = -45
-	print("Exit : ",camera_3d.global_rotation_degrees.x)
+	# Restore inner camera tilt at the end of the tween
+	tween.chain().tween_callback(_restore_inner_camera)
 
 func follow_inspected_entity(delta: float) -> void:
 	var slime_pos = inspected_entity.global_position
-	
-	# Use slime's forward direction so camera stays in front of its face
 	var slime_forward = inspected_entity.global_transform.basis.z
 	
-	# Calculate height from angle
-	var height_offset = 2 * tan(deg_to_rad(inspect_angle_degrees))
-	print(height_offset)
-	# Position: in front of slime + slightly elevated based on angle
-	var target_pos = slime_pos + slime_forward * inspect_distance + Vector3(0, height_offset+1, 0)
+	var height_offset = inspect_distance * tan(deg_to_rad(inspect_angle_degrees))
+	var target_pos = slime_pos + slime_forward * inspect_distance + Vector3(0, height_offset, 0)
 	
 	global_position = global_position.lerp(target_pos, follow_smoothness * delta)
-	camera_3d.global_rotation_degrees.x = -inspect_angle_degrees # CAMERA ROTATE
 	look_at(slime_pos, Vector3.UP)
+
+func _restore_inner_camera() -> void:
+	camera_3d.rotation = saved_inner_camera_rotation

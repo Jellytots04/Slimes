@@ -31,6 +31,9 @@ signal remove_requested
 
 var current_color: Color = Color.WHITE
 
+@onready var aggression_dropdown: OptionButton = _find_dropdown(aggression_vbox)
+@onready var defensive_dropdown: OptionButton = _find_dropdown(defense_vbox)
+
 func _ready() -> void:
 	slime_attributes.hide()
 	color_picker.hide()
@@ -38,6 +41,15 @@ func _ready() -> void:
 	color_picker.color_changed.connect(_on_color_changed)
 	remove_button.pressed.connect(_on_remove_button_pressed)
 	_update_button_color()
+	
+	aggression_dropdown.item_selected.connect(_on_aggression_changed)
+	_refresh_defensive_options(aggression_dropdown.get_selected_id())
+
+func _find_dropdown(vbox: Control) -> OptionButton:
+	for child in vbox.get_children():
+		if child is OptionButton:
+			return child
+	return null
 
 func reset_after_placement() -> void:
 	slime_attributes.hide()
@@ -112,7 +124,7 @@ func populate_slime_stats(slime: Node3D) -> void:
 	var stats = slime.get_node("Stats")
 	
 	var agg_names = ["Pacifist", "Alpha", "Killer"]
-	var def_names = {-1: "Default", 0: "Pack", 1: "Healthy", 2: "Runner", 3: "LastStand"}
+	var def_names = {-1: "Daring", 0: "Flocker", 1: "Healthy", 2: "Runner", 3: "LastStand"}
 	var food_names = ["Any", "Meat", "Fruit"]
 	
 	# Set slime-appropriate titles
@@ -149,3 +161,31 @@ func populate_spawner_stats(spawner: Node3D) -> void:
 
 func _on_remove_button_pressed() -> void:
 	remove_requested.emit()
+
+func _on_aggression_changed(_index: int) -> void:
+	_refresh_defensive_options(aggression_dropdown.get_selected_id())
+
+func _refresh_defensive_options(aggression_id: int) -> void:
+	var current_defensive = defensive_dropdown.get_selected_id()
+	
+	defensive_dropdown.clear()
+	
+	# Daring (-1) only available for Killer
+	if aggression_id == 2:  # Killer
+		defensive_dropdown.add_item("Daring", -1)
+	
+	# Flocker (0) only available for Flocker aggression
+	if aggression_id == 0:  # Flocker
+		defensive_dropdown.add_item("Flocker", 0)
+	
+	# Universal defensive types
+	defensive_dropdown.add_item("Healthy", 1)
+	defensive_dropdown.add_item("Runner", 2)
+	
+	# Try to keep previous selection if still valid
+	for i in defensive_dropdown.item_count:
+		if defensive_dropdown.get_item_id(i) == current_defensive:
+			defensive_dropdown.select(i)
+			return
+	
+	defensive_dropdown.select(0)

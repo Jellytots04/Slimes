@@ -185,9 +185,7 @@ defense = 2
 speed = 6.0
 attack_range = 4.0
 attack_cooldown = 1
-aggression_type = 2
-defensive_type = 3
-kill_heal_only = true
+defensive_type = 0
 
 [node name="StateMachine" type="Node" parent="." unique_id=879610353]
 script = ExtResource("3_sdy3c")

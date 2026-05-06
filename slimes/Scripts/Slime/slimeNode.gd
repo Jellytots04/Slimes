@@ -337,7 +337,7 @@ func update_debug_label() -> void:
 			state_name = script.resource_path.get_file().get_basename()
 	
 	var agg_names = ["Pacifist", "Alpha", "Killer"]
-	var def_names = {-1: "Default", 0: "Pack", 1: "Healthy", 2: "Runner", 3: "LastStand"}
+	var def_names = {-1: "Daring", 0: "Flocker", 1: "Healthy", 2: "Runner", 3: "LastStand"}
 	
 	var agg_str = agg_names[stats.aggression_type] if stats.aggression_type < agg_names.size() else "?"
 	var def_str = def_names.get(stats.defensive_type, "?")

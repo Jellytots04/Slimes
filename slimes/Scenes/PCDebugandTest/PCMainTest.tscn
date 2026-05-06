@@ -1,9 +1,7 @@
 [gd_scene format=4 uid="uid://bhotm0srmwpu"]
 
 [ext_resource type="PackedScene" uid="uid://dpinh4fq3otar" path="res://Scenes/Slime/SlimeScene.tscn" id="1_1t576"]
-[ext_resource type="PackedScene" uid="uid://dkcddvosk3hnt" path="res://Scenes/FoodScenes/FruitScene.tscn" id="1_eloht"]
 [ext_resource type="PackedScene" uid="uid://dpmm0h5hg51mb" path="res://Scenes/Player/PC_Scene.tscn" id="1_jh62p"]
-[ext_resource type="PackedScene" uid="uid://sw2thxowg2qj" path="res://Scenes/FoodScenes/MeatScene.tscn" id="3_ajfxa"]
 [ext_resource type="Script" uid="uid://b4jg3d6wvf1mx" path="res://Scripts/Slime/slimeNode.gd" id="4_fngqy"]
 [ext_resource type="Script" uid="uid://c7a075r7q4fk7" path="res://Scripts/Slime/statsBase.gd" id="5_xa6cj"]
 [ext_resource type="Script" uid="uid://p2wpoty2uyd4" path="res://Scripts/States/StateMachine.gd" id="6_v1s3h"]
@@ -20,6 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://daooav2wrneea" path="res://Scenes/SpawnerScenes/FruitFoodSpawnerScene.tscn" id="17_wfgdr"]
 [ext_resource type="PackedScene" uid="uid://c4ha2xpj65jsm" path="res://Scenes/SpawnerScenes/MeatFoodSpawnerScene.tscn" id="18_jh62p"]
 [ext_resource type="PackedScene" uid="uid://blw7c6mt8m55x" path="res://Scenes/SpawnerScenes/MultiFoodSpawnerScene.tscn" id="19_41j5y"]
+[ext_resource type="PackedScene" uid="uid://bj2tx1iokijcu" path="res://Scenes/Player/PlacementPreview.tscn" id="19_wfgdr"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1t576"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -141,24 +140,6 @@ transform = Transform3D(0.16675931, 0, 0, 0, 0.16675931, 0, 0, 0, 0.16675931, -0
 
 [node name="SlimeNode" parent="." unique_id=108224271 instance=ExtResource("1_1t576")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
-
-[node name="Fruit" parent="." unique_id=783155490 instance=ExtResource("1_eloht")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.8892136, 0.056187112, 5.868286)
-
-[node name="Fruit2" parent="." unique_id=1244614221 instance=ExtResource("1_eloht")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.7128558, 0.062031705, 7.467042)
-
-[node name="Fruit3" parent="." unique_id=1854380508 instance=ExtResource("1_eloht")]
-transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -2.9802036, 0.062031224, 2.49074)
-
-[node name="Meat" parent="." unique_id=69273725 instance=ExtResource("3_ajfxa")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5177126, 0.06509933, 3.6058834)
-
-[node name="Meat2" parent="." unique_id=1607454654 instance=ExtResource("3_ajfxa")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.547934, 0.06509945, 5.4076757)
-
-[node name="Meat3" parent="." unique_id=1150700730 instance=ExtResource("3_ajfxa")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8585377, 0.06509945, 0.8648048)
 
 [node name="SlimeNode2" type="CharacterBody3D" parent="." unique_id=267090737]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9899492, 0.2, 3.3837805)
@@ -537,6 +518,9 @@ one_shot = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 billboard = 1
 no_depth_test = true
+
+[node name="PlacementPreview" parent="." unique_id=1088699271 instance=ExtResource("19_wfgdr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1276555, 0)
 
 [connection signal="timeout" from="SlimeNode2/DecayTimer" to="SlimeNode2" method="_decay_timer_timeout"]
 [connection signal="timeout" from="SlimeNode2/DetecitonTimer" to="SlimeNode2" method="_on_deteciton_timer_timeout"]

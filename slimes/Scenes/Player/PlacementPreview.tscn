@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://bj2tx1iokijcu"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_a8oll"]
+height = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a42du"]
+transparency = 1
+albedo_color = Color(1.0422028, 1.8247963, 0.9863034, 0.49411765)
+
+[node name="PlacementPreview" type="Node3D" unique_id=1088699271]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1052383498]
+mesh = SubResource("CylinderMesh_a8oll")
+surface_material_override/0 = SubResource("StandardMaterial3D_a42du")

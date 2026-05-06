@@ -18,13 +18,14 @@ var pending_slime_defensive: int = -1
 var pending_slime_food_pref: int = 0
 var pending_slime_body_color: Color = Color.WHITE
 
+@onready var placement_preview = get_tree().current_scene.get_node("PlacementPreview")
 
 func _ready() -> void:
 	hud.slime_spawn_requested.connect(_on_slime_spawn_requested)
 	hud.fruit_tree_spawn_requested.connect(_on_fruit_tree_requested)
 	hud.meat_bin_spawn_requested.connect(_on_meat_bin_requested)
 	hud.multi_bin_spawn_requested.connect(_on_multi_bin_requested)
-
+	placement_preview.hide()
 
 func _process(delta: float) -> void:
 	if Input.is_action_pressed("Forward"):
@@ -39,6 +40,23 @@ func _process(delta: float) -> void:
 		turnLeft()
 	if Input.is_action_just_pressed("RightTurn"):
 		turnRight()
+	update_placement_preview()
+
+func update_placement_preview() -> void:
+	if current_mode == Mode.NONE:
+		placement_preview.hide()
+		return
+	
+	var mouse_pos = get_viewport().get_mouse_position()
+	var click_result = raycast_from_mouse(mouse_pos)
+	
+	if click_result == null or click_result.is_empty():
+		placement_preview.hide()
+		return
+	
+	placement_preview.show()
+	placement_preview.global_position = click_result.position
+	placement_preview.global_position.y += 0.05
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
@@ -71,15 +89,14 @@ func _input(event: InputEvent) -> void:
 				Mode.PLACE_SLIME:
 					spawn_slime(click_result.position)
 				Mode.PLACE_FRUIT_TREE:
-					spawn_entity(FRUIT_TREE_SCENE, click_result.position)
+					spawn_entity(FRUIT_TREE_SCENE, click_result.position + Vector3(0,.3,0))
 				Mode.PLACE_MEAT_BIN:
-					spawn_entity(MEAT_BIN_SCENE, click_result.position)
+					spawn_entity(MEAT_BIN_SCENE, click_result.position + Vector3(0,.8,0))
 				Mode.PLACE_MULTI_BIN:
-					spawn_entity(MULTI_BIN_SCENE, click_result.position)
+					spawn_entity(MULTI_BIN_SCENE, click_result.position + Vector3(0,.3,0))
 			
 			current_mode = Mode.NONE
 			hud.reset_after_placement()
-
 
 func raycast_from_mouse(screen_pos: Vector2) -> Variant:
 	var from = camera_3d.project_ray_origin(screen_pos)
@@ -88,7 +105,6 @@ func raycast_from_mouse(screen_pos: Vector2) -> Variant:
 	var space_state = get_world_3d().direct_space_state
 	var query = PhysicsRayQueryParameters3D.create(from, to)
 	return space_state.intersect_ray(query)
-
 
 func spawn_slime(pos: Vector3) -> void:
 	var slime = SLIME_SCENE.instantiate()
@@ -106,7 +122,6 @@ func spawn_slime(pos: Vector3) -> void:
 		var body_mat = StandardMaterial3D.new()
 		body_mat.albedo_color = pending_slime_body_color
 		slime_mesh.set_surface_override_material(0, body_mat)
-
 
 func spawn_entity(scene: PackedScene, pos: Vector3) -> void:
 	var entity = scene.instantiate()

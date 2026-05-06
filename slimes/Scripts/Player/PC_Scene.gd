@@ -34,6 +34,7 @@ func _ready() -> void:
 	hud.fruit_tree_spawn_requested.connect(_on_fruit_tree_requested)
 	hud.meat_bin_spawn_requested.connect(_on_meat_bin_requested)
 	hud.multi_bin_spawn_requested.connect(_on_multi_bin_requested)
+	hud.remove_requested.connect(_on_remove_requested)
 	placement_preview.hide()
 	saved_camera_rotation = rotation
 
@@ -238,9 +239,23 @@ func inspect_entity(entity: Node3D) -> void:
 	saved_camera_position = global_position
 	saved_camera_rotation = rotation
 	saved_inner_camera_rotation = camera_3d.rotation
-	
-	# Calculate target position: in front of entity, slightly elevated
 	camera_3d.rotation = Vector3.ZERO
+	
+	# Initial cinematic approach
+	var slime_forward = entity.global_transform.basis.z
+	var height_offset = inspect_distance * tan(deg_to_rad(inspect_angle_degrees))
+	var initial_target = entity.global_position + slime_forward * inspect_distance + Vector3(0, height_offset, 0)
+	
+	var tween = create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(self, "global_position", initial_target, 1.0).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_method(_face_during_approach, 0.0, 1.0, 1.0)
+	
+	hud.show_inspection(entity)
+
+func _face_during_approach(_progress: float) -> void:
+	if inspected_entity:
+		look_at(inspected_entity.global_position, Vector3.UP)
 
 func _face_inspected_entity(_progress: float) -> void:
 	if inspected_entity:
@@ -248,11 +263,12 @@ func _face_inspected_entity(_progress: float) -> void:
 
 func exit_inspection() -> void:
 	inspected_entity = null
+	hud.hide_inspection()
 	
 	var tween = create_tween()
 	tween.set_parallel(true)
-	tween.tween_property(self, "global_position", saved_camera_position, 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	tween.tween_property(self, "rotation", saved_camera_rotation, 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "global_position", saved_camera_position, 2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "rotation", saved_camera_rotation, 2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	# Restore inner camera tilt at the end of the tween
 	tween.chain().tween_callback(_restore_inner_camera)
 
@@ -268,3 +284,10 @@ func follow_inspected_entity(delta: float) -> void:
 
 func _restore_inner_camera() -> void:
 	camera_3d.rotation = saved_inner_camera_rotation
+
+func _on_remove_requested() -> void:
+	if inspected_entity and is_instance_valid(inspected_entity):
+		var entity_to_remove = inspected_entity
+		exit_inspection()
+		await get_tree().create_timer(0.5).timeout
+		entity_to_remove.queue_free()

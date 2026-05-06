@@ -24,6 +24,7 @@ grow_vertical = 2
 script = ExtResource("1_5t4a7")
 
 [node name="UITaskBar" type="MarginContainer" parent="." unique_id=1614368633]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -38,7 +39,6 @@ grow_horizontal = 2
 grow_vertical = 0
 
 [node name="UIBar" type="HBoxContainer" parent="UITaskBar" unique_id=1510305864]
-visible = false
 layout_mode = 2
 
 [node name="AttributesHolder" type="VBoxContainer" parent="UITaskBar/UIBar" unique_id=2075674560]
@@ -105,6 +105,29 @@ color_modes_visible = false
 hex_visible = false
 presets_visible = false
 
+[node name="AggressionType" type="VBoxContainer" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter" unique_id=217211437]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Title" type="Label" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter/AggressionType" unique_id=2133757091]
+layout_mode = 2
+text = "Aggression Type"
+horizontal_alignment = 1
+
+[node name="AggressionOptions" type="OptionButton" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter/AggressionType" unique_id=622033354]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+alignment = 1
+selected = 0
+allow_reselect = true
+item_count = 3
+popup/item_0/text = "Flocker"
+popup/item_0/id = 0
+popup/item_1/text = "Alpha"
+popup/item_1/id = 1
+popup/item_2/text = "Killer"
+popup/item_2/id = 2
+
 [node name="DefenseType" type="VBoxContainer" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter" unique_id=2016775592]
 unique_name_in_owner = true
 layout_mode = 2
@@ -126,29 +149,6 @@ popup/item_0/id = 0
 popup/item_1/text = "Brawler"
 popup/item_1/id = 1
 popup/item_2/text = "Runner"
-popup/item_2/id = 2
-
-[node name="AggressionType" type="VBoxContainer" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter" unique_id=217211437]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="Title" type="Label" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter/AggressionType" unique_id=2133757091]
-layout_mode = 2
-text = "Aggression Type"
-horizontal_alignment = 1
-
-[node name="AggressionOptions" type="OptionButton" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter/AggressionType" unique_id=622033354]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-alignment = 1
-selected = 0
-allow_reselect = true
-item_count = 3
-popup/item_0/text = "Pacifist"
-popup/item_0/id = 0
-popup/item_1/text = "Alpha"
-popup/item_1/id = 1
-popup/item_2/text = "Killer"
 popup/item_2/id = 2
 
 [node name="FoodType" type="VBoxContainer" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter" unique_id=1392605314]
@@ -200,6 +200,8 @@ size_flags_vertical = 8
 text = "Spawn Meat Cave"
 
 [node name="InspectionHUD" type="MarginContainer" parent="." unique_id=638940079]
+unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(200, 300)
 layout_mode = 0
 offset_left = 200.0
@@ -225,45 +227,55 @@ text = "Name"
 horizontal_alignment = 1
 
 [node name="Name" type="Label" parent="InspectionHUD/Panel/VBoxContainer" unique_id=1834501768]
+unique_name_in_owner = true
 layout_mode = 2
 horizontal_alignment = 1
 
 [node name="AggressionTitle" type="Label" parent="InspectionHUD/Panel/VBoxContainer" unique_id=2129939405]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Aggression Type"
 horizontal_alignment = 1
 
 [node name="Aggression" type="Label" parent="InspectionHUD/Panel/VBoxContainer" unique_id=952772140]
+unique_name_in_owner = true
 layout_mode = 2
 horizontal_alignment = 1
 
 [node name="DefensiveTitle" type="Label" parent="InspectionHUD/Panel/VBoxContainer" unique_id=159083068]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Defensive Type"
 horizontal_alignment = 1
 
 [node name="Defensive" type="Label" parent="InspectionHUD/Panel/VBoxContainer" unique_id=793654948]
+unique_name_in_owner = true
 layout_mode = 2
 horizontal_alignment = 1
 
 [node name="FoodTitle" type="Label" parent="InspectionHUD/Panel/VBoxContainer" unique_id=836873098]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Food Preference"
 horizontal_alignment = 1
 
 [node name="Food" type="Label" parent="InspectionHUD/Panel/VBoxContainer" unique_id=261452331]
+unique_name_in_owner = true
 layout_mode = 2
 horizontal_alignment = 1
 
 [node name="Level" type="Label" parent="InspectionHUD/Panel/VBoxContainer" unique_id=217576429]
+unique_name_in_owner = true
 layout_mode = 2
 horizontal_alignment = 1
 
 [node name="Lvl" type="Label" parent="InspectionHUD/Panel/VBoxContainer" unique_id=188125282]
+unique_name_in_owner = true
 layout_mode = 2
 horizontal_alignment = 1
 
 [node name="RemoveButton" type="Button" parent="InspectionHUD/Panel" unique_id=523374729]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 1
 anchors_preset = 12

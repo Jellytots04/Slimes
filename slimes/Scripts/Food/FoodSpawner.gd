@@ -20,6 +20,7 @@ var spawned_food: Array = []  # track what we spawned
 
 func _ready() -> void:
 	# print(name, " spawner _ready, type: ", spawner_type)
+	add_to_group("spawners")
 	spawn_timer.wait_time = spawn_interval
 	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
 	spawn_timer.start()

@@ -1,6 +1,6 @@
 extends Control
 
-signal slime_spawn_requested(aggression: int, defensive: int, food_pref: int, body_color: Color)
+signal slime_spawn_requested(slime_name: String, aggression: int, defensive: int, food_pref: int, body_color: Color)
 signal fruit_tree_spawn_requested
 signal meat_bin_spawn_requested
 signal multi_bin_spawn_requested
@@ -12,9 +12,9 @@ signal multi_bin_spawn_requested
 @onready var defense_vbox: Control = %DefenseType
 @onready var aggression_vbox: Control = %AggressionType
 @onready var food_vbox: Control = %FoodType
+@onready var name_input: LineEdit = %LineEdit
 
 var current_color: Color = Color.WHITE
-
 
 func _ready() -> void:
 	slime_attributes.hide()
@@ -29,14 +29,15 @@ func reset_after_placement() -> void:
 
 func _on_spawn_slime_button_pressed() -> void:
 	if slime_attributes.visible:
-		# Panel is open — confirm and request spawn
+		var slime_name = name_input.text.strip_edges()
+		if slime_name == "":
+			slime_name = "Jane Doe"  # fallback to default
+		
 		var aggression = _get_dropdown_value(aggression_vbox)
 		var defensive = _get_dropdown_value(defense_vbox)
 		var food_pref = _get_dropdown_value(food_vbox)
-		slime_spawn_requested.emit(aggression, defensive, food_pref, current_color)
-		# Note: panel stays open here. PlayerNode will close it via reset_after_placement after the floor click.
+		slime_spawn_requested.emit(slime_name, aggression, defensive, food_pref, current_color)
 	else:
-		# Panel is closed — open it
 		slime_attributes.show()
 
 func _on_spawn_fruit_tree_button_pressed() -> void:

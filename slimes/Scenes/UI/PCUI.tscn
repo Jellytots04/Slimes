@@ -70,12 +70,11 @@ layout_mode = 2
 text = "Name"
 horizontal_alignment = 1
 
-[node name="TextEdit" type="TextEdit" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter/Name" unique_id=1943701675]
-custom_minimum_size = Vector2(0, 40)
+[node name="LineEdit" type="LineEdit" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter/Name" unique_id=2066892975]
+unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 3
 placeholder_text = "Name"
-tab_input_mode = false
+alignment = 1
 
 [node name="BodyColor" type="VBoxContainer" parent="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter" unique_id=202774581]
 layout_mode = 2

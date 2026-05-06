@@ -7,6 +7,7 @@ class_name SlimeNode extends CharacterBody3D
 
 @export var slowing_radius: float = 2.0
 @export var damping: float = 1.0
+@export var gravity: float = 1.2
 
 const DETECTION_RANGE: float = 10.0
 const DETECTION_INTERVAL: float = 0.3
@@ -73,7 +74,10 @@ func _physics_process(delta: float) -> void:
 	
 	velocity += total_force * delta
 	# velocity = velocity.lerp(Vector3.ZERO, damping * delta)
-	velocity.y = 0
+	if not is_on_floor():
+		velocity.y -= gravity * delta
+	else:
+		velocity.y = 0
 	
 	var effective_max_speed = stats.speed * speed_multiplier
 	var is_oneshot_playing = animation_player.current_animation in ["Eat", "Attack", "Death", "LevelUp", "Reproduce"]
@@ -294,6 +298,7 @@ func reproduce() -> void:
 	child_stats.attack_range = stats.attack_range
 	child_stats.attack_cooldown = stats.attack_cooldown
 	child_stats.max_overeat_multiplier = stats.max_overeat_multiplier
+	child_stats.slimeName = stats.slimeName + " Jr."
 	
 	# Mutate personality (mostly inherit from parent)
 	child_stats.food_preference = mutate_value(stats.food_preference, [0, 1, 2], 0.2)
@@ -352,7 +357,8 @@ func update_debug_label() -> void:
 	else:
 		xp_str = "Repro: %.1f / %.0f" % [time_since_last_repro, Statistics.RECURRING_OFFSPRING_INTERVAL]
 	
-	debug_label.text = "%s\nHP: %d/%d\n%s | %s\nLvl: %d\n%s" % [
+	debug_label.text = "%s — %s\nHP: %d/%d\n%s | %s\nLvl: %d\n%s" % [
+		stats.slimeName,
 		state_name,
 		int(stats.current_health),
 		int(stats.max_health),
@@ -360,7 +366,7 @@ func update_debug_label() -> void:
 		def_str,
 		stats.level,
 		xp_str
-	]
+]
 	
 	if hp_pct < 0.3:
 		debug_label.modulate = Color.RED

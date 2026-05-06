@@ -7,6 +7,9 @@ const MULTI_BIN_SCENE = preload("res://Scenes/SpawnerScenes/MultiFoodSpawnerScen
 
 enum Mode { NONE, PLACE_SLIME, PLACE_FRUIT_TREE, PLACE_MEAT_BIN, PLACE_MULTI_BIN }
 
+@export var follow_smoothness: float = 150.0  # higher = snappier follow
+@export var inspect_distance: float = 3  # how far in front of slime
+@export var inspect_angle_degrees: float = 35.0  # downward angle
 @export var camSpeed: float = 10
 @onready var marker: Marker3D = $RotationPoint
 @onready var camera_3d: Camera3D = $Camera3D
@@ -17,8 +20,13 @@ var pending_slime_aggression: int = 0
 var pending_slime_defensive: int = -1
 var pending_slime_food_pref: int = 0
 var pending_slime_body_color: Color = Color.WHITE
+var pending_slime_name: String = "Jane Doe"
 
 @onready var placement_preview = get_tree().current_scene.get_node("PlacementPreview")
+
+var inspected_entity: Node3D = null
+var saved_camera_position: Vector3
+var saved_camera_rotation: Vector3
 
 func _ready() -> void:
 	hud.slime_spawn_requested.connect(_on_slime_spawn_requested)
@@ -28,6 +36,15 @@ func _ready() -> void:
 	placement_preview.hide()
 
 func _process(delta: float) -> void:
+	# Don't process input during inspection
+	if inspected_entity:
+		if is_instance_valid(inspected_entity):
+			follow_inspected_entity(delta)
+		else:
+			# Entity died/was removed mid-inspection
+			exit_inspection()
+		return
+	
 	if Input.is_action_pressed("Forward"):
 		forwardMotion(delta)
 	if Input.is_action_pressed("Backward"):
@@ -40,10 +57,11 @@ func _process(delta: float) -> void:
 		turnLeft()
 	if Input.is_action_just_pressed("RightTurn"):
 		turnRight()
+	
 	update_placement_preview()
 
 func update_placement_preview() -> void:
-	if current_mode == Mode.NONE:
+	if current_mode == Mode.NONE or inspected_entity:
 		placement_preview.hide()
 		return
 	
@@ -60,24 +78,25 @@ func update_placement_preview() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
-		# Right-click cancels placement mode
+		# Right-click handles cancellation OR exit inspection
 		if event.button_index == MOUSE_BUTTON_RIGHT:
+			if inspected_entity:
+				exit_inspection()
+				return
 			if current_mode != Mode.NONE:
 				current_mode = Mode.NONE
 				print("Placement cancelled")
 			hud.reset_after_placement()
 			return
 		
-		# Left-click handles placement
+		# Left-click handles placement OR inspection
 		if event.button_index == MOUSE_BUTTON_LEFT:
-			print("Left click. Mode: ", Mode.keys()[current_mode])
-			if current_mode == Mode.NONE:
-				print("  No mode active, ignoring")
+			# Don't process clicks while inspecting
+			if inspected_entity:
 				return
 			
+			print("Left click. Mode: ", Mode.keys()[current_mode])
 			var click_result = raycast_from_mouse(event.position)
-			print("  Raycast result: ", click_result)
-			
 			if click_result == null or click_result.is_empty():
 				print("  No collision hit")
 				return
@@ -85,18 +104,24 @@ func _input(event: InputEvent) -> void:
 			print("  Hit position: ", click_result.position)
 			print("  Hit collider: ", click_result.collider)
 			
-			match current_mode:
-				Mode.PLACE_SLIME:
-					spawn_slime(click_result.position)
-				Mode.PLACE_FRUIT_TREE:
-					spawn_entity(FRUIT_TREE_SCENE, click_result.position + Vector3(0,.3,0))
-				Mode.PLACE_MEAT_BIN:
-					spawn_entity(MEAT_BIN_SCENE, click_result.position + Vector3(0,.8,0))
-				Mode.PLACE_MULTI_BIN:
-					spawn_entity(MULTI_BIN_SCENE, click_result.position + Vector3(0,.3,0))
+			if current_mode != Mode.NONE:
+				# Placement mode — spawn at click
+				match current_mode:
+					Mode.PLACE_SLIME:
+						spawn_slime(click_result.position)
+					Mode.PLACE_FRUIT_TREE:
+						spawn_entity(FRUIT_TREE_SCENE, click_result.position + Vector3(0, 0.3, 0))
+					Mode.PLACE_MEAT_BIN:
+						spawn_entity(MEAT_BIN_SCENE, click_result.position + Vector3(0, 0.8, 0))
+					Mode.PLACE_MULTI_BIN:
+						spawn_entity(MULTI_BIN_SCENE, click_result.position + Vector3(0, 0.3, 0))
+				
+				current_mode = Mode.NONE
+				hud.reset_after_placement()
+			else:
+				# No placement mode — try to inspect what was clicked
+				try_inspect(click_result.collider)
 			
-			current_mode = Mode.NONE
-			hud.reset_after_placement()
 
 func raycast_from_mouse(screen_pos: Vector2) -> Variant:
 	var from = camera_3d.project_ray_origin(screen_pos)
@@ -109,6 +134,7 @@ func raycast_from_mouse(screen_pos: Vector2) -> Variant:
 func spawn_slime(pos: Vector3) -> void:
 	var slime = SLIME_SCENE.instantiate()
 	var stats_node = slime.get_node("Stats")
+	stats_node.slimeName = pending_slime_name
 	stats_node.aggression_type = pending_slime_aggression
 	stats_node.defensive_type = pending_slime_defensive
 	stats_node.food_preference = pending_slime_food_pref
@@ -129,29 +155,27 @@ func spawn_entity(scene: PackedScene, pos: Vector3) -> void:
 	entity.global_position = pos
 
 # HUD signal handlers
-func _on_slime_spawn_requested(aggression: int, defensive: int, food_pref: int, body_color: Color) -> void:
+func _on_slime_spawn_requested(slime_name: String, aggression: int, defensive: int, food_pref: int, body_color: Color) -> void:
+	pending_slime_name = slime_name
 	pending_slime_aggression = aggression
 	pending_slime_defensive = defensive
 	pending_slime_food_pref = food_pref
 	pending_slime_body_color = body_color
 	current_mode = Mode.PLACE_SLIME
-	print("Slime placement mode active. Click floor to place.")
+	print("Slime placement mode active. Name: ", slime_name)
 
 
 func _on_fruit_tree_requested() -> void:
 	current_mode = Mode.PLACE_FRUIT_TREE
 	print("Fruit tree placement mode active.")
 
-
 func _on_meat_bin_requested() -> void:
 	current_mode = Mode.PLACE_MEAT_BIN
 	print("Meat bin placement mode active.")
 
-
 func _on_multi_bin_requested() -> void:
 	current_mode = Mode.PLACE_MULTI_BIN
 	print("Multi bin placement mode active.")
-
 
 # Camera movement
 func forwardMotion(delta):
@@ -160,13 +184,11 @@ func forwardMotion(delta):
 	dir = dir.normalized()
 	position += dir * camSpeed * delta
 
-
 func backwardMotion(delta):
 	var dir = transform.basis.z
 	dir.y = 0
 	dir = dir.normalized()
 	position += dir * camSpeed * delta
-
 
 func leftMotion(delta):
 	var dir = -transform.basis.x
@@ -174,13 +196,11 @@ func leftMotion(delta):
 	dir = dir.normalized()
 	position += dir * camSpeed * delta
 
-
 func rightMotion(delta):
 	var dir = transform.basis.x
 	dir.y = 0
 	dir = dir.normalized()
 	position += dir * camSpeed * delta
-
 
 func turnLeft():
 	var angle = -90
@@ -190,7 +210,6 @@ func turnLeft():
 	global_position = pivotPoint + rotated_offset
 	rotation_degrees.y = rotation_degrees.y + angle
 
-
 func turnRight():
 	var angle = 90
 	var pivotPoint = marker.global_position
@@ -198,3 +217,61 @@ func turnRight():
 	var rotated_offset = offset.rotated(Vector3.UP, angle)
 	global_position = pivotPoint + rotated_offset
 	rotation_degrees.y = rotation_degrees.y + angle
+
+func try_inspect(clicked_node: Node) -> void:
+	var node = clicked_node
+	while node:
+		if node.is_in_group("slimes"):
+			inspect_entity(node)
+			return
+		if node.is_in_group("spawners"):
+			inspect_entity(node)
+			return
+		node = node.get_parent()
+
+func inspect_entity(entity: Node3D) -> void:
+	print("Inspecting: ", entity.name)
+	inspected_entity = entity
+	
+	# Save current camera state
+	saved_camera_position = global_position
+	saved_camera_rotation = rotation
+	
+	# Calculate target position: in front of entity, slightly elevated
+	var target_pos = entity.global_position + Vector3(0, 3, 3)
+	
+	# Tween camera to target
+	var tween = create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(self, "global_position", target_pos, 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_method(_face_inspected_entity, 0.0, 1.0, 0.5)
+
+func _face_inspected_entity(_progress: float) -> void:
+	if inspected_entity:
+		look_at(inspected_entity.global_position, Vector3.UP)
+
+func exit_inspection() -> void:
+	inspected_entity = null
+	
+	var tween = create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(self, "global_position", saved_camera_position, 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "rotation", saved_camera_rotation, 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	camera_3d.global_rotation_degrees.x = -45
+	print("Exit : ",camera_3d.global_rotation_degrees.x)
+
+func follow_inspected_entity(delta: float) -> void:
+	var slime_pos = inspected_entity.global_position
+	
+	# Use slime's forward direction so camera stays in front of its face
+	var slime_forward = inspected_entity.global_transform.basis.z
+	
+	# Calculate height from angle
+	var height_offset = 2 * tan(deg_to_rad(inspect_angle_degrees))
+	print(height_offset)
+	# Position: in front of slime + slightly elevated based on angle
+	var target_pos = slime_pos + slime_forward * inspect_distance + Vector3(0, height_offset+1, 0)
+	
+	global_position = global_position.lerp(target_pos, follow_smoothness * delta)
+	camera_3d.global_rotation_degrees.x = -inspect_angle_degrees # CAMERA ROTATE
+	look_at(slime_pos, Vector3.UP)

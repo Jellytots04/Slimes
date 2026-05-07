@@ -44,6 +44,7 @@ func _ready() -> void:
 	placement_preview.hide()
 	saved_camera_rotation = rotation
 	current_zoom_y = global_position.y
+	hud.teleport_requested.connect(_on_teleport_requested)
 
 func _process(delta: float) -> void:
 	if inspected_entity:
@@ -320,3 +321,10 @@ func _on_remove_requested() -> void:
 func zoom_camera(amount: float) -> void:
 	current_zoom_y = clamp(current_zoom_y + amount, min_zoom_factor, max_zoom_factor)
 	global_position.y = current_zoom_y
+
+func _on_teleport_requested(world_pos: Vector3) -> void:
+	var target = world_pos
+	target.y = global_position.y
+	
+	var tween = create_tween()
+	tween.tween_property(self, "global_position", target, 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)

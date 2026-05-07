@@ -5,6 +5,7 @@ signal fruit_tree_spawn_requested
 signal meat_bin_spawn_requested
 signal multi_bin_spawn_requested
 signal remove_requested
+signal teleport_requested(world_pos: Vector3)
 
 @onready var creation_hud: Control = %UITaskBar
 @onready var slime_attributes: Control = %SlimeAttributes
@@ -34,6 +35,8 @@ var current_color: Color = Color.WHITE
 @onready var aggression_dropdown: OptionButton = _find_dropdown(aggression_vbox)
 @onready var defensive_dropdown: OptionButton = _find_dropdown(defense_vbox)
 
+@onready var minimap: Control = %Minimap
+
 func _ready() -> void:
 	slime_attributes.hide()
 	color_picker.hide()
@@ -44,6 +47,8 @@ func _ready() -> void:
 	
 	aggression_dropdown.item_selected.connect(_on_aggression_changed)
 	_refresh_defensive_options(aggression_dropdown.get_selected_id())
+	
+	minimap.teleport_requested.connect(_on_minimap_teleport_requested)
 
 func _find_dropdown(vbox: Control) -> OptionButton:
 	for child in vbox.get_children():
@@ -189,3 +194,6 @@ func _refresh_defensive_options(aggression_id: int) -> void:
 			return
 	
 	defensive_dropdown.select(0)
+
+func _on_minimap_teleport_requested(world_pos: Vector3) -> void:
+	teleport_requested.emit(world_pos)

@@ -110,5 +110,6 @@ libraries/ = SubResource("AnimationLibrary_7oga5")
 [node name="MinimapMarker" type="MeshInstance3D" parent="." unique_id=1082115001]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
 layers = 4
+cast_shadow = 0
 mesh = SubResource("BoxMesh_rgi82")
 surface_material_override/0 = SubResource("StandardMaterial3D_tm4q4")

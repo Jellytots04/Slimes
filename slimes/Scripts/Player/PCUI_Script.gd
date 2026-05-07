@@ -37,6 +37,8 @@ var current_color: Color = Color.WHITE
 
 @onready var minimap: Control = %Minimap
 
+@onready var select_sound: AudioStreamPlayer = get_tree().current_scene.get_node("SelectSound")
+
 func _ready() -> void:
 	slime_attributes.hide()
 	color_picker.hide()
@@ -60,6 +62,7 @@ func reset_after_placement() -> void:
 	slime_attributes.hide()
 
 func _on_spawn_slime_button_pressed() -> void:
+	_play_select()
 	if slime_attributes.visible:
 		var slime_name = name_input.text.strip_edges()
 		if slime_name == "":
@@ -73,15 +76,19 @@ func _on_spawn_slime_button_pressed() -> void:
 		slime_attributes.show()
 
 func _on_spawn_fruit_tree_button_pressed() -> void:
+	_play_select()
 	fruit_tree_spawn_requested.emit()
 
 func _on_spawn_meat_bin_button_pressed() -> void:
+	_play_select()
 	meat_bin_spawn_requested.emit()
 
 func _on_spawn_multi_bin_button_pressed() -> void:
+	_play_select()
 	multi_bin_spawn_requested.emit()
 
 func _on_color_button_pressed() -> void:
+	_play_select()
 	if color_picker.visible:
 		color_picker.hide()
 		defense_vbox.show()
@@ -165,6 +172,7 @@ func populate_spawner_stats(spawner: Node3D) -> void:
 	inspect_level.text = "%dm" % int(spawner.spawn_radius)
 
 func _on_remove_button_pressed() -> void:
+	_play_select()
 	remove_requested.emit()
 
 func _on_aggression_changed(_index: int) -> void:
@@ -197,3 +205,7 @@ func _refresh_defensive_options(aggression_id: int) -> void:
 
 func _on_minimap_teleport_requested(world_pos: Vector3) -> void:
 	teleport_requested.emit(world_pos)
+
+func _play_select() -> void:
+	if select_sound:
+		select_sound.play()

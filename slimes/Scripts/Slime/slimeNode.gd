@@ -40,6 +40,14 @@ var last_attacker: SlimeNode = null
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
+@onready var attack_sound: AudioStreamPlayer3D = %AttackSound
+@onready var damaged_sound: AudioStreamPlayer3D = %DamagedSound
+@onready var eat_sound: AudioStreamPlayer3D = %EatSound
+@onready var levelup_sound: AudioStreamPlayer3D = %LevelUpSound
+@onready var reproduction_sound: AudioStreamPlayer3D = %ReproductionSound
+@onready var death_sound: AudioStreamPlayer3D = %DeathSound
+@onready var walking_sound: AudioStreamPlayer3D = %WalkingSound
+
 func play_animation(anim_name: String) -> void:
 	if animation_player.has_animation(anim_name):
 		animation_player.play(anim_name)
@@ -83,13 +91,17 @@ func _physics_process(delta: float) -> void:
 	var is_oneshot_playing = animation_player.current_animation in ["Eat", "Attack", "Death", "LevelUp", "Reproduce"]
 	if velocity.length() > effective_max_speed:
 		velocity = velocity.normalized() * effective_max_speed
-		if not is_oneshot_playing:
+
+	# Animation logic — runs regardless of speed cap
+	if not is_oneshot_playing:
+		if velocity.length() > 0.1:
 			if animation_player.current_animation != "SlimeWalking":
 				play_animation("SlimeWalking")
-	else:
-		if not is_oneshot_playing:
+				walking_sound.play()
+		else:
 			if animation_player.current_animation != "Idle":
 				play_animation("Idle")
+				walking_sound.stop()
 
 	move_and_slide()
 	
@@ -119,6 +131,7 @@ func arrive_force(target_pos) -> Vector3:
 
 func eat(health_value: int) -> void:
 	play_animation("Eat")
+	eat_sound.play()
 	if stats.kill_heal_only:
 		print(name, " : kill heal only, cannot eat")
 		# Last stand quirk: food will not help you
@@ -131,6 +144,7 @@ func eat(health_value: int) -> void:
 func take_damage(amount: int, attacker: SlimeNode = null) -> void:
 	var actual = max(1, amount - stats.defense)
 	stats.current_health -= actual
+	damaged_sound.play()
 	if stats.current_health <= 0:
 		if attacker and is_instance_valid(attacker):
 			attacker.gain_kill_health(self)
@@ -186,7 +200,9 @@ func should_stop_combat() -> bool:
 func die() -> void:
 	$SteeringBehaviors.process_mode = Node.PROCESS_MODE_DISABLED
 	$StateMachine.set_process(false)
-	
+	death_sound.play()
+	walking_sound.stop()
+
 	if animation_player.has_animation("Death"):
 		animation_player.play("Death")
 		await animation_player.animation_finished
@@ -271,6 +287,7 @@ func on_level_up() -> void:
 		time_since_last_repro = 0.0 # Start the recurring timer
 	
 	play_animation("LevelUp")
+	levelup_sound.play()
 	await animation_player.animation_finished
 	
 	if randf() < chance:
@@ -281,6 +298,7 @@ func reproduce() -> void:
 	
 	if animation_player.has_animation("Reproduce"):
 		animation_player.play("Reproduce")
+		reproduction_sound.play()
 		await animation_player.animation_finished
 	
 	var offspring = SLIME_SCENE.instantiate()

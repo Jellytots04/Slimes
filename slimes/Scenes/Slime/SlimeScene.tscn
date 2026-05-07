@@ -13,6 +13,13 @@
 [ext_resource type="Script" uid="uid://butffmf4stxhf" path="res://Scripts/Behaviors/Flee.gd" id="10_53pfp"]
 [ext_resource type="Script" uid="uid://dm0jn2o3l26oq" path="res://Scripts/Behaviors/Flocking.gd" id="10_a0355"]
 [ext_resource type="Script" uid="uid://chsdn2lcwv5em" path="res://Scripts/Behaviors/Avoidance.gd" id="10_rq52p"]
+[ext_resource type="AudioStream" uid="uid://bkcrom45sd3ru" path="res://Assets/Audio/Attack.wav" id="14_7pn1m"]
+[ext_resource type="AudioStream" uid="uid://ds6eyrvahy32g" path="res://Assets/Audio/Damaged.wav" id="15_ykf0n"]
+[ext_resource type="AudioStream" uid="uid://2pmqsowebweh" path="res://Assets/Audio/Eat.wav" id="16_jap2k"]
+[ext_resource type="AudioStream" uid="uid://c0q48vf65brbn" path="res://Assets/Audio/LevelUp.wav" id="17_2jlyv"]
+[ext_resource type="AudioStream" uid="uid://x0bfkaom3542" path="res://Assets/Audio/Reproduction.wav" id="18_yxmne"]
+[ext_resource type="AudioStream" uid="uid://b27vg8yftrwpv" path="res://Assets/Audio/SlimeDeath.wav" id="19_gjy3e"]
+[ext_resource type="AudioStream" uid="uid://brqxfb4y3y0su" path="res://Assets/Audio/Walking.wav" id="20_ki5ls"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fkhrg"]
 
@@ -154,6 +161,7 @@ tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1, 0.33333334, 1, 0.2, 1.8, 0.2, 
 [sub_resource type="Animation" id="Animation_5dung"]
 resource_name = "SlimeAnimation"
 length = 2.0
+loop_mode = 1
 tracks/0/type = "scale_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -275,6 +283,37 @@ layers = 4
 cast_shadow = 0
 mesh = SubResource("CylinderMesh_t4dub")
 surface_material_override/0 = SubResource("StandardMaterial3D_t4dub")
+
+[node name="Audio" type="Node3D" parent="." unique_id=1926771620]
+
+[node name="AttackSound" type="AudioStreamPlayer3D" parent="Audio" unique_id=1869398652]
+unique_name_in_owner = true
+stream = ExtResource("14_7pn1m")
+
+[node name="DamagedSound" type="AudioStreamPlayer3D" parent="Audio" unique_id=645222606]
+unique_name_in_owner = true
+stream = ExtResource("15_ykf0n")
+
+[node name="EatSound" type="AudioStreamPlayer3D" parent="Audio" unique_id=1073917734]
+unique_name_in_owner = true
+stream = ExtResource("16_jap2k")
+
+[node name="LevelUpSound" type="AudioStreamPlayer3D" parent="Audio" unique_id=748514126]
+unique_name_in_owner = true
+stream = ExtResource("17_2jlyv")
+
+[node name="ReproductionSound" type="AudioStreamPlayer3D" parent="Audio" unique_id=1079843228]
+unique_name_in_owner = true
+stream = ExtResource("18_yxmne")
+
+[node name="DeathSound" type="AudioStreamPlayer3D" parent="Audio" unique_id=1565060666]
+unique_name_in_owner = true
+stream = ExtResource("19_gjy3e")
+
+[node name="WalkingSound" type="AudioStreamPlayer3D" parent="Audio" unique_id=1538100668]
+unique_name_in_owner = true
+stream = ExtResource("20_ki5ls")
+autoplay = true
 
 [connection signal="timeout" from="DecayTimer" to="." method="_decay_timer_timeout"]
 [connection signal="timeout" from="DetecitonTimer" to="." method="_on_deteciton_timer_timeout"]

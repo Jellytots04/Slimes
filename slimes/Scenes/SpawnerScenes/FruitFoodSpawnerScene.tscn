@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://daooav2wrneea"]
 
 [ext_resource type="Script" uid="uid://cm2ucs6l0w4wf" path="res://Scripts/Food/FoodSpawner.gd" id="1_8ljjk"]
+[ext_resource type="AudioStream" uid="uid://d12dfw8p6kwu3" path="res://Assets/Audio/FruitDrop.wav" id="2_olpg4"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qit1d"]
 
@@ -116,3 +117,6 @@ layers = 4
 cast_shadow = 0
 mesh = SubResource("BoxMesh_8ljjk")
 surface_material_override/0 = SubResource("StandardMaterial3D_b3ou8")
+
+[node name="SpawnSound" type="AudioStreamPlayer3D" parent="." unique_id=1299059516]
+stream = ExtResource("2_olpg4")

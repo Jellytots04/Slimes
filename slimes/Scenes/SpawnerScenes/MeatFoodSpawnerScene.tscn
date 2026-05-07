@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://c4ha2xpj65jsm"]
 
 [ext_resource type="Script" uid="uid://cm2ucs6l0w4wf" path="res://Scripts/Food/FoodSpawner.gd" id="1_rgi82"]
+[ext_resource type="AudioStream" uid="uid://c4ks63u4c4rrb" path="res://Assets/Audio/MeatCave.wav" id="2_tm4q4"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ka3h6"]
 albedo_color = Color(0, 0, 0, 1)
@@ -113,3 +114,6 @@ layers = 4
 cast_shadow = 0
 mesh = SubResource("BoxMesh_rgi82")
 surface_material_override/0 = SubResource("StandardMaterial3D_tm4q4")
+
+[node name="SpawnSound" type="AudioStreamPlayer3D" parent="." unique_id=1748031067]
+stream = ExtResource("2_tm4q4")

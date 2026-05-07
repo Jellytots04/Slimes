@@ -18,6 +18,8 @@ const MEAT_SCENE_PATH := "res://Scenes/FoodScenes/MeatScene.tscn"
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 var spawned_food: Array = []  # track what we spawned
 
+@onready var spawn_sound: AudioStreamPlayer3D = $SpawnSound
+
 func _ready() -> void:
 	# print(name, " spawner _ready, type: ", spawner_type)
 	add_to_group("spawners")
@@ -35,25 +37,24 @@ func _on_spawn_timer_timeout() -> void:
 	burst_spawn()
 
 func burst_spawn() -> void:
-	# print(name, " burst_spawn called. Current count: ", spawned_food.size(), "/", max_food)
-	# Clean up freed references first
 	spawned_food = spawned_food.filter(func(f): return is_instance_valid(f))
 	
-	# Already at cap?
 	if spawned_food.size() >= max_food:
-		# print(name, " at cap, skipping")
 		return
 	
 	var burst_count = randi_range(burst_min, burst_max)
 	var available_slots = max_food - spawned_food.size()
 	burst_count = min(burst_count, available_slots)
-	# print(name, " spawning ", burst_count, " food this burst")
 	
-	# Play spawn animation
+	# Play sound at start (synced with animation)
+	if spawn_sound:
+		spawn_sound.play()
+	
+	# Wait for animation, then spawn food
 	if animation_player and animation_player.has_animation("Spawn"):
 		animation_player.play("Spawn")
 		await animation_player.animation_finished
-		# Return to idle
+		
 		if animation_player.has_animation("Idle"):
 			animation_player.play("Idle")
 	

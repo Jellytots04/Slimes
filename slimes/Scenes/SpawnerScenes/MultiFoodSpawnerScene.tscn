@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://blw7c6mt8m55x"]
 
 [ext_resource type="Script" uid="uid://cm2ucs6l0w4wf" path="res://Scripts/Food/FoodSpawner.gd" id="1_oslkw"]
+[ext_resource type="AudioStream" uid="uid://dpfjh6b1shyyg" path="res://Assets/Audio/FoodBin.wav" id="2_dkhdq"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_yyf62"]
 _surfaces = [{
@@ -102,3 +103,6 @@ layers = 4
 cast_shadow = 0
 mesh = SubResource("BoxMesh_oslkw")
 surface_material_override/0 = SubResource("StandardMaterial3D_dkhdq")
+
+[node name="SpawnSound" type="AudioStreamPlayer3D" parent="." unique_id=1346612538]
+stream = ExtResource("2_dkhdq")

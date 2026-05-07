@@ -15,7 +15,7 @@
 [ext_resource type="Script" uid="uid://butffmf4stxhf" path="res://Scripts/Behaviors/Flee.gd" id="13_qtb3o"]
 [ext_resource type="Script" uid="uid://dm0jn2o3l26oq" path="res://Scripts/Behaviors/Flocking.gd" id="13_v1s3h"]
 [ext_resource type="Script" uid="uid://chsdn2lcwv5em" path="res://Scripts/Behaviors/Avoidance.gd" id="13_xa6cj"]
-[ext_resource type="PackedScene" uid="uid://bj2tx1iokijcu" path="res://Scenes/Player/PlacementPreview.tscn" id="19_wfgdr"]
+[ext_resource type="PackedScene" path="res://Scenes/Player/PlacementPreview.tscn" id="19_wfgdr"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1t576"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -33,6 +33,7 @@ glow_enabled = true
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_psh2w"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_1t576"]
+size = Vector2(1, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fkhrg"]
 
@@ -107,7 +108,7 @@ _data = {
 }
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7w8dv"]
-size = Vector3(18.068604, 6.3221436, 0.001)
+size = Vector3(100, 6, 0.001)
 
 [node name="MainPCTestScene" type="Node3D" unique_id=798601220]
 
@@ -224,22 +225,21 @@ billboard = 1
 no_depth_test = true
 
 [node name="Walls" type="StaticBody3D" parent="." unique_id=1644532589]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.936493, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Walls" unique_id=123309564]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1048584, 2.68355, -9.012524)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.419, 3, -45)
 shape = SubResource("BoxShape3D_7w8dv")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="Walls" unique_id=1761374771]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1048584, 2.68355, 9.040394)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 45)
 shape = SubResource("BoxShape3D_7w8dv")
 
 [node name="CollisionShape3D3" type="CollisionShape3D" parent="Walls" unique_id=460522226]
-transform = Transform3D(0.049372695, 0, 0.9987804, 0, 1, 0, -0.9987804, 0, 0.049372695, -8.904593, 2.68355, -0.07339573)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -45, 3, 0)
 shape = SubResource("BoxShape3D_7w8dv")
 
 [node name="CollisionShape3D4" type="CollisionShape3D" parent="Walls" unique_id=1677649424]
-transform = Transform3D(0.049372695, 0, 0.9987804, 0, 1, 0, -0.9987804, 0, 0.049372695, 9.062043, 2.68355, -0.07339573)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 45, 3, 0)
 shape = SubResource("BoxShape3D_7w8dv")
 
 [node name="SlimeNode3" type="CharacterBody3D" parent="." unique_id=1254026552]

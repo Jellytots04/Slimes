@@ -84,6 +84,12 @@ _data = {
 &"Spawn": SubResource("Animation_dm0f5")
 }
 
+[sub_resource type="BoxMesh" id="BoxMesh_rgi82"]
+size = Vector3(1, 0.05, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tm4q4"]
+albedo_color = Color(0.9098039, 0.28235295, 0.21960784, 1)
+
 [node name="MeatSpawner" type="StaticBody3D" unique_id=424952191]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
 script = ExtResource("1_rgi82")
@@ -100,3 +106,9 @@ shape = SubResource("ConvexPolygonShape3D_sf2hx")
 libraries/ = SubResource("AnimationLibrary_7oga5")
 
 [node name="SpawnTimer" type="Timer" parent="." unique_id=674728528]
+
+[node name="MinimapMarker" type="MeshInstance3D" parent="." unique_id=1082115001]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+layers = 4
+mesh = SubResource("BoxMesh_rgi82")
+surface_material_override/0 = SubResource("StandardMaterial3D_tm4q4")

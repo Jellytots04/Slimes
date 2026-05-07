@@ -86,6 +86,12 @@ _data = {
 &"Spawn": SubResource("Animation_ltien")
 }
 
+[sub_resource type="BoxMesh" id="BoxMesh_8ljjk"]
+size = Vector3(1, 0.05, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b3ou8"]
+albedo_color = Color(0.91003054, 0.28425112, 0.21853864, 1)
+
 [node name="FruitFoodSpawner" type="StaticBody3D" unique_id=1675664060]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 script = ExtResource("1_8ljjk")
@@ -103,3 +109,9 @@ shape = SubResource("ConvexPolygonShape3D_hd7tg")
 libraries/ = SubResource("AnimationLibrary_ltien")
 
 [node name="SpawnTimer" type="Timer" parent="." unique_id=121007201]
+
+[node name="MinimapMarker" type="MeshInstance3D" parent="." unique_id=2033157474]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+layers = 4
+mesh = SubResource("BoxMesh_8ljjk")
+surface_material_override/0 = SubResource("StandardMaterial3D_b3ou8")

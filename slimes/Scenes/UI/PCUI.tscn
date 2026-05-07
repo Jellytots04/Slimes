@@ -287,6 +287,30 @@ grow_horizontal = 2
 grow_vertical = 0
 text = "Remove"
 
+[node name="Control" type="Control" parent="." unique_id=2093311516]
+anchors_preset = 0
+offset_right = 200.0
+offset_bottom = 200.0
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Control" unique_id=2011503626]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="Control/SubViewportContainer" unique_id=211089849]
+msaa_3d = 2
+size = Vector2i(200, 200)
+size_2d_override_stretch = true
+
+[node name="MinimapCamera" type="Camera3D" parent="Control/SubViewportContainer/SubViewport" unique_id=1110392965]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 5, 0)
+projection = 1
+size = 90.0
+
 [connection signal="pressed" from="UITaskBar/UIBar/AttributesHolder/SlimeAttributes/AttributesSelecter/BodyColor/ColorButton" to="." method="_on_color_button_pressed"]
 [connection signal="pressed" from="UITaskBar/UIBar/AttributesHolder/SpawnSlime" to="." method="_on_spawn_slime_button_pressed"]
 [connection signal="pressed" from="UITaskBar/UIBar/FoodBin" to="." method="_on_spawn_multi_bin_button_pressed"]

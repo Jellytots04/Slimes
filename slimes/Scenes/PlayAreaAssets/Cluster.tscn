@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://bir3do7j0cssm"]
+
+[ext_resource type="PackedScene" uid="uid://cvobmlw7j8vrk" path="res://Scenes/PlayAreaAssets/Tree.tscn" id="1_gwh61"]
+[ext_resource type="PackedScene" uid="uid://cfiahm0dv7wrl" path="res://Scenes/PlayAreaAssets/Wall_Mesh.tscn" id="2_ah371"]
+
+[node name="WallGrouping" type="Node3D" unique_id=1819582548]
+
+[node name="Tree" parent="." unique_id=2063482405 instance=ExtResource("1_gwh61")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.85341525, -0.4163711, -1.6803197)
+
+[node name="WallMesh" parent="." unique_id=554309246 instance=ExtResource("2_ah371")]
+
+[node name="Tree2" parent="." unique_id=1599478132 instance=ExtResource("1_gwh61")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2.5034134, -0.4163711, -1.222375)
+
+[node name="Tree3" parent="." unique_id=853497176 instance=ExtResource("1_gwh61")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1.123107, -0.4163711, -1.6043992)

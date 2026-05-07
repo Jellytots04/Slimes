@@ -29,6 +29,12 @@ var saved_camera_position: Vector3
 var saved_camera_rotation: Vector3
 var saved_inner_camera_rotation: Vector3
 
+@export var zoom_speed: float = 0.5
+@export var min_zoom_factor: float = 5.0  # 0.5 = zoomed in 2x (was your "1.5" max-in inverted)
+@export var max_zoom_factor: float = 10.0  # zoomed out 3x
+
+var current_zoom_y: float
+
 func _ready() -> void:
 	hud.slime_spawn_requested.connect(_on_slime_spawn_requested)
 	hud.fruit_tree_spawn_requested.connect(_on_fruit_tree_requested)
@@ -37,14 +43,13 @@ func _ready() -> void:
 	hud.remove_requested.connect(_on_remove_requested)
 	placement_preview.hide()
 	saved_camera_rotation = rotation
+	current_zoom_y = global_position.y
 
 func _process(delta: float) -> void:
-	# Don't process input during inspection
 	if inspected_entity:
 		if is_instance_valid(inspected_entity):
 			follow_inspected_entity(delta)
 		else:
-			# Entity died/was removed mid-inspection
 			exit_inspection()
 		return
 	
@@ -80,51 +85,51 @@ func update_placement_preview() -> void:
 	placement_preview.global_position.y += 0.05
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.pressed:
-		# Right-click handles cancellation OR exit inspection
-		if event.button_index == MOUSE_BUTTON_RIGHT:
-			if inspected_entity:
-				exit_inspection()
-				return
-			if current_mode != Mode.NONE:
-				current_mode = Mode.NONE
-				# print("Placement cancelled")
-			hud.reset_after_placement()
+	if not (event is InputEventMouseButton and event.pressed):
+		return
+	
+	# Scroll wheel zoom
+	if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+		zoom_camera(-zoom_speed)
+		return
+	if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+		zoom_camera(zoom_speed)
+		return
+	
+	# Right-click cancels mode or exits inspection
+	if event.button_index == MOUSE_BUTTON_RIGHT:
+		if inspected_entity:
+			exit_inspection()
+			return
+		if current_mode != Mode.NONE:
+			current_mode = Mode.NONE
+		hud.reset_after_placement()
+		return
+	
+	# Left-click handles placement or inspection
+	if event.button_index == MOUSE_BUTTON_LEFT:
+		if inspected_entity:
 			return
 		
-		# Left-click handles placement OR inspection
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			# Don't process clicks while inspecting
-			if inspected_entity:
-				return
+		var click_result = raycast_from_mouse(event.position)
+		if click_result == null or click_result.is_empty():
+			return
+		
+		if current_mode != Mode.NONE:
+			match current_mode:
+				Mode.PLACE_SLIME:
+					spawn_slime(click_result.position)
+				Mode.PLACE_FRUIT_TREE:
+					spawn_entity(FRUIT_TREE_SCENE, click_result.position + Vector3(0, 0.3, 0))
+				Mode.PLACE_MEAT_BIN:
+					spawn_entity(MEAT_BIN_SCENE, click_result.position + Vector3(0, 0.8, 0))
+				Mode.PLACE_MULTI_BIN:
+					spawn_entity(MULTI_BIN_SCENE, click_result.position + Vector3(0, 0.3, 0))
 			
-			# print("Left click. Mode: ", Mode.keys()[current_mode])
-			var click_result = raycast_from_mouse(event.position)
-			if click_result == null or click_result.is_empty():
-				# print("  No collision hit")
-				return
-			
-			#print("  Hit position: ", click_result.position)
-			#print("  Hit collider: ", click_result.collider)
-			
-			if current_mode != Mode.NONE:
-				# Placement mode — spawn at click
-				match current_mode:
-					Mode.PLACE_SLIME:
-						spawn_slime(click_result.position)
-					Mode.PLACE_FRUIT_TREE:
-						spawn_entity(FRUIT_TREE_SCENE, click_result.position + Vector3(0, 0.3, 0))
-					Mode.PLACE_MEAT_BIN:
-						spawn_entity(MEAT_BIN_SCENE, click_result.position + Vector3(0, 0.8, 0))
-					Mode.PLACE_MULTI_BIN:
-						spawn_entity(MULTI_BIN_SCENE, click_result.position + Vector3(0, 0.3, 0))
-				
-				current_mode = Mode.NONE
-				hud.reset_after_placement()
-			else:
-				# No placement mode — try to inspect what was clicked
-				try_inspect(click_result.collider)
-			
+			current_mode = Mode.NONE
+			hud.reset_after_placement()
+		else:
+			try_inspect(click_result.collider)
 
 func raycast_from_mouse(screen_pos: Vector2) -> Variant:
 	var from = camera_3d.project_ray_origin(screen_pos)
@@ -311,3 +316,7 @@ func _on_remove_requested() -> void:
 		exit_inspection()
 		await get_tree().create_timer(0.5).timeout
 		entity_to_remove.queue_free()
+
+func zoom_camera(amount: float) -> void:
+	current_zoom_y = clamp(current_zoom_y + amount, min_zoom_factor, max_zoom_factor)
+	global_position.y = current_zoom_y

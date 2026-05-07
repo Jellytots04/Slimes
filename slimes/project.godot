@@ -28,7 +28,7 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/godot-xr-tools/plugin.cfg")
+enabled=PackedStringArray("res://addons/gdfxr/plugin.cfg")
 
 [file_customization]
 
@@ -88,5 +88,4 @@ rendering_device/driver.windows="d3d12"
 
 [xr]
 
-openxr/enabled=true
 openxr/startup_alert=false

@@ -7,7 +7,7 @@ const MULTI_BIN_SCENE = preload("res://Scenes/SpawnerScenes/MultiFoodSpawnerScen
 
 enum Mode { NONE, PLACE_SLIME, PLACE_FRUIT_TREE, PLACE_MEAT_BIN, PLACE_MULTI_BIN }
 
-@export var follow_smoothness: float = 150.0  # higher = snappier follow
+@export var follow_smoothness: float = 8.0  # higher = snappier follow
 @export var inspect_distance: float = 3  # how far in front of slime
 @export var inspect_angle_degrees: float = 35.0  # downward angle
 @export var camSpeed: float = 10

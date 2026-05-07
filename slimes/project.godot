@@ -36,6 +36,7 @@ folder_colors={
 "res://Scenes/FoodCSGs/": "purple",
 "res://Scenes/FoodScenes/": "teal",
 "res://Scenes/PCDebugandTest/": "pink",
+"res://Scenes/PlayAreaAssets/": "green",
 "res://Scenes/Slime/": "teal",
 "res://Scenes/SpawnerCSGs/": "purple",
 "res://Scenes/SpawnerScenes/": "teal",

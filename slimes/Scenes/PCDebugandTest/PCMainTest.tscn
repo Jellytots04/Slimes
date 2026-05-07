@@ -108,7 +108,7 @@ _data = {
 }
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7w8dv"]
-size = Vector3(100, 6, 0.001)
+size = Vector3(90, 6, 0.001)
 
 [node name="MainPCTestScene" type="Node3D" unique_id=798601220]
 
@@ -224,21 +224,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 billboard = 1
 no_depth_test = true
 
-[node name="Walls" type="StaticBody3D" parent="." unique_id=1644532589]
+[node name="BoundaryWalls" type="StaticBody3D" parent="." unique_id=1644532589]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls" unique_id=123309564]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoundaryWalls" unique_id=123309564]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.419, 3, -45)
 shape = SubResource("BoxShape3D_7w8dv")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="Walls" unique_id=1761374771]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="BoundaryWalls" unique_id=1761374771]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 45)
 shape = SubResource("BoxShape3D_7w8dv")
 
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="Walls" unique_id=460522226]
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="BoundaryWalls" unique_id=460522226]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -45, 3, 0)
 shape = SubResource("BoxShape3D_7w8dv")
 
-[node name="CollisionShape3D4" type="CollisionShape3D" parent="Walls" unique_id=1677649424]
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="BoundaryWalls" unique_id=1677649424]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 45, 3, 0)
 shape = SubResource("BoxShape3D_7w8dv")
 

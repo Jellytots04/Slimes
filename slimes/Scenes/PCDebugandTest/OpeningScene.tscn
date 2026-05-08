@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://3wuj8twgkmtk"]
 
 [ext_resource type="Script" uid="uid://krth3arbcney" path="res://Scripts/OpeningScene/OpeningScene.gd" id="1_w6mnp"]
+[ext_resource type="AudioStream" uid="uid://k7yvil1kiw4a" path="res://Assets/Audio/Select.wav" id="2_w6mnp"]
 [ext_resource type="PackedScene" uid="uid://2ec774sykweu" path="res://Scenes/Slime/DecorationSlime.tscn" id="3_2kx5t"]
 [ext_resource type="AudioStream" uid="uid://cflqydfxkrgcb" path="res://Assets/Audio/Ambience.wav" id="3_o8df6"]
 
@@ -103,6 +104,9 @@ shape = SubResource("BoxShape3D_7w8dv")
 visible = false
 mesh = SubResource("BoxMesh_2kx5t")
 
+[node name="SelectSound" type="AudioStreamPlayer" parent="." unique_id=1653718757]
+stream = ExtResource("2_w6mnp")
+
 [node name="AmbienceSound" type="AudioStreamPlayer" parent="." unique_id=824821650]
 stream = ExtResource("3_o8df6")
 autoplay = true
@@ -154,12 +158,14 @@ horizontal_alignment = 1
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 size_flags_vertical = 6
+theme_override_font_sizes/font_size = 30
 text = "Start"
 
 [node name="QuitButton" type="Button" parent="Camera3D/Control/CanvasLayer/Panel/VBoxContainer" unique_id=2034376514]
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 size_flags_vertical = 10
+theme_override_font_sizes/font_size = 30
 text = "Quit"
 
 [node name="DecorSlime" parent="." unique_id=108224271 instance=ExtResource("3_2kx5t")]

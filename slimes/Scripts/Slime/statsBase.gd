@@ -4,9 +4,9 @@ class_name Statistics extends Node
 # Constants for tuning
 const HEALTH_DECAY_RATE := 0.5
 const OVEREAT_DECAY_RATE := 3.0
-const LEVEL_2_TIME := 5.0
-const LEVEL_3_TIME := 15.0
-const RECURRING_OFFSPRING_INTERVAL := 20.0
+const LEVEL_2_TIME := 60.0
+const LEVEL_3_TIME := 180.0
+const RECURRING_OFFSPRING_INTERVAL := 300.0
 const SPAWN_HEALTH_PERCENT := 0.75
 
 # Per-slime statistics

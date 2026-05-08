@@ -475,7 +475,7 @@ func update_whisker_gizmo() -> void:
 	var angle_rad = deg_to_rad(whisker.whisker_angle_degrees)
 	
 	# Center whisker
-	var center_color = Color.RED if whisker.center_hit_active else Color(0, 1, 0, 0.7)
+	var center_color = Color.RED if whisker.center_hit_active else Color(0.0, 0.975, 0.659, 1.0)
 	im.surface_set_color(center_color)
 	im.surface_add_vertex(origin)
 	im.surface_set_color(center_color)
@@ -483,7 +483,7 @@ func update_whisker_gizmo() -> void:
 	
 	# Left whisker
 	var left_dir = local_forward.rotated(Vector3.UP, angle_rad)
-	var left_color = Color.RED if whisker.left_hit_active else Color(0, 1, 0, 0.7)
+	var left_color = Color.RED if whisker.left_hit_active else Color(0.0, 0.975, 0.659, 1.0)
 	im.surface_set_color(left_color)
 	im.surface_add_vertex(origin)
 	im.surface_set_color(left_color)
@@ -491,7 +491,7 @@ func update_whisker_gizmo() -> void:
 	
 	# Right whisker
 	var right_dir = local_forward.rotated(Vector3.UP, -angle_rad)
-	var right_color = Color.RED if whisker.right_hit_active else Color(0, 1, 0, 0.7)
+	var right_color = Color.RED if whisker.right_hit_active else Color(0.0, 0.975, 0.659, 1.0)
 	im.surface_set_color(right_color)
 	im.surface_add_vertex(origin)
 	im.surface_set_color(right_color)

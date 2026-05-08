@@ -1,0 +1,169 @@
+[gd_scene format=3 uid="uid://3wuj8twgkmtk"]
+
+[ext_resource type="Script" uid="uid://krth3arbcney" path="res://Scripts/OpeningScene/OpeningScene.gd" id="1_w6mnp"]
+[ext_resource type="PackedScene" uid="uid://2ec774sykweu" path="res://Scenes/Slime/DecorationSlime.tscn" id="3_2kx5t"]
+[ext_resource type="AudioStream" uid="uid://cflqydfxkrgcb" path="res://Assets/Audio/Ambience.wav" id="3_o8df6"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1t576"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_eloht"]
+sky_material = SubResource("ProceduralSkyMaterial_1t576")
+
+[sub_resource type="Environment" id="Environment_ajfxa"]
+background_mode = 2
+sky = SubResource("Sky_eloht")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_psh2w"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_1t576"]
+size = Vector2(1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7w8dv"]
+albedo_color = Color(0.5318647, 0.81589055, 0.5329824, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_wfgdr"]
+size = Vector2(10, 10)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jh62p"]
+albedo_color = Color(0.35146388, 0.588347, 0.35349393, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7w8dv"]
+size = Vector3(90, 6, 0.001)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2kx5t"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2kx5t"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="Theme" id="Theme_w6mnp"]
+Panel/styles/panel = SubResource("StyleBoxFlat_2kx5t")
+
+[node name="OpeningScene" type="Node3D" unique_id=798601220]
+script = ExtResource("1_w6mnp")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=283099624]
+environment = SubResource("Environment_ajfxa")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=2146560032]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Floor" type="StaticBody3D" parent="." unique_id=331863369]
+transform = Transform3D(8.995, 0, 0, 0, 8.995, 0, 0, 0, 8.995, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=946086589]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -0.0005494627, 0.00064972043, -0.00061002816)
+shape = SubResource("WorldBoundaryShape3D_psh2w")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=1699012118]
+transform = Transform3D(9.999999, 0, 0, 0, 9.999999, 0, 0, 0, 9.999999, 0, 0, 0)
+mesh = SubResource("PlaneMesh_1t576")
+surface_material_override/0 = SubResource("StandardMaterial3D_7w8dv")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Floor" unique_id=1957834150]
+transform = Transform3D(9.999999, 0, 0, 0, 9.999999, 0, 0, 0, 9.999999, 0, -0.001, 0)
+mesh = SubResource("PlaneMesh_wfgdr")
+surface_material_override/0 = SubResource("StandardMaterial3D_jh62p")
+
+[node name="BoundaryWalls" type="StaticBody3D" parent="." unique_id=1644532589]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoundaryWalls" unique_id=123309564]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -7.078966)
+shape = SubResource("BoxShape3D_7w8dv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BoundaryWalls/CollisionShape3D" unique_id=737039635]
+visible = false
+mesh = SubResource("BoxMesh_2kx5t")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="BoundaryWalls" unique_id=1761374771]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 17.942848)
+shape = SubResource("BoxShape3D_7w8dv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BoundaryWalls/CollisionShape3D2" unique_id=547524072]
+visible = false
+mesh = SubResource("BoxMesh_2kx5t")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="BoundaryWalls" unique_id=460522226]
+transform = Transform3D(-0.50000006, 0, -0.8660254, 0, 1, 0, 0.8660254, 0, -0.50000006, -12.140853, 3, 0)
+shape = SubResource("BoxShape3D_7w8dv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BoundaryWalls/CollisionShape3D3" unique_id=1769278931]
+visible = false
+mesh = SubResource("BoxMesh_2kx5t")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="BoundaryWalls" unique_id=1677649424]
+transform = Transform3D(-0.50000006, 0, 0.8660254, 0, 1, 0, -0.8660254, 0, -0.50000006, 13.842652, 3, 0)
+shape = SubResource("BoxShape3D_7w8dv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BoundaryWalls/CollisionShape3D4" unique_id=1158423241]
+visible = false
+mesh = SubResource("BoxMesh_2kx5t")
+
+[node name="AmbienceSound" type="AudioStreamPlayer" parent="." unique_id=824821650]
+stream = ExtResource("3_o8df6")
+autoplay = true
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1684560220]
+transform = Transform3D(-1, 6.181724e-08, -6.181724e-08, 0, 0.70710677, 0.70710677, 8.742278e-08, 0.70710677, -0.70710677, 0, 5, -5)
+cull_mask = 1048571
+
+[node name="Control" type="Control" parent="Camera3D" unique_id=1238890053]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Camera3D/Control" unique_id=2015628611]
+
+[node name="Panel" type="Panel" parent="Camera3D/Control/CanvasLayer" unique_id=1622963537]
+custom_minimum_size = Vector2(300, 400)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -224.0
+offset_right = 150.0
+offset_bottom = 176.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_w6mnp")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Camera3D/Control/CanvasLayer/Panel" unique_id=1150371578]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleCard" type="Label" parent="Camera3D/Control/CanvasLayer/Panel/VBoxContainer" unique_id=1712654930]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+size_flags_vertical = 2
+theme_override_font_sizes/font_size = 60
+text = "Slimes"
+horizontal_alignment = 1
+
+[node name="StartButton" type="Button" parent="Camera3D/Control/CanvasLayer/Panel/VBoxContainer" unique_id=1616088607]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+size_flags_vertical = 6
+text = "Start"
+
+[node name="QuitButton" type="Button" parent="Camera3D/Control/CanvasLayer/Panel/VBoxContainer" unique_id=2034376514]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+size_flags_vertical = 10
+text = "Quit"
+
+[node name="DecorSlime" parent="." unique_id=108224271 instance=ExtResource("3_2kx5t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4632652, 0.2, 0)
+
+[node name="DecorSlime2" parent="." unique_id=972886793 instance=ExtResource("3_2kx5t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0067062, 0.2, 0)

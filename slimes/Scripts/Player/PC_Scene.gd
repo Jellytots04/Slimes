@@ -119,7 +119,7 @@ func _input(event: InputEvent) -> void:
 		if current_mode != Mode.NONE:
 			match current_mode:
 				Mode.PLACE_SLIME:
-					spawn_slime(click_result.position)
+					spawn_slime(click_result.position - Vector3(0,.5,0))
 				Mode.PLACE_FRUIT_TREE:
 					spawn_entity(FRUIT_TREE_SCENE, click_result.position + Vector3(0, 0.3, 0))
 				Mode.PLACE_MEAT_BIN:

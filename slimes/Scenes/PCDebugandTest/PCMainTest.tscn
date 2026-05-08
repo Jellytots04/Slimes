@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bhotm0srmwpu"]
 
-[ext_resource type="PackedScene" uid="uid://dpinh4fq3otar" path="res://Scenes/Slime/SlimeScene.tscn" id="1_1t576"]
 [ext_resource type="PackedScene" uid="uid://dpmm0h5hg51mb" path="res://Scenes/Player/PC_Scene.tscn" id="1_jh62p"]
+[ext_resource type="Script" uid="uid://bxtv1vg55pxof" path="res://Scripts/MainScene/EnterScene.gd" id="1_jny5u"]
 [ext_resource type="Script" uid="uid://dfa453flxydam" path="res://Scripts/MainScene/SpawnManager.gd" id="2_wfgdr"]
 [ext_resource type="PackedScene" uid="uid://cfiahm0dv7wrl" path="res://Scenes/PlayAreaAssets/Wall_Mesh.tscn" id="17_6bh6g"]
 [ext_resource type="PackedScene" uid="uid://bir3do7j0cssm" path="res://Scenes/PlayAreaAssets/Cluster.tscn" id="17_er53d"]
@@ -40,6 +40,7 @@ albedo_color = Color(0.35146388, 0.588347, 0.35349393, 1)
 size = Vector3(90, 6, 0.001)
 
 [node name="MainPCTestScene" type="Node3D" unique_id=798601220]
+script = ExtResource("1_jny5u")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=283099624]
 environment = SubResource("Environment_ajfxa")
@@ -71,9 +72,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_7w8dv")
 transform = Transform3D(9.999999, 0, 0, 0, 9.999999, 0, 0, 0, 9.999999, 0, -0.001, 0)
 mesh = SubResource("PlaneMesh_wfgdr")
 surface_material_override/0 = SubResource("StandardMaterial3D_jh62p")
-
-[node name="SlimeNode" parent="." unique_id=108224271 instance=ExtResource("1_1t576")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 
 [node name="BoundaryWalls" type="StaticBody3D" parent="." unique_id=1644532589]
 

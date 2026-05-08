@@ -1,26 +1,7 @@
-[gd_scene format=4 uid="uid://dpinh4fq3otar"]
+[gd_scene format=4 uid="uid://2ec774sykweu"]
 
-[ext_resource type="Script" uid="uid://b4jg3d6wvf1mx" path="res://Scripts/Slime/slimeNode.gd" id="1_cupy1"]
-[ext_resource type="Script" uid="uid://c7a075r7q4fk7" path="res://Scripts/Slime/statsBase.gd" id="1_dtw35"]
-[ext_resource type="Script" uid="uid://b1gxm73e0y10s" path="res://Scripts/Behaviors/Wander.gd" id="3_1x8j8"]
-[ext_resource type="Script" uid="uid://p2wpoty2uyd4" path="res://Scripts/States/StateMachine.gd" id="3_sdy3c"]
-[ext_resource type="Script" uid="uid://covgrmn7q7sjc" path="res://Scripts/States/WanderState.gd" id="4_3e2nn"]
-[ext_resource type="Script" uid="uid://cp6pxd571nsj1" path="res://Scripts/States/SeekFoodState.gd" id="5_76vrm"]
-[ext_resource type="Script" uid="uid://dudjqch3j0l6d" path="res://Scripts/Behaviors/SeekFood.gd" id="6_3e2nn"]
-[ext_resource type="Script" uid="uid://sawtebol5lex" path="res://Scripts/States/CombatState.gd" id="6_jka1h"]
-[ext_resource type="Script" uid="uid://c0dsubjtiuo7p" path="res://Scripts/States/FleeState.gd" id="7_t4dub"]
-[ext_resource type="Script" uid="uid://b3ro74d6xupi2" path="res://Scripts/Behaviors/SeekTarget.gd" id="9_rq52p"]
-[ext_resource type="Script" uid="uid://butffmf4stxhf" path="res://Scripts/Behaviors/Flee.gd" id="10_53pfp"]
-[ext_resource type="Script" uid="uid://dm0jn2o3l26oq" path="res://Scripts/Behaviors/Flocking.gd" id="10_a0355"]
-[ext_resource type="Script" uid="uid://chsdn2lcwv5em" path="res://Scripts/Behaviors/Avoidance.gd" id="10_rq52p"]
-[ext_resource type="AudioStream" uid="uid://bkcrom45sd3ru" path="res://Assets/Audio/Attack.wav" id="14_7pn1m"]
-[ext_resource type="Script" uid="uid://bjgc7p55oa7hd" path="res://Scripts/Behaviors/WhiskerAvoidance.gd" id="14_jap2k"]
-[ext_resource type="AudioStream" uid="uid://ds6eyrvahy32g" path="res://Assets/Audio/Damaged.wav" id="15_ykf0n"]
-[ext_resource type="AudioStream" uid="uid://2pmqsowebweh" path="res://Assets/Audio/Eat.wav" id="16_jap2k"]
-[ext_resource type="AudioStream" uid="uid://c0q48vf65brbn" path="res://Assets/Audio/LevelUp.wav" id="17_2jlyv"]
-[ext_resource type="AudioStream" uid="uid://x0bfkaom3542" path="res://Assets/Audio/Reproduction.wav" id="18_yxmne"]
-[ext_resource type="AudioStream" uid="uid://b27vg8yftrwpv" path="res://Assets/Audio/SlimeDeath.wav" id="19_gjy3e"]
-[ext_resource type="AudioStream" uid="uid://brqxfb4y3y0su" path="res://Assets/Audio/Walking.wav" id="20_ki5ls"]
+[ext_resource type="Script" uid="uid://t0kcssko8y8e" path="res://Scripts/Slime/decorationSlime.gd" id="1_7eitd"]
+[ext_resource type="AudioStream" uid="uid://brqxfb4y3y0su" path="res://Assets/Audio/Walking.wav" id="21_lh56p"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fkhrg"]
 
@@ -61,8 +42,10 @@ _surfaces = [{
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h3eeh"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0kgc6"]
+albedo_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5dung"]
+albedo_color = Color(0, 0, 0, 1)
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_dtw35"]
 points = PackedVector3Array(0, -0.14965358, -0.5416443, -0.20730513, -0.14965358, -0.5005014, 0, -0.12242916, -0.5416443, 0.2071991, -0.14965358, -0.5005014, -0.20730513, -0.12242916, -0.5005014, -0.3830108, -0.14965358, -0.3830108, 0, 0.1999597, -0.38979727, 0.2071991, -0.12242916, -0.5005014, 0.38290477, -0.14965358, -0.3830108, -0.14919606, 0.1999597, -0.3601065, -0.3830108, -0.12242916, -0.3830108, -0.27559388, 0.1999597, -0.27559388, -0.5005014, -0.14965358, -0.20730513, 0, 0.30638242, -0.28927281, 0.11059809, 0.30638242, -0.26732287, 0.14908999, 0.1999597, -0.3601065, -0.110704124, 0.30638242, -0.26732287, 0.27548784, 0.1999597, -0.27559388, 0.38290477, -0.12242916, -0.3830108, 0.50039536, -0.14965358, -0.20730513, -0.5005014, -0.12242916, -0.20730513, -0.3601065, 0.1999597, -0.14919606, -0.26732287, 0.30638242, -0.110704124, -0.20454812, 0.30638242, -0.20454812, -0.5416443, -0.14965358, 0, 0, 0.37584236, -0.1539678, 0.0588513, 0.37584236, -0.14219752, 0.108795404, 0.37584236, -0.10890147, 0.20444208, 0.30638242, -0.20454812, -0.10890147, 0.37584236, -0.10890147, -0.058957368, 0.37584236, -0.14219752, 0.2672168, 0.30638242, -0.110704124, 0.36000043, 0.1999597, -0.14919606, 0.50039536, -0.12242916, -0.20730513, 0.5416443, -0.14965358, 0, -0.5416443, -0.12242916, 0, -0.38979727, 0.1999597, 0, -0.28927281, 0.30638242, 0, -0.1539678, 0.37584236, 0, -0.14219752, 0.37584236, -0.058957368, -0.5005014, -0.14965358, 0.2071991, 0, 0.4, 0, 0.14209145, 0.37584236, -0.058957368, 0.28916675, 0.30638242, 0, 0.38969117, 0.1999597, 0, 0.15386176, 0.37584236, 0, 0.5416443, -0.12242916, 0, 0.50039536, -0.14965358, 0.2071991, -0.5005014, -0.12242916, 0.2071991, -0.3601065, 0.1999597, 0.14908999, -0.26732287, 0.30638242, 0.11059809, -0.14219752, 0.37584236, 0.0588513, -0.3830108, -0.14965358, 0.38290477, -0.10890147, 0.37584236, 0.108795404, -0.058957368, 0.37584236, 0.14209145, 0, 0.37584236, 0.15386176, 0.0588513, 0.37584236, 0.14209145, 0.108795404, 0.37584236, 0.108795404, 0.14209145, 0.37584236, 0.0588513, 0.2672168, 0.30638242, 0.11059809, 0.36000043, 0.1999597, 0.14908999, 0.50039536, -0.12242916, 0.2071991, 0.38290477, -0.14965358, 0.38290477, -0.3830108, -0.12242916, 0.38290477, -0.27082214, 0.18979087, 0.3018914, -0.27463952, 0.20577043, 0.28291053, -0.26954967, 0.22460154, 0.26711076, -0.25650695, 0.24343267, 0.25693107, -0.23731399, 0.25941223, 0.25396204, -0.20454812, 0.30638242, 0.20444208, -0.20730513, -0.14965358, 0.50039536, -0.110704124, 0.30638242, 0.2672168, 0, 0.30638242, 0.28916675, 0.11059809, 0.30638242, 0.2672168, 0.20444208, 0.30638242, 0.20444208, 0.23720795, 0.25941223, 0.25396204, 0.25640088, 0.24343267, 0.25693107, 0.26944363, 0.22460154, 0.26711076, 0.27453345, 0.20577043, 0.28291053, 0.27071607, 0.18979087, 0.3018914, 0.38290477, -0.12242916, 0.38290477, 0.2071991, -0.14965358, 0.50039536, -0.24060118, 0.17537162, 0.3378384, -0.25894582, 0.17908403, 0.32119036, -0.20730513, -0.12242916, 0.50039536, -0.24304008, 0.20598564, 0.31853944, -0.24940237, 0.21163496, 0.3082537, -0.2514171, 0.2201359, 0.29818004, -0.24876615, 0.23019707, 0.28980303, -0.24176762, 0.24020448, 0.28439504, -0.23158792, 0.24870539, 0.2828045, -0.21981767, 0.25435472, 0.28524333, -0.20804739, 0.25639924, 0.29139358, -0.19320202, 0.2738315, 0.2701859, 0, -0.14965358, 0.5416443, -0.19829187, 0.25435472, 0.30030084, -0.19192955, 0.24870539, 0.3105865, -0.19002086, 0.24020448, 0.32066017, -0.15916368, 0.24343267, 0.32511377, 0, 0.1999597, 0.38969117, 0.15905762, 0.24343267, 0.32511377, 0.18991482, 0.24020448, 0.32066017, 0.19182348, 0.24870539, 0.3105865, 0.1981858, 0.25435472, 0.30030084, 0.20794135, 0.25639924, 0.29139358, 0.19309598, 0.2738315, 0.2701859, 0.2197116, 0.25435472, 0.28524333, 0.23148185, 0.24870539, 0.2828045, 0.24166155, 0.24020448, 0.28439504, 0.24866009, 0.23019707, 0.28980303, 0.25131106, 0.2201359, 0.29818004, 0.24929631, 0.21163496, 0.3082537, 0.24293405, 0.20598564, 0.31853944, 0.2588398, 0.17908403, 0.32119036, 0.24049515, 0.17537162, 0.3378384, 0.2071991, -0.12242916, 0.50039536, -0.23328453, 0.20399493, 0.32744664, -0.21865124, 0.17908403, 0.3493966, -0.22162032, 0.20598564, 0.3335969, -0.14919606, 0.1999597, 0.36000043, -0.17729625, 0.20577043, 0.3509872, -0.19638318, 0.18979087, 0.35395628, 0, -0.12242916, 0.5416443, -0.22204447, 0.23213401, 0.31132883, -0.19267184, 0.23019707, 0.32903725, -0.16425353, 0.22460154, 0.3408075, 0.14908999, 0.1999597, 0.36000043, 0.17719018, 0.20577043, 0.3509872, 0.1641475, 0.22460154, 0.3408075, 0.1925658, 0.23019707, 0.32903725, 0.22193843, 0.23213401, 0.31132883, 0.2331785, 0.20399493, 0.32744664, 0.22151428, 0.20598564, 0.3335969, 0.2185452, 0.17908403, 0.3493966, 0.19627714, 0.18979087, 0.35395628, -0.20985004, 0.21163496, 0.3360358, -0.19967034, 0.2201359, 0.33444518, 0.20974398, 0.21163496, 0.3360358, 0.19956428, 0.2201359, 0.33444518)
@@ -79,55 +62,55 @@ tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.3, 1, 0, 0.5, 0.5, 0.5, 1, 0
 
 [sub_resource type="Animation" id="Animation_mdbqr"]
 resource_name = "Death"
-tracks/0/type = "scale_3d"
+tracks/0/type = "position_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/path = NodePath("SlimeMesh")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1, 0.3, 1, 1, 0.1, 1, 1, 1, 0, 0, 0)
-tracks/1/type = "position_3d"
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.3, 1, 0, -0.1, 0)
+tracks/1/type = "scale_3d"
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/path = NodePath("SlimeMesh")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.3, 1, 0, -0.1, 0)
+tracks/1/keys = PackedFloat32Array(0, 1, 1, 1, 1, 0.3, 1, 1, 0.1, 1, 1, 1, 0, 0, 0)
 
 [sub_resource type="Animation" id="Animation_7pn1m"]
 resource_name = "Eat"
-tracks/0/type = "scale_3d"
+tracks/0/type = "position_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/path = NodePath("SlimeMesh")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1, 0.53333336, 1, 1, 1.2, 0.8, 0.73333335, 1, 1, 0.75, 1, 1, 1, 1, 1, 1)
-tracks/1/type = "position_3d"
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.53333336, 1, 0.095, 0, 0.2, 1, 1, 0, 0, 0)
+tracks/1/type = "scale_3d"
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/path = NodePath("SlimeMesh")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.53333336, 1, 0.095, 0, 0.2, 1, 1, 0, 0, 0)
+tracks/1/keys = PackedFloat32Array(0, 1, 1, 1, 1, 0.53333336, 1, 1, 1.2, 0.8, 0.73333335, 1, 1, 0.75, 1, 1, 1, 1, 1, 1)
 
 [sub_resource type="Animation" id="Animation_t4dub"]
 resource_name = "Idle"
 length = 2.0
-tracks/0/type = "scale_3d"
+tracks/0/type = "position_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/path = NodePath("SlimeMesh")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 1, 1, 1, 1, 1, 0.9, 1.2, 0.9, 2, 1, 1, 1, 1)
-tracks/1/type = "position_3d"
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1, 0, 0.005, 0, 2, 1, 0, 0, 0)
+tracks/1/type = "scale_3d"
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/path = NodePath("SlimeMesh")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1, 0, 0.005, 0, 2, 1, 0, 0, 0)
+tracks/1/keys = PackedFloat32Array(0, 1, 1, 1, 1, 1, 1, 0.9, 1.2, 0.9, 2, 1, 1, 1, 1)
 
 [sub_resource type="Animation" id="Animation_0pq5b"]
 resource_name = "LevelUp"
@@ -183,76 +166,8 @@ _data = {
 &"SlimeWalking": SubResource("Animation_5dung")
 }
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_t4dub"]
-top_radius = 0.9
-bottom_radius = 0.9
-height = 0.05
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4dub"]
-albedo_color = Color(0.49293554, 0.99442095, 0, 1)
-
-[node name="SlimeNode" type="CharacterBody3D" unique_id=108224271]
-script = ExtResource("1_cupy1")
-
-[node name="Stats" type="Node" parent="." unique_id=1547681711]
-script = ExtResource("1_dtw35")
-max_health = 100.0
-damage = 5
-defense = 2
-speed = 6.0
-attack_range = 4.0
-attack_cooldown = 1
-defensive_type = 0
-
-[node name="StateMachine" type="Node" parent="." unique_id=879610353]
-script = ExtResource("3_sdy3c")
-initial_state = NodePath("../states/WanderState")
-
-[node name="states" type="Node" parent="." unique_id=1185066792]
-
-[node name="WanderState" type="Node" parent="states" unique_id=372647351]
-script = ExtResource("4_3e2nn")
-
-[node name="SeekFoodState" type="Node" parent="states" unique_id=143496110]
-script = ExtResource("5_76vrm")
-
-[node name="CombatState" type="Node" parent="states" unique_id=824000295]
-script = ExtResource("6_jka1h")
-
-[node name="FleeState" type="Node" parent="states" unique_id=1134553032]
-script = ExtResource("7_t4dub")
-
-[node name="SteeringBehaviors" type="Node" parent="." unique_id=1620315794]
-
-[node name="Wander" type="Node" parent="SteeringBehaviors" unique_id=669552518]
-script = ExtResource("3_1x8j8")
-arrival_distance = 0.6
-pause_min = 0.6
-max_travel_time = 2.0
-
-[node name="SeekFood" type="Node" parent="SteeringBehaviors" unique_id=2116656009]
-script = ExtResource("6_3e2nn")
-enabled = false
-
-[node name="SeekTarget" type="Node" parent="SteeringBehaviors" unique_id=1655809910]
-script = ExtResource("9_rq52p")
-enabled = false
-
-[node name="Flee" type="Node" parent="SteeringBehaviors" unique_id=458215509]
-script = ExtResource("10_53pfp")
-enabled = false
-
-[node name="Flocking" type="Node" parent="SteeringBehaviors" unique_id=544755538]
-script = ExtResource("10_a0355")
-enabled = false
-
-[node name="Avoidance" type="Node" parent="SteeringBehaviors" unique_id=682009692]
-script = ExtResource("10_rq52p")
-enabled = false
-
-[node name="WhiskerAvoidance" type="Node" parent="SteeringBehaviors" unique_id=749245278]
-script = ExtResource("14_jap2k")
-enabled = false
+[node name="DecorSlime" type="CharacterBody3D" unique_id=108224271]
+script = ExtResource("1_7eitd")
 
 [node name="SlimeMesh" type="MeshInstance3D" parent="." unique_id=1767432797]
 mesh = SubResource("ArrayMesh_h3eeh")
@@ -266,59 +181,9 @@ shape = SubResource("ConvexPolygonShape3D_dtw35")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1922637765]
 libraries/ = SubResource("AnimationLibrary_75xdn")
 
-[node name="DecayTimer" type="Timer" parent="." unique_id=1072270780]
-autostart = true
-
-[node name="DetecitonTimer" type="Timer" parent="." unique_id=37135893]
-wait_time = 3.0
-autostart = true
-
-[node name="FleeTimer" type="Timer" parent="." unique_id=1753351412]
-wait_time = 4.0
-one_shot = true
-
-[node name="DebugLabel" type="Label3D" parent="." unique_id=1822044647]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-billboard = 1
-no_depth_test = true
-
-[node name="MinimapMarker" type="MeshInstance3D" parent="." unique_id=212186227]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2763526, 0)
-layers = 4
-cast_shadow = 0
-mesh = SubResource("CylinderMesh_t4dub")
-surface_material_override/0 = SubResource("StandardMaterial3D_t4dub")
-
 [node name="Audio" type="Node3D" parent="." unique_id=1926771620]
-
-[node name="AttackSound" type="AudioStreamPlayer3D" parent="Audio" unique_id=1869398652]
-unique_name_in_owner = true
-stream = ExtResource("14_7pn1m")
-
-[node name="DamagedSound" type="AudioStreamPlayer3D" parent="Audio" unique_id=645222606]
-unique_name_in_owner = true
-stream = ExtResource("15_ykf0n")
-
-[node name="EatSound" type="AudioStreamPlayer3D" parent="Audio" unique_id=1073917734]
-unique_name_in_owner = true
-stream = ExtResource("16_jap2k")
-
-[node name="LevelUpSound" type="AudioStreamPlayer3D" parent="Audio" unique_id=748514126]
-unique_name_in_owner = true
-stream = ExtResource("17_2jlyv")
-
-[node name="ReproductionSound" type="AudioStreamPlayer3D" parent="Audio" unique_id=1079843228]
-unique_name_in_owner = true
-stream = ExtResource("18_yxmne")
-
-[node name="DeathSound" type="AudioStreamPlayer3D" parent="Audio" unique_id=1565060666]
-unique_name_in_owner = true
-stream = ExtResource("19_gjy3e")
 
 [node name="WalkingSound" type="AudioStreamPlayer3D" parent="Audio" unique_id=1538100668]
 unique_name_in_owner = true
-stream = ExtResource("20_ki5ls")
+stream = ExtResource("21_lh56p")
 autoplay = true
-
-[connection signal="timeout" from="DecayTimer" to="." method="_decay_timer_timeout"]
-[connection signal="timeout" from="DetecitonTimer" to="." method="_on_deteciton_timer_timeout"]

@@ -48,6 +48,9 @@ var last_attacker: SlimeNode = null
 @onready var death_sound: AudioStreamPlayer3D = %DeathSound
 @onready var walking_sound: AudioStreamPlayer3D = %WalkingSound
 
+@export var show_whisker_gizmo: bool = true
+@onready var whisker_gizmo: MeshInstance3D
+
 func play_animation(anim_name: String) -> void:
 	if animation_player.has_animation(anim_name):
 		animation_player.play(anim_name)
@@ -61,6 +64,7 @@ func _ready() -> void:
 	if debug_label:
 		debug_label.visible = debug_visible
 	apply_eye_colors()
+	_create_whisker_gizmo()
 
 func _process(delta: float) -> void:
 	stats.time_alive += delta
@@ -68,7 +72,8 @@ func _process(delta: float) -> void:
 		time_since_last_repro += delta
 	check_level_up()
 	update_debug_label()
-	pass
+	if show_whisker_gizmo:
+		update_whisker_gizmo()
 
 func _physics_process(delta: float) -> void:
 	var total_force := Vector3.ZERO
@@ -440,3 +445,57 @@ func apply_eye_colors() -> void:
 	var right_mat = StandardMaterial3D.new()
 	right_mat.albedo_color = right_color
 	slime_mesh.set_surface_override_material(RIGHT_EYE_SURFACE_INDEX, right_mat)	
+
+func _create_whisker_gizmo() -> void:
+	whisker_gizmo = MeshInstance3D.new()
+	whisker_gizmo.name = "WhiskerGizmo"
+	add_child(whisker_gizmo)
+	
+	var mat = StandardMaterial3D.new()
+	mat.shading_mode = StandardMaterial3D.SHADING_MODE_UNSHADED
+	mat.vertex_color_use_as_albedo = true
+	mat.transparency = StandardMaterial3D.TRANSPARENCY_ALPHA
+	whisker_gizmo.material_override = mat
+
+func update_whisker_gizmo() -> void:
+	if not whisker_gizmo:
+		return
+	
+	var whisker = $SteeringBehaviors/WhiskerAvoidance if has_node("SteeringBehaviors/WhiskerAvoidance") else null
+	if not whisker or not whisker.enabled:
+		whisker_gizmo.mesh = null
+		return
+	
+	var im = ImmediateMesh.new()
+	im.surface_begin(Mesh.PRIMITIVE_LINES)
+	
+	var origin = Vector3(0, 0.5, 0)
+	var local_forward = Vector3(0, 0, 1)
+	var length = whisker.whisker_length
+	var angle_rad = deg_to_rad(whisker.whisker_angle_degrees)
+	
+	# Center whisker
+	var center_color = Color.RED if whisker.center_hit_active else Color(0, 1, 0, 0.7)
+	im.surface_set_color(center_color)
+	im.surface_add_vertex(origin)
+	im.surface_set_color(center_color)
+	im.surface_add_vertex(origin + local_forward * length)
+	
+	# Left whisker
+	var left_dir = local_forward.rotated(Vector3.UP, angle_rad)
+	var left_color = Color.RED if whisker.left_hit_active else Color(0, 1, 0, 0.7)
+	im.surface_set_color(left_color)
+	im.surface_add_vertex(origin)
+	im.surface_set_color(left_color)
+	im.surface_add_vertex(origin + left_dir * length)
+	
+	# Right whisker
+	var right_dir = local_forward.rotated(Vector3.UP, -angle_rad)
+	var right_color = Color.RED if whisker.right_hit_active else Color(0, 1, 0, 0.7)
+	im.surface_set_color(right_color)
+	im.surface_add_vertex(origin)
+	im.surface_set_color(right_color)
+	im.surface_add_vertex(origin + right_dir * length)
+	
+	im.surface_end()
+	whisker_gizmo.mesh = im

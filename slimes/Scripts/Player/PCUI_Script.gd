@@ -39,6 +39,8 @@ var current_color: Color = Color.WHITE
 
 @onready var select_sound: AudioStreamPlayer = get_tree().current_scene.get_node("SelectSound")
 
+var current_defensive_mapping := {}
+
 func _ready() -> void:
 	slime_attributes.hide()
 	color_picker.hide()
@@ -114,7 +116,8 @@ func _update_button_color() -> void:
 func _get_dropdown_value(vbox: Control) -> int:
 	for child in vbox.get_children():
 		if child is OptionButton:
-			return child.get_selected_id()
+			var selected_index = child.selected
+			return current_defensive_mapping.get(selected_index, 0)
 	return 0
 
 func show_inspection(entity: Node3D) -> void:
@@ -179,27 +182,26 @@ func _on_aggression_changed(_index: int) -> void:
 	_refresh_defensive_options(aggression_dropdown.get_selected_id())
 
 func _refresh_defensive_options(aggression_id: int) -> void:
-	var current_defensive = defensive_dropdown.get_selected_id()
-	
 	defensive_dropdown.clear()
+	current_defensive_mapping.clear()
 	
-	# Daring (-1) only available for Killer
-	if aggression_id == 2:  # Killer
-		defensive_dropdown.add_item("Daring", -1)
+	var index = 0
+	if aggression_id == 2:
+		defensive_dropdown.add_item("Daring")
+		current_defensive_mapping[index] = -1
+		index += 1
 	
-	# Flocker (0) only available for Flocker aggression
-	if aggression_id == 0:  # Flocker
-		defensive_dropdown.add_item("Flocker", 0)
+	if aggression_id == 0:
+		defensive_dropdown.add_item("Flocker")
+		current_defensive_mapping[index] = 0
+		index += 1
 	
-	# Universal defensive types
-	defensive_dropdown.add_item("Healthy", 1)
-	defensive_dropdown.add_item("Runner", 2)
+	defensive_dropdown.add_item("Healthy")
+	current_defensive_mapping[index] = 1
+	index += 1
 	
-	# Try to keep previous selection if still valid
-	for i in defensive_dropdown.item_count:
-		if defensive_dropdown.get_item_id(i) == current_defensive:
-			defensive_dropdown.select(i)
-			return
+	defensive_dropdown.add_item("Runner")
+	current_defensive_mapping[index] = 2
 	
 	defensive_dropdown.select(0)
 

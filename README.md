@@ -8,6 +8,9 @@ Judge morality and play god.
 
 Solo Project by Jello Sarmiento (C22531133)
 
+## Video
+[![YouTube](https://img.youtube.com/vi/chGdpWPDGrw/hqdefault.jpg)](https://youtu.be/chGdpWPDGrw)
+
 ## Key features
 - Behaviour Trees.
 - Finite State Machine (FSM).

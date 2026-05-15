@@ -71,7 +71,7 @@ func _on_spawn_slime_button_pressed() -> void:
 			slime_name = "Jane Doe"  # fallback to default
 		
 		var aggression = _get_dropdown_value(aggression_vbox)
-		var defensive = _get_dropdown_value(defense_vbox)
+		var defensive = _get_defensive_value()
 		var food_pref = _get_dropdown_value(food_vbox)
 		slime_spawn_requested.emit(slime_name, aggression, defensive, food_pref, current_color)
 	else:
@@ -116,8 +116,7 @@ func _update_button_color() -> void:
 func _get_dropdown_value(vbox: Control) -> int:
 	for child in vbox.get_children():
 		if child is OptionButton:
-			var selected_index = child.selected
-			return current_defensive_mapping.get(selected_index, 0)
+			return child.get_selected_id()
 	return 0
 
 func show_inspection(entity: Node3D) -> void:
@@ -180,6 +179,11 @@ func _on_remove_button_pressed() -> void:
 
 func _on_aggression_changed(_index: int) -> void:
 	_refresh_defensive_options(aggression_dropdown.get_selected_id())
+
+func _get_defensive_value() -> int:
+	if defensive_dropdown:
+		return current_defensive_mapping.get(defensive_dropdown.selected, 0)
+	return 0
 
 func _refresh_defensive_options(aggression_id: int) -> void:
 	defensive_dropdown.clear()
